@@ -11,3 +11,216 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 50px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fa {
+	cursor: pointer;
+}
+
+input.form-input {
+  max-width: 450px;
+  width: auto;
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  /*transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);*/
+  padding: 10px;
+}
+
+.btn-sm-app {
+	/*outline: none;*/
+	color: #fff !important;
+	min-width: 100px !important;
+	font-size: 16px !important;
+	padding: 5px 7px !important;
+	background-color: #DC3545 !important;
+}
+
+button.login {
+  width: 125px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border: none;
+  padding: 7px;
+  text-align: center;
+  cursor: pointer;
+}
+
+button.login[type="submit"] {
+  background-color: #4c566a;
+  color: white;
+  font-size: 14px;
+  font-weight: 900;
+  border-radius: 5px;
+  text-transform: uppercase;
+  padding: 15px;
+}
+
+button:focus,
+button:active {
+	box-shadow: none !important;
+	outline: none !important;
+	background-color: initial;
+}
+
+.googleBtn {
+  width: 225px;
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.googleBtn img {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+
+.nav {
+  display: flex;
+  text-decoration: none;
+  list-style-type: none;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.nav li {
+  margin: 0 10px;
+}
+
+.profilePic {
+	height: 120px;
+	width: 120px;
+	border-radius: 50%;
+}
+
+/* Notification */
+.notification {
+	position: fixed !important;
+	bottom: 20px;
+	left: 20px;
+	max-width: 300px;
+	z-index: 9999;
+}
+
+.fadeOut {
+	animation-name: fadeOut;
+	-webkit-animation-name: fadeOut;
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+}
+
+@-webkit-keyframes fadeOut {
+   0% {opacity: 1;}
+   80% {opacity: 1;}
+   100% {opacity: 0;}
+}
+@keyframes fadeOut {
+   0% {opacity: 1;}
+   80% {opacity: 1;}
+   100% {opacity: 0;}
+}
+
+.icon-bg-dark {
+	cursor: pointer;
+	font-size: 21px;
+	border-radius: 50%;
+	position: relative;
+	left: -10px;
+	top: 48px;
+}
+
+/* Default Layout */
+.navbar {
+	background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);	
+}
+
+.hidden-spacer {
+	height: 56px;
+}
+
+.nav-link a{
+	color: #DC3545 !important;
+}
+
+.navbar-image {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);		
+}
+
+/* Surveys */
+.survey-textbox,
+.survey-textbox:focus,
+.survey-textbox:active {
+	width: 100%; 
+	background-color: #eee;
+	border: 3px solid #fff;
+	border-radius: .4em;
+	outline: none;
+	resize: none;
+	padding: 10px;
+}
+
+.survey-question {
+	font-size: 14px !important;
+	font-weight: 500 !important;
+}
+
+.survey-input {
+  margin: 0;
+  border: 0px !important;
+  border-bottom: 1px solid #aaa !important;
+  border-radius: 0px !important;
+  padding-left: 0px !important;
+  font-size: 14px !important;
+}
+
+.survey-input:focus,
+.survey-input:active,
+.custom-select:focus,
+.custom-select:active {
+	box-shadow: none !important;
+  border-bottom: 2px solid #DC3545 !important;
+}
+
+/* Modal component */
+.modal-subtitle {
+	font-size: 14px;
+}
+
+/* Form Fields Component */
+.form-check-label {
+	font-size: 14px !important;
+}
+
+.custom-select {
+	border: 0px !important;
+  border-bottom: 1px solid #aaa !important;
+  border-radius: 0px !important;
+  font-size: 14px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+/* Search component */
+.card-body {
+	padding: 10px 10px 0px 10px !important;
+}
+.card-title {
+	font-size: 15px !important;
+	padding-bottom: 0px !important;
+	margin-bottom: 0px !important;
+}

@@ -1,0 +1,22 @@
+07/06/2020
+2 hours challenge (Took 3 hours)
+1. react app install - done
+2. built a form - done
+  a. my today needs
+3. save them in fb database - done
+4. add/delete comment - done
+
+
+Next week: (2 hrs)
+1. Routing needs to be done. Each question must have separate page.
+2. Firebase login with gmail.
+
+Personal
+Sub caption text.
+qId,question,type,value,required
+1,Name,text,,true
+2,Age,number,,true
+3,Gender,radio,Male/Female/Prefer not to say/,true
+4,Mobile,number,,true
+5,Country,dropdown,India/UK/USA/,
+6,Gender,checkbox,Male/Female/Prefer not to say/,true
