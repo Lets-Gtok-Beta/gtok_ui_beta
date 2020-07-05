@@ -1,18 +1,7 @@
-import React, { useState, useContext } from "react";
-import {Link, useHistory} from 'react-router-dom';
-import { AuthContext } from "App";
-import { initFirebaseUser } from 'firebase_config';
-import * as firebase from 'firebase';
-import { NotificationComponent } from "components";
+import React from "react";
+import {Link} from 'react-router-dom';
 
 const DeleteProfileComponent = () => {
-  const [email, setEmail] = useState("");
-  const [error, setErrors] = useState("");
-  const [result, setResult] = useState("");
-  const history = useHistory();
-
-  const Auth = useContext(AuthContext);
-    
   return (
     <div className="App">
     	<h2>GTOK</h2>

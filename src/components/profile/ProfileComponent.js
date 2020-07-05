@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from 'react-router-dom';
-import { AuthContext } from "App";
+import { connect } from "react-redux";
 import { NotificationComponent } from "components";
 import { update, removeProfile, uploadImage, removeImage, remove, signout, getQuery, firestore } from "firebase_config";
+import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 
-function ProfileComponent(props) {
-	const Auth = useContext(AuthContext);
+function ProfileComponent({
+	user, currentUser, dbUser, bindLoggedIn, bindUser, bindDbUser
+}) {
 	const defaultImage = "../logo192.png";
-	const { currentUser } = props;
-	const [user, setUser] = useState(props.currentUser);
-	const [name, setName] = useState(user.displayName);
-	const [profileUrl, setProfileUrl] = useState(user.photoURL || defaultImage);
+	const [name, setName] = useState(dbUser.displayName);
+	const [profileUrl, setProfileUrl] = useState(dbUser.photoURL || defaultImage);
 	const [file, setFile] = useState('');
 	const [fileInput, setFileInput] = useState('');
 	const [btnUpload, setBtnUpload] = useState('Upload');
@@ -20,15 +20,6 @@ function ProfileComponent(props) {
 	const [result, setResult] = useState({});
   const history = useHistory();
 
-  useEffect(() => {
-		async function getUser() {
-			let res = await getQuery(firestore.collection('users').where("email", "==", currentUser.email).get());
-			setUser(res[0]);
-			setName(res[0].displayName);
-		}
-		getUser();
-  }, [result.status]);
-
   const handleForm = async (e) => {
     e.preventDefault();
     setBtnSave('Saving...');
@@ -37,29 +28,31 @@ function ProfileComponent(props) {
     if (name) { data = Object.assign(data, { displayName: name })}
     if (profileUrl) {
     	data = Object.assign(data, { photoURL: profileUrl })
-    	setBtnUpload('Upload');
-    	setFileInput('');
-    	setFile('');
+    	setBtnUpload("Upload");
+    	setFileInput("");
+    	setFile("");
     }
 
     /* Update in firestore, instead of firebase auth */
     /* let res = await updateProfile(data); */
-    let res = await update('users', user.id, data);
-    setBtnSave('Save');
+    let res = await update("users", dbUser.id, data);
+    await bindDbUser({...dbUser, ...data});
+    setBtnSave("Save");
   	setResult(res);
-  	/* To update in Auth */
-    Auth.setDbUser({...data, ...user});
   };
 
   const signoutUser = async () => {
-  	await signout(Auth);
-  	history.push("/login");
+  	await signout();
+  	await bindLoggedIn(false);
+    await bindDbUser(null);
+  	await bindUser(null);
+  	history.push("/logout");
   }
 
   const deleteAccount = async (e) => {
   	e.preventDefault();
   	setBtnDelete('Deleting...');
-  	await remove('users', user.id)
+  	await remove('users', dbUser.id)
   	await removeProfile();
 		history.push('/profile_deleted');
   }
@@ -81,8 +74,15 @@ function ProfileComponent(props) {
   	await removeImage(profileUrl);
   	setProfileUrl(defaultImage);
     
-    let res = await update('users', user.id, {photoURL: null});
+    let res = await update('users', dbUser.id, {photoURL: null});
   	setResult(res);
+  }
+
+  const displayFollowers = async () => {
+  	if (!currentUser.premium) {
+	  	alert("Please upgrade to see your followers.");
+	  	return;
+  	}
   }
 
 	return (
@@ -99,6 +99,10 @@ function ProfileComponent(props) {
 					<span className={`icon-bg-dark ${defaultImage == profileUrl ? 'd-none' : ''}`} onClick={deleteFile} title="Delete image">
 						<i className="fa fa-trash"></i>
 					</span>
+					<br/>
+					<button className="mt-3 btn btn-sm btn-danger" onClick={e => displayFollowers(e)}>
+						Followers <span className="badge badge-light">{dbUser && dbUser.followers && dbUser.followers.length}</span>
+					</button>
 			  </div>
 				<div>
 					<div className="form-group row">
@@ -110,19 +114,25 @@ function ProfileComponent(props) {
 					<div className="form-group row">
 				    <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Email</label>
 				    <div className="col-sm-10">
-				    	{user.email}
+				    	{dbUser.email}
 				    </div>
 				  </div>
 					<div className="form-group row">
 				    <label htmlFor="verified" className="col-sm-2 col-form-label">Verified</label>
 				    <div className="col-sm-10">
-				    	<i className={`fa fa-${Auth.user.emailVerified ? 'check':'times'}`}></i>
+				    	<i className={`fa fa-${ user && user.emailVerified ? 'check':'times'}`}></i>
 				    </div>
 				  </div>
 					<div className="form-group row">
 				    <label htmlFor="verified" className="col-sm-2 col-form-label">Admin</label>
 				    <div className="col-sm-10">
-				    	<i className={`fa fa-${user.admin ? 'check':'times'}`}></i>
+				    	<i className={`fa fa-${dbUser.admin ? 'check':'times'}`}></i>
+				    </div>
+				  </div>
+					<div className="form-group row">
+				    <label htmlFor="premium" className="col-sm-2 col-form-label">Premium</label>
+				    <div className="col-sm-10">
+				    	<i className={`fa fa-${dbUser.premium ? 'check':'times'}`}></i>
 				    </div>
 				  </div>
 					<div className="form-group row">
@@ -153,4 +163,20 @@ function ProfileComponent(props) {
 	);
 }
 
-export default ProfileComponent;
+const mapStateToProps = (state) => {
+	const { dbUser, user } = state.authUsers;
+	return { dbUser, user };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindLoggedIn: (content) => dispatch(SetLoggedIn(content)),
+		bindUser: (content) => dispatch(SetUser(content)),
+		bindDbUser: (content) => dispatch(SetDbUser(content))
+	}
+}
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(ProfileComponent);

@@ -1,17 +1,15 @@
-import React, { useState, useContext } from "react";
-import {Link, useHistory} from 'react-router-dom';
-import { AuthContext } from "App";
-import { initFirebaseUser } from 'firebase_config';
-import { signin, googleSignin } from "firebase_config";
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from "react-redux";
+import { initFirebaseUser, signin, googleSignin } from 'firebase_config';
+import { SetReload } from "store/actions";
 
-const LoginComponent = () => {
+const LoginComponent = ({bindReload}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 	const [btnSave, setBtnSave] = useState("Login");
   const [error, setErrors] = useState("");
   const history = useHistory();
-
-  const Auth = useContext(AuthContext);
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -22,7 +20,7 @@ const LoginComponent = () => {
     	setErrors(result.message);
     	return;
     } 
-    Auth.setLoggedIn(true);
+    bindReload(true);
   	history.push("/app/profile");
   };
 
@@ -33,7 +31,7 @@ const LoginComponent = () => {
   	setErrors(result.message);
   	return;
   } 
-  Auth.setLoggedIn(true);
+  bindReload(true);
 	history.push("/app/home");
 }
     
@@ -80,4 +78,13 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindReload: (content) => dispatch(SetReload(content))
+	}
+}
+
+export default connect(
+	null, 
+	mapDispatchToProps
+)(LoginComponent);

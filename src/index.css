@@ -140,6 +140,25 @@ button:active {
 	top: 48px;
 }
 
+.cookie_banner {
+  width: 25%;
+  font-size: 13px;
+  position: fixed;
+  bottom: 40px;
+  left: 3%;
+  padding: 0.4em 0.9em 1.4em;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1.5em;
+  background-color: #fff;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cookie_banner .close {
+}
+
 /* Default Layout */
 .navbar {
 	background-color: #fff;
@@ -219,8 +238,48 @@ button:active {
 .card-body {
 	padding: 10px 10px 0px 10px !important;
 }
+
 .card-title {
 	font-size: 15px !important;
 	padding-bottom: 0px !important;
 	margin-bottom: 0px !important;
+}
+
+/* Payments Component */
+.subscription-plan-card {
+	border: 2px solid #DC3545 !important;
+	border-radius: 5px !important;
+}
+
+.subscription-plan-card .card-header {
+	border-radius: 0px !important;
+}
+
+.subscription-plan-card body {
+	padding: 10px !important;
+}
+
+.subscription-plan-card body .small {
+	font-size: 10px !important;
+}
+
+.payment-card-list {
+	list-style-type: none;
+	font-size: 13px;
+	padding-left: 0px;
+}
+
+.payment-card-list li:before {
+	content: "\2713";
+	padding-right: 10px;
+}
+
+.payment-card-list li {
+	border-bottom: 2px dotted #aaa;
+	padding: 5px 10px 5px 15px;
+}
+
+.payment-card-list li:last-child {
+	border-bottom: none;
+	padding: 5px 10px 0px 15px;
 }

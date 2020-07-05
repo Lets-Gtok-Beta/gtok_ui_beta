@@ -1,20 +1,35 @@
 import React, { useContext } from "react";
-import { Route, withRouter } from "react-router-dom";
-
-import { AuthContext } from "App";
+import { Route, withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import {
 	DefaultLayout,
 	ErrorComponent
 } from "components";
+import { SetReload } from "store/actions";
 
-const AuthSwitchWrapper = ({
-	path,
-	exact = false,
-	truthyComponent: TruthyComponent,
-	falsyComponent: FalsyComponent,
-	...rest
-}) => {
-	const Auth = useContext(AuthContext);
+const AuthSwitchWrapper = (props) => {
+	const {	
+		path,
+		exact = false,
+		truthyComponent: TruthyComponent,
+		falsyComponent: FalsyComponent,
+		loggedIn,
+		dbUser,
+		reload,
+		bindReload,
+		...rest
+	} = props;
+
+	let localReload = reload;
+	bindReload(false);
+
+	if (!navigator.onLine) {
+		return (<Redirect to="/error" />)
+	}
+
+	if (localReload) {
+		window.location.reload();
+	}
 
 	return (
 		<Route
@@ -22,9 +37,9 @@ const AuthSwitchWrapper = ({
 			path={path}
 			exact={exact}
 			render={props => (
-					Auth.loggedIn ? (
+					loggedIn ? (
 						<DefaultLayout>
-							<TruthyComponent currentUser={Auth.dbUser} {...rest} />
+							<TruthyComponent currentUser={dbUser} {...rest} />
 						</DefaultLayout>
 					) : (
 						<FalsyComponent />
@@ -35,7 +50,21 @@ const AuthSwitchWrapper = ({
 	);
 };
 
-const AuthSwitch = withRouter(AuthSwitchWrapper);
+const mapStateToProps = (state) => {
+	const { loggedIn, dbUser, reload } = state.authUsers;
+	return { loggedIn, dbUser, reload };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindReload: (content) => dispatch(SetReload(content))
+	}
+}
+
+const AuthSwitch = connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(AuthSwitchWrapper);
 
 const AuthRoute = ({ component, ...rest }) => (
 	<AuthSwitch {...rest} truthyComponent={component} falsyComponent={ErrorComponent} />

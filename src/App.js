@@ -1,5 +1,6 @@
-import React, { Component, useState, useLayoutEffect } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Switch, BrowserRouter as Router, Route, useHistory, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import Routes from "routes/Routes";
 import {
 	add,
@@ -13,54 +14,81 @@ import {
 import moment from "moment";
 import "./App.css";
 
+import { CookieNotification, NoInternetNotification } from "components";
+import { SetDbUser, SetUser, SetLoggedIn } from "store/actions";
+
 export const AuthContext = React.createContext();
 
-function App() {
-	const [loading, setLoading] = useState(true);
-	const [user, setUser] = useState(null);
-	const [dbUser, setDbUser] = useState(null);
-	const [loggedIn, setLoggedIn] = useState(false);
-	const [token, setToken] = useState(null);
-  const history = useHistory();
+class App extends Component {
+	constructor(props) {
+		super(props);
 
-	useLayoutEffect(() => {
-		auth.onAuthStateChanged(user => {
+		this.state = {
+			loading: true,
+			user: null,
+			dbUser: null,
+			loggedIn: false
+		}
+	}
+
+	componentDidMount() {
+	  const { bindUser, bindLoggedIn, bindDbUser } = this.props;
+		auth.onAuthStateChanged(async (user) => {
 			const isAuthenticated = user != null;
 			if (isAuthenticated) {
-				setUser(user.toJSON());
-				setLoggedIn(true);
+				bindUser(user.toJSON());
+				bindLoggedIn(true);
 				user.getIdToken().then(async (accessToken) => {
 					window.sessionStorage.setItem("token", accessToken);
-					setToken(accessToken);
 					/* Get user details */
 					let currentUser = user.toJSON();
 					let orgUser = await getQuery(
 						firestore.collection('users').where("uid", "==", currentUser.email).get()
 					);
-					setDbUser(orgUser[0]);
-					setLoading(false);
+					bindDbUser(orgUser[0]);
+					this.setState({
+						...this.state, loading: false
+					})
 				})
 			} else {
-				setLoading(false);
+				this.setState({
+					...this.state, loading: false
+				})
 			}
-		});		
-	}, [])
-
-	let AuthContextValues = Object.assign({ loggedIn, setLoggedIn, token, setToken, user, setUser, loading, dbUser, setDbUser });
-
-	if (loading) {
-		return (
-			<div>Loading</div>
-		)		
+		});
 	}
-	return (
-		<AuthContext.Provider value={AuthContextValues}>
-			<Router>
-				<Routes />
-			</Router>
-		</AuthContext.Provider>
-	);
+
+	render() {
+		return (
+			this.state.loading ? <div>Loading</div> :
+				<div>
+					<CookieNotification />
+					<NoInternetNotification />
+					<Router>
+						<Routes />
+					</Router>
+				</div>
+		)
+	}
 }
+
+const mapStateToProps = (state) => {
+	const { currentUser, dbUser, loggedIn } = state.authUsers;
+	return { currentUser, dbUser, loggedIn };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindUser: (content) => dispatch(SetUser(content)),
+		bindDbUser: (content) => dispatch(SetDbUser(content)),
+		bindLoggedIn: (content) => dispatch(SetLoggedIn(content))
+	}
+}
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(App);
 
 // class App extends Component {
 // 	constructor(props) {
@@ -203,5 +231,3 @@ function App() {
 // 	  );
 // 	}
 // }
-
-export default App;

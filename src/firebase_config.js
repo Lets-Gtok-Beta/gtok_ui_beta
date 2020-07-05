@@ -72,7 +72,7 @@ export const signup = ({email, password}) => {
 	    if (res.user) {
 	    	let userJson = res.user.toJSON();
 	    	let user = Object.assign(userJson.providerData[0], {
-	    		createdAt: userJson.createdAt
+	    		followers: []
 	    	});
 	    	let firestoreStatus = await addToFirestore('users', user);
 	    	if (firestoreStatus) {
@@ -126,12 +126,9 @@ export const googleSignin = () => {
 }
 
 /* Signout Code */
-export const signout = (AuthContext) => {
+export const signout = () => {
 	return auth.signOut().then(() => {
 		window.sessionStorage.setItem("token", '');
-  	AuthContext.setLoggedIn(false);
-  	AuthContext.setToken(null);
-  	AuthContext.setUser(null);
 	});
 };
 
@@ -290,6 +287,10 @@ export const remove = (collection, id) => {
 		.then(suc => formatResult(200, 'Deleted successfully'))
 		.catch(er => formatResult(500, er.message));
 }
+
+export const arrayAdd = firebase.firestore.FieldValue.arrayUnion;
+
+export const arrayRemove = firebase.firestore.FieldValue.arrayRemove;
 
 /* Common code */
 function formatResult(status, message, data={}) {

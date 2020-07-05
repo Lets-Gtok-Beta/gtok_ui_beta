@@ -5,7 +5,9 @@ import AuthRoute from "./index";
 
 import {
 	LoginComponent,
+	LogoutComponent,
 	SignupComponent,
+	AlertsComponent,
 	HomeComponent,
 	DisplayComponent,
 	ProfileComponent,
@@ -31,11 +33,13 @@ export const Routes = (props) => (
 	<Switch>
 		<Route exact path="/" component={LandingComponent} />
 		<Route path="/login" component={LoginComponent} />
+		<Route path="/logout" component={LogoutComponent} />
 		<Route exact path="/signup" component={SignupComponent} />
 		<Route exact path="/forgot_password" component={ForgotPasswordComponent} />
 		<Route exact path="/profile_deleted" component={DeleteProfileComponent} />
 		<Route exact path="/error" component={ErrorComponent} />
 		<AuthRoute exact path="/app" component={LandingComponent} />
+		<AuthRoute exact path="/app/alerts" component={AlertsComponent} />
 		<AuthRoute exact path="/app/home" component={HomeComponent} />
 		<AuthRoute exact path="/app/profile" component={ProfileComponent} />
 		<AuthRoute exact path="/app/graphs" component={GraphsComponent} />

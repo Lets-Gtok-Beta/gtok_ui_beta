@@ -20,3 +20,18 @@ qId,question,type,value,required
 4,Mobile,number,,true
 5,Country,dropdown,India/UK/USA/,
 6,Gender,checkbox,Male/Female/Prefer not to say/,true
+
+
+
+Unlimited texting
+Eligible to sell data
+Ask for private information
+See your followers
+Customize priorities in search
+Synchronize all surveys information
+Search includes face recognition feature
+24x7 technical support
+<li>Unlimited likes</li>
+<li>Send gifts</li>
+<li>See the winks</li>
+<li>Ask for private date</li>

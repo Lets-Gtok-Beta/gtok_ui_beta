@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import { Link, useHistory } from 'react-router-dom';
-import { AuthContext } from "App";
+import { connect } from "react-redux";
 
-const DefaultLayout = ({children}) => {
-	const Auth = useContext(AuthContext);
+const DefaultLayout = ({children, dbUser}) => {
   return (
     <div>
     	<nav className="navbar fixed-top navbar-expand-sm">
@@ -38,9 +37,14 @@ const DefaultLayout = ({children}) => {
 						<li className="nav-item">
 			      </li>
 			  	</ul>
+					<div className="nav-link">
+		        <Link to="/app/alerts">
+		        	<i className="fa fa-bell" style={{fontSize: "1.5em"}}></i><span className="badge text-danger">0</span>
+		        </Link>
+		      </div>
 					<div className="nav-link p-0">
 		        <Link to="/app/profile">
-		        	<img src={Auth.dbUser.photoURL || "../logo192.png"} className="navbar-image"/>
+		        	<img src={dbUser && dbUser.photoURL || "../logo192.png"} className="navbar-image"/>
 		        </Link>
 		      </div>
 		    </div>
@@ -52,4 +56,12 @@ const DefaultLayout = ({children}) => {
   );
 };
 
-export default DefaultLayout;
+const mapStateToProps = (state) => {
+	const { dbUser } = state.authUsers;
+	return { dbUser };
+}
+
+export default connect(
+	mapStateToProps, 
+	null
+)(DefaultLayout);
