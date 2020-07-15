@@ -1,9 +1,7 @@
-import React, { useState, useContext } from "react";
-import { useHistory, Link } from 'react-router-dom';
+import React from "react";
+import { Link } from 'react-router-dom';
 
 const AlertsComponent = (props) => {
-  const history = useHistory();
-
   return (
     <div>
       <h1>AlertsComponent</h1>

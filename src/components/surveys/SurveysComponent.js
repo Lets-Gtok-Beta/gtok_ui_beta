@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import { get, getQuery, remove, firestore } from "firebase_config";
-import { AddSurveyComponent, DisplaySurveyComponent, NotificationComponent, ModalComponent, FormFieldsComponent } from "components";
+import { AddSurveyComponent, DisplaySurveyComponent, NotificationComponent} from "components";
 
 const SurveysComponent = (props) => {
 	const { currentUser } = props;
@@ -27,7 +27,7 @@ const SurveysComponent = (props) => {
 			setFilledSurveysList(surveyIds);
 		}
 		getFilledSurveys();
-	}, [refresh]);
+	}, [refresh, currentUser.email]);
 
 	const openSurveyModal = async (id) => {
 		if (id === 'new') {

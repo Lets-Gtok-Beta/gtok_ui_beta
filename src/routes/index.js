@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Route, withRouter, Redirect } from "react-router-dom";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {
 	DefaultLayout,

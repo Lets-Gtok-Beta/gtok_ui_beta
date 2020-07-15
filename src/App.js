@@ -1,17 +1,12 @@
-import React, { Component, useState, useEffect } from "react";
-import { Switch, BrowserRouter as Router, Route, useHistory, Redirect } from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { connect } from "react-redux";
 import Routes from "routes/Routes";
 import {
-	add,
-	get,
-	remove,
 	getQuery,
 	firestore,
-	initFirebaseUser,
 	auth
 } from "./firebase_config";
-import moment from "moment";
 import "./App.css";
 
 import { CookieNotification, NoInternetNotification } from "components";

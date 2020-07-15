@@ -283,3 +283,83 @@ button:active {
 	border-bottom: none;
 	padding: 5px 10px 0px 15px;
 }
+
+/* Chatbot */
+.chatbot {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #DC3545;
+	color: #fff;
+}
+
+.chatbot i {
+	font-size: 22px;
+	position: relative;
+	left: 27%;
+}
+
+.reply-box {
+	width: 100%;
+	border: 2px solid #DC3545;
+	border-radius: 15px;
+	resize: none;
+	outline: none;
+	padding-left: 10px;
+	font-size: 14px;
+}
+
+.reply-box-icon {
+	position: relative;
+	color: #DC3545;
+}
+
+.chat-window {
+	font-size: 14px;
+	height: 380px !important;
+	overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+	width: 4px;
+	scroll-behavior: smooth;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.chat-window .sender {
+	max-width: 350px;
+	background-color: #DC3545;
+	color: #fff;
+	border-radius: 0px 20px 20px;
+}
+
+.chat-window .receiver {
+	margin-left: auto;
+	max-width: 350px;
+	background-color: #f1f1f1;
+	color: #DC3545;
+	border-radius: 20px 20px 0px;
+}
+
+.chat-window .sender:after {
+	content: 'ee';
+  display: inline-block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 20px 10px 0;
+  border-color: transparent #007bff transparent transparent;
+  left: -20px;
+}

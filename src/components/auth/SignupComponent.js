@@ -1,7 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {Link, useHistory} from "react-router-dom";
-import { AuthContext } from "App";
-import { signup, googleSignup } from "firebase_config";
+import { signup } from "firebase_config";
 
 const SignupComponent = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +10,6 @@ const SignupComponent = () => {
   const [error, setErrors] = useState("");
   const history = useHistory();
 
-  const Auth = useContext(AuthContext);
   const handleForm = async (e) => {
     e.preventDefault();
     if (password !== cpassword) {
@@ -21,22 +19,23 @@ const SignupComponent = () => {
     setBtnSave("Working...");
     let result = await signup({email, password});
     setBtnSave("Signup");
-    if (result.status != 200) {
+    if (result.status !== 200) {
     	setErrors(result.message);
     	return;
     } 
   	history.push("/login");
   };
 
+	/*
   const handleGoogleLogin = async () => {
     let result = await googleSignup();
-    if (result.status != 200) {
+    if (result.status !== 200) {
     	setErrors(result.message);
     	return;
     } 
     Auth.setLoggedIn(true)
   	history.push("/app/home");
-  }
+  }*/
 
   return (
     <div className="App">

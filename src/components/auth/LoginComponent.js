@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
-import { initFirebaseUser, signin, googleSignin } from 'firebase_config';
+import { signin } from 'firebase_config';
 import { SetReload } from "store/actions";
 
 const LoginComponent = ({bindReload}) => {
@@ -16,7 +16,7 @@ const LoginComponent = ({bindReload}) => {
 
     setBtnSave("Working...");
     let result = await signin({email, password});
-    if (result.status != 200) {
+    if (result.status !== 200) {
     	setErrors(result.message);
     	return;
     } 
@@ -24,17 +24,17 @@ const LoginComponent = ({bindReload}) => {
   	history.push("/app/profile");
   };
 
-
- const signInWithGoogle = async () => {
-  let result = await googleSignin();
-  if (result.status != 200) {
-  	setErrors(result.message);
-  	return;
-  } 
-  bindReload(true);
-	history.push("/app/home");
-}
-    
+/*
+ 	const signInWithGoogle = async () => {
+	  let result = await googleSignin();
+	  if (result.status !== 200) {
+	  	setErrors(result.message);
+	  	return;
+	  } 
+	  bindReload(true);
+		history.push("/app/home");
+	}
+*/
   return (
     <div className="App">
       <h2>Already a user?</h2>

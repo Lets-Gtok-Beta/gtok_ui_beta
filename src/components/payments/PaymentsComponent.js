@@ -1,12 +1,10 @@
-import React, { useState, useContext, useReducer } from "react";
-import { useHistory, Link } from 'react-router-dom';
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { SetSubscriptionPlans } from "store/actions";
 import { get } from "firebase_config";
 
 const PaymentsComponent = ({plans, bindSubscriptionPlans}) => {
 	const [ selectedPlan, setSelectedPlan ] = useState("");
-  const history = useHistory();
   
   const getPlans = async () => {
 		let content = await get("subscription_plans");

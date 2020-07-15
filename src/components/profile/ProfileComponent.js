@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 import { NotificationComponent } from "components";
-import { update, removeProfile, uploadImage, removeImage, remove, signout, getQuery, firestore } from "firebase_config";
+import { update, removeProfile, uploadImage, removeImage, remove, signout } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 
 function ProfileComponent({
@@ -12,7 +12,6 @@ function ProfileComponent({
 	const [name, setName] = useState(dbUser.displayName);
 	const [profileUrl, setProfileUrl] = useState(dbUser.photoURL || defaultImage);
 	const [file, setFile] = useState('');
-	const [fileInput, setFileInput] = useState('');
 	const [btnUpload, setBtnUpload] = useState('Upload');
 	const [btnSave, setBtnSave] = useState('Save');
 	const [btnDelete, setBtnDelete] = useState('Delete Account');
@@ -29,7 +28,6 @@ function ProfileComponent({
     if (profileUrl) {
     	data = Object.assign(data, { photoURL: profileUrl })
     	setBtnUpload("Upload");
-    	setFileInput("");
     	setFile("");
     }
 
@@ -42,6 +40,7 @@ function ProfileComponent({
   };
 
   const signoutUser = async () => {
+  	setBtnSignout("Working...");
   	await signout();
   	await bindLoggedIn(false);
     await bindDbUser(null);
@@ -96,7 +95,7 @@ function ProfileComponent({
 						alt="dp" 
 						className="profilePic"
 					/>
-					<span className={`icon-bg-dark ${defaultImage == profileUrl ? 'd-none' : ''}`} onClick={deleteFile} title="Delete image">
+					<span className={`icon-bg-dark ${defaultImage === profileUrl ? 'd-none' : ''}`} onClick={deleteFile} title="Delete image">
 						<i className="fa fa-trash"></i>
 					</span>
 					<br/>

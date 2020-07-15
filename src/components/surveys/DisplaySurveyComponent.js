@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, withRouter } from 'react-router-dom';
-import { add, getId, remove, firestore } from "firebase_config";
+import { add, getId } from "firebase_config";
 import { NotificationComponent, ModalComponent, FormFieldsComponent } from "components";
 
 const DisplaySurveyComponent = (props) => {

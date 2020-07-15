@@ -21,6 +21,8 @@ import NoInternetNotification from "components/common/NoInternetNotification";
 import CookieNotification from "components/common/CookieNotification";
 import ModalComponent from "components/common/ModalComponent";
 import FormFieldsComponent from "components/common/FormFieldsComponent";
+import ChatsComponent from "components/conversation/ChatsComponent";
+import SingleChatComponent from "components/conversation/SingleChatComponent";
 
 export {
 	LoginComponent,
@@ -45,5 +47,7 @@ export {
 	ModalComponent,
 	FormFieldsComponent,
 	DisplaySurveyComponent,
-	LogoutComponent
+	LogoutComponent,
+	ChatsComponent,
+	SingleChatComponent
 }

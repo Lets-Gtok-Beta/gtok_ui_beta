@@ -15,7 +15,7 @@ const CookieNotification = () => {
 	return (
 		<div className={`cookie_banner ${!!cookie ? "d-none" : ""}`}>
 			<p className="pb-0">
-				By using our website, you are agree to our <a href="#">cookie policy</a>
+				By using our website, you are agree to our <button className="btn btn-link">cookie policy</button>
 			</p>
 			<button className="btn btn-sm p-1 btn-danger" onClick={e => closeCookieBanner()}>OK</button>
 		</div>

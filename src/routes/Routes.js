@@ -1,6 +1,6 @@
 import React from "react";
 // import { AuthComponent } from "routes";
-import { Switch, BrowserRouter as Router, Route, useHistory, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import AuthRoute from "./index";
 
 import {
@@ -18,7 +18,8 @@ import {
 	ForgotPasswordComponent,
 	DeleteProfileComponent,
 	DisplaySurveyComponent,
-	ErrorComponent
+	ErrorComponent,
+	ChatsComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -48,6 +49,7 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/payments" component={PaymentsComponent} />
 		<AuthRoute exact path="/app/search" component={SearchComponent} />
 		<AuthRoute exact path="/app/question/:id" component={DisplayComponent} />
+		<AuthRoute exact path="/app/chats" component={ChatsComponent} />
 	</Switch>
 );
 

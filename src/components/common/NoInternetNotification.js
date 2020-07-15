@@ -5,7 +5,7 @@ const NoInternetNotification = () => {
 
 	useEffect(() => {
 		if (!online) { setOnline(false) }
-	}, [navigator.onLine]);
+	}, [online]);
 
 	return (
 		<div className={`notification alert fade show alert-danger ${online && "d-none"}`}>

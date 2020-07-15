@@ -1,18 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {Link, useHistory} from 'react-router-dom';
-import { AuthContext } from "App";
-import { initFirebaseUser } from 'firebase_config';
 import * as firebase from 'firebase';
 import { NotificationComponent } from "components";
 
 const ForgotPasswordComponent = () => {
   const [email, setEmail] = useState("");
-  const [error, setErrors] = useState("");
 	const [btnSave, setBtnSave] = useState("Send");
   const [result, setResult] = useState("");
   const history = useHistory();
-
-  const Auth = useContext(AuthContext);
 
   const handleForm = e => {
     e.preventDefault();
@@ -31,7 +26,10 @@ const ForgotPasswordComponent = () => {
     	}, 3000);
     })
     .catch(e => {
-      setErrors(e.message);
+    	setResult({
+    		status: 404,
+    		message: e.message
+    	});
     });
   };
     

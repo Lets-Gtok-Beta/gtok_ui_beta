@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useHistory } from 'react-router-dom';
+import React from "react";
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 const DefaultLayout = ({children, dbUser}) => {
@@ -44,7 +44,7 @@ const DefaultLayout = ({children, dbUser}) => {
 		      </div>
 					<div className="nav-link p-0">
 		        <Link to="/app/profile">
-		        	<img src={dbUser && dbUser.photoURL || "../logo192.png"} className="navbar-image"/>
+		        	<img src={(dbUser && dbUser.photoURL) || "../logo192.png"} className="navbar-image" alt="Profile pic"/>
 		        </Link>
 		      </div>
 		    </div>
@@ -52,6 +52,11 @@ const DefaultLayout = ({children, dbUser}) => {
     	<div className="mt-5 mb-5 pt-3">
 		  	{children}
     	</div>
+    	<Link to="/app/chats">
+	    	<div className="chatbot d-flex align-items-center">
+	    		<i className="fa fa-envelope"></i>
+	    	</div>
+	    </Link>
     </div>
   );
 };

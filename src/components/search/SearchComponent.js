@@ -1,22 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useHistory, Link } from 'react-router-dom';
-import { get, update } from "firebase_config";
+import React, { useState, useEffect } from "react";
+import { get } from "firebase_config";
 import { SearchUserComponent } from "components";
 
 const SearchComponent = (props) => {
 	const { currentUser } = props;
 	const [ users, setUsers ] = useState("");
-  const history = useHistory();
 
   useEffect(() => {
   	async function getUsersList(){
   		let users = await get("users");
-  		users = users.filter(u => u.id != currentUser.id);
+  		users = users.filter(u => u.id !== currentUser.id);
   		setUsers(users);
   	}
   	getUsersList();
-  }, []);
+  }, [currentUser.id]);
 
+/*
   const isFollower = async (user) => {
   	return user.followers && user.followers.find(u => u.id === currentUser.id);
   }
@@ -34,7 +33,7 @@ const SearchComponent = (props) => {
   	await update("users", user.id, { followers });
   	alert("Unfollowed successfully!");
   }
-
+*/
   return (
     <div className="container-fluid">
     	<div className="row">

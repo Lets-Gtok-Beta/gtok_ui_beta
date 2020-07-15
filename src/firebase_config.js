@@ -3,7 +3,6 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
 
-import moment from "moment";
 // const admin = require('firebase-admin');
 
 const config = {

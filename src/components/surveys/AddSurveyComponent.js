@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, withRouter } from 'react-router-dom';
 import { add } from "firebase_config";
 import { ModalComponent, NotificationComponent } from "components";
@@ -10,7 +10,6 @@ const AddSurveyComponent = (props) => {
 	const [ btnSave, setBtnSave ] = useState("Save");
 	const [ result, setResult ] = useState({});
 	const [ mandatory, setMandatory ] = useState(false);
-	const [ modalHeader, setModalHeader ] = useState("Add a new survey");
 	const query = new URLSearchParams(props.location.search);
 	let newSurvey = query.get("newSurvey");
 	const history = useHistory();
@@ -64,7 +63,7 @@ const AddSurveyComponent = (props) => {
 	  		result.status ? <NotificationComponent result={result} setResult={setResult} /> : ''
 	  	}
 	  	{ newSurvey === 'true' ?
-				<ModalComponent body={modalBody} header={modalHeader} save={onSave} close={onClose} />
+				<ModalComponent body={modalBody} header="Add a new survey" btnSave={btnSave} save={onSave} close={onClose} />
 				: ''
 			}
 		</div>
