@@ -302,6 +302,25 @@ button:active {
 	left: 27%;
 }
 
+.sidebar {
+	overflow-y: scroll;
+}
+
+.conversation-list {
+	list-style-type: none;
+}
+
+.conversation-list li {
+	font-size: 14px;
+	border-bottom: 1px solid #f1f1f1;
+	transition: all 0.35s;
+	cursor: pointer;
+}
+
+.conversation-list li:hover {
+	background-color: rgba(200, 200, 200, 0.5);
+}
+
 .reply-box {
 	width: 100%;
 	border: 2px solid #DC3545;
@@ -337,6 +356,16 @@ button:active {
   background: #555;
 }
 
+.chat-window-header {
+	background-color: rgba(200, 200, 200, 0.3);
+	padding-bottom: 10px;
+}
+
+.chat-window-dp {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+}
 .chat-window .sender {
 	max-width: 350px;
 	background-color: #DC3545;
@@ -350,16 +379,4 @@ button:active {
 	background-color: #f1f1f1;
 	color: #DC3545;
 	border-radius: 20px 20px 0px;
-}
-
-.chat-window .sender:after {
-	content: 'ee';
-  display: inline-block;
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 10px 20px 10px 0;
-  border-color: transparent #007bff transparent transparent;
-  left: -20px;
 }

@@ -220,6 +220,7 @@ export const removeImage = (imageUrl) => {
 
 export const addToFirestore = (collection, data) => {
 	data['createdAt'] = new Date().getTime();
+	data['updatedAt'] = new Date().getTime();
 	return firestore.collection(collection).add(data)
 		.then(res => formatResult(200, 'Successfully created', res))
 		.catch(e => formatResult(500, 'Something went wrong'))
@@ -227,6 +228,7 @@ export const addToFirestore = (collection, data) => {
 
 export const add = (collection, data) => {
 	data['createdAt'] = new Date().getTime();
+	data['updatedAt'] = new Date().getTime();
 	return firestore.collection(collection).add(data)
 		.then(res => formatResult(200, 'Successfully created', res))
 		.catch(e => formatResult(500, 'Something went wrong'))

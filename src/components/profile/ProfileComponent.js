@@ -73,7 +73,7 @@ function ProfileComponent({
   	await removeImage(profileUrl);
   	setProfileUrl(defaultImage);
     
-    let res = await update('users', dbUser.id, {photoURL: null});
+    let res = await update('users', dbUser.id, {photoURL: defaultImage});
   	setResult(res);
   }
 

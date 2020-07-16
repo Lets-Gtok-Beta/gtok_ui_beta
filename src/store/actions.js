@@ -3,7 +3,9 @@ import {
 	SET_USER,
 	SET_DB_USER,
 	SET_LOGGED_IN,
-	SET_RELOAD
+	SET_RELOAD,
+	SET_CHAT_MESSAGES,
+	SET_CONVOS
 } from "./types.js";
 
 export const SetDbUser = (content) => {
@@ -47,6 +49,24 @@ export const SetSubscriptionPlans = (content) => {
 		type: SET_SUBSCRIPTION_PLANS,
 		payload: {
 			plans: content
+		}
+	}
+}
+
+export const SetChatMessages = (content) => {
+	return {
+		type: SET_CHAT_MESSAGES,
+		payload: {
+			messages: content
+		}
+	}
+}
+
+export const SetConvos = (content) => {
+	return {
+		type: SET_CONVOS,
+		payload: {
+			convos: content
 		}
 	}
 }
