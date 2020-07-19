@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -21,7 +21,10 @@ const AuthSwitchWrapper = (props) => {
 	} = props;
 
 	let localReload = reload;
-	bindReload(false);
+
+	useEffect(() => {
+		bindReload(false);
+	}, [reload]);
 
 	if (!navigator.onLine) {
 		return (<Redirect to="/error" />)
@@ -65,6 +68,11 @@ const AuthSwitch = connect(
 	mapStateToProps, 
 	mapDispatchToProps
 )(AuthSwitchWrapper);
+
+// const AuthSwitch = connect(
+// 	mapStateToProps, 
+// 	mapDispatchToProps
+// )(AuthSwitchWrapper);
 
 const AuthRoute = ({ component, ...rest }) => (
 	<AuthSwitch {...rest} truthyComponent={component} falsyComponent={ErrorComponent} />

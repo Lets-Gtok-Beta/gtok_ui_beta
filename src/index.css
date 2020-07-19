@@ -245,6 +245,23 @@ button:active {
 	margin-bottom: 0px !important;
 }
 
+.profile-card-img {
+	position: relative;
+	color: #fff;
+}
+
+.profile-card-img img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+}
+
+.profile-card-img .img-bottom {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
 /* Payments Component */
 .subscription-plan-card {
 	border: 2px solid #DC3545 !important;
@@ -311,13 +328,19 @@ button:active {
 }
 
 .conversation-list li {
+	color: #000;
 	font-size: 14px;
 	border-bottom: 1px solid #f1f1f1;
 	transition: all 0.35s;
 	cursor: pointer;
+	text-decoration: none;
 }
 
 .conversation-list li:hover {
+	background-color: rgba(200, 200, 200, 0.5);
+}
+
+.conversation-list li.active {
 	background-color: rgba(200, 200, 200, 0.5);
 }
 

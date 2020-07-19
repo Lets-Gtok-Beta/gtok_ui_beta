@@ -23,6 +23,7 @@ import ModalComponent from "components/common/ModalComponent";
 import FormFieldsComponent from "components/common/FormFieldsComponent";
 import ChatsComponent from "components/conversation/ChatsComponent";
 import SingleChatComponent from "components/conversation/SingleChatComponent";
+import CreateChatComponent from "components/conversation/CreateChatComponent";
 
 export {
 	LoginComponent,
@@ -49,5 +50,6 @@ export {
 	DisplaySurveyComponent,
 	LogoutComponent,
 	ChatsComponent,
-	SingleChatComponent
+	SingleChatComponent,
+	CreateChatComponent	
 }

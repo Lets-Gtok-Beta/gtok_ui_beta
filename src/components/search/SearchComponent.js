@@ -39,7 +39,7 @@ const SearchComponent = (props) => {
     	<div className="row">
     	{
     		users && users.map((user, idx) => 
-  				<SearchUserComponent displayUser={user} authUser={currentUser} key={idx} />)
+  				<SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />)
     	}
     	</div>
     </div>

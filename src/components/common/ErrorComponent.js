@@ -5,7 +5,7 @@ const ErrorComponent = (props) => (
 	<div className="alert alert-info">
 		{props.error}
 		400 error
-		<Link to="/login"> Go Home </Link>
+		<Link to="/"> Go Home </Link>
 	</div>
 );
 

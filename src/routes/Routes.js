@@ -19,7 +19,8 @@ import {
 	DeleteProfileComponent,
 	DisplaySurveyComponent,
 	ErrorComponent,
-	ChatsComponent
+	ChatsComponent,
+	CreateChatComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -49,7 +50,8 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/payments" component={PaymentsComponent} />
 		<AuthRoute exact path="/app/search" component={SearchComponent} />
 		<AuthRoute exact path="/app/question/:id" component={DisplayComponent} />
-		<AuthRoute exact path="/app/chats" component={ChatsComponent} />
+		<AuthRoute exact path="/app/chats/:id" component={ChatsComponent} />
+		<AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />
 	</Switch>
 );
 
