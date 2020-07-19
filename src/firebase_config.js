@@ -65,13 +65,14 @@ export const googleSignin = () => {
 */
 
 /* Signup Code */
-export const signup = ({email, password}) => {
+export const signup = ({email, password, name}) => {
   return auth.createUserWithEmailAndPassword(email, password)
 	  .then(async (res) => {
 	    if (res.user) {
 	    	let userJson = res.user.toJSON();
 	    	let user = Object.assign(userJson.providerData[0], {
-	    		followers: []
+	    		followers: [],
+	    		displayName: name
 	    	});
 	    	let firestoreStatus = await addToFirestore('users', user);
 	    	if (firestoreStatus) {
