@@ -135,8 +135,8 @@
 
 
 import React, { Component } from "react";
-import { withRouter, Link } from 'react-router-dom';
-import { add, getId, getQuery, update, firestore } from "firebase_config";
+import { withRouter } from 'react-router-dom';
+import { getId, firestore } from "firebase_config";
 import { connect } from "react-redux";
 import moment from "moment";
 
@@ -277,7 +277,7 @@ class ChatsComponent extends Component {
 };
 
 const mapStateToProps = (state) => {
-	const { conversations } = state.conversations;
+	// const { conversations } = state.conversations;
 	// return { conversations }
 	return {}
 }

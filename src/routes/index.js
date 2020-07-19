@@ -24,7 +24,7 @@ const AuthSwitchWrapper = (props) => {
 
 	useEffect(() => {
 		bindReload(false);
-	}, [reload]);
+	}, [reload, bindReload]);
 
 	if (!navigator.onLine) {
 		return (<Redirect to="/error" />)

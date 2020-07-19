@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { add, getQuery, update, arrayRemove, firestore } from "firebase_config";
+import { add, getQuery, firestore } from "firebase_config";
 import { connect } from "react-redux";
 import moment from "moment";
 
