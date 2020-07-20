@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { add, getQuery, firestore } from "firebase_config";
+import { add, getQuery, update, firestore } from "firebase_config";
 import { connect } from "react-redux";
 import moment from "moment";
 
@@ -12,7 +12,8 @@ class SingleChatComponent extends Component {
 			message: "",
 			messagesList: [],
 			conversation: props.conversation,
-			currentUser: props.currentUser
+			currentUser: props.currentUser,
+			chatUser: props.conversation.usersRef.find(u => u.id !== props.currentUser.id)
 		}
 		this.defaultImage = "../../logo192.png"; 
 		this.unsubscribe = "";
@@ -23,6 +24,7 @@ class SingleChatComponent extends Component {
 	componentDidMount() {
 		this.getHistory();
 		this.scrollToBottom();
+		this.updateConvo();
 		// this.scrollToBottom({behavior: "smooth"});
 	}
 
@@ -42,18 +44,37 @@ class SingleChatComponent extends Component {
 	}
 
 	getInitialMessages = async (conversation) => {
+		this.setState({loading: true});
 		let result = await getQuery(
 			firestore.collection("messages").where("conversationId", "==", conversation.id).get()
 		);
 		this.setState({
-			...this.state,
 			conversation,
-			messagesList: result.sort((a,b) => a.createdAt - b.createdAt)
+			messagesList: result.sort((a,b) => a.createdAt - b.createdAt),
+			chatUser: conversation.usersRef.find(u => u.id !== this.state.currentUser.id),
+			loading: false
 		});
 	}
 
 	scrollToBottom = () => {
 		this.el.scrollIntoView();
+	}
+
+	updateConvo = async (data = {}) => {
+		// Simplify these lines of code in future
+		let chatUserRefs = this.state.conversation.usersRef;
+		let currentChatUser = chatUserRefs.find(u => u.id === this.state.currentUser.id);
+		let idx = chatUserRefs.findIndex(u => u.id === this.state.currentUser.id);
+		currentChatUser["lastSeen"] = new Date().getTime();
+		chatUserRefs[idx] = currentChatUser;
+
+		await update("conversations", this.state.conversation.id, Object.assign(
+			this.state.conversation,
+			data,
+			{
+				usersRef: chatUserRefs
+			}
+		));
 	}
 
 	getHistory = async () => {
@@ -91,14 +112,17 @@ class SingleChatComponent extends Component {
   	if (!this.state.message.trim()) { return; }
   	let data = {
   		conversationId: this.state.conversation.id,
-  		text: this.state.message,
+  		text: this.state.message.trim(),
   		users: this.state.conversation.users,
   		admin: this.state.currentUser.id,
   		unread: this.state.conversation.users.filter(u => (u !== this.state.currentUser.id))
   	}
   	await add("messages", data);
+  	await this.updateConvo({
+  		lastMessage: this.state.message,
+  		lastMessageTime: new Date().getTime()  		
+  	});
   	this.setState({
-  		...this.state,
   		message: "",
   		messagesList: [...this.state.messagesList, data]
   	});
@@ -112,9 +136,9 @@ class SingleChatComponent extends Component {
 	  return (
 	    <div className="container p-2">
     		<div className="chat-window-header media p-2">
-    			<img src={this.state.conversation.photoURL || this.defaultImage} alt="user dp" className="chat-window-dp" />
+    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || this.defaultImage} alt="user dp" className="chat-window-dp" />
     			<div className="media-body">
-    				<h6 className="p-0 mb-0 pl-2">{this.state.conversation.groupName}</h6>
+    				<h6 className="p-0 mb-0 pl-2">{this.state.conversation.groupName || this.state.chatUser.displayName}</h6>
     				<small className="p-0 pl-2">
     				Last updated {moment(this.state.conversation.updatedAt).format("HH:mm DD/MM/YY")}
     				</small>
@@ -148,7 +172,6 @@ class SingleChatComponent extends Component {
 	    </div>
 	  );
   }
-
 };
 
 const mapStateToProps = (state) => {

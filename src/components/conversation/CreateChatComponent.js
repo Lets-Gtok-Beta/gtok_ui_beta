@@ -23,8 +23,25 @@ const CreateChatComponent = (props) => {
 					admin: currentUser.id,
 					usersInStrFormat: usersInStrFormat,
 					users: [currentUser.id, chatUserId],
-					groupName: resultUser["displayName"],
-					photoURL: resultUser["photoURL"]
+					groupName: null,
+					photoURL: null,
+					group: false,
+					usersRef: [
+						{
+							ref: "users/"+currentUser.id,
+							id: currentUser.id,
+							displayName: currentUser.displayName,
+							photoURL: currentUser.photoURL,
+							lastSeen: new Date().getTime()
+						},
+						{
+							ref: "users/"+chatUserId,
+							id: chatUserId,
+							displayName: resultUser.displayName,
+							photoURL: resultUser.photoURL,
+							lastSeen: new Date().getTime()
+						}
+					],
 				}
 
 				await add("conversations", data);
@@ -33,7 +50,7 @@ const CreateChatComponent = (props) => {
 			props.history.push("/app/chats/"+convo[0].id);
 		}
 		getInitialConversation();
-	}, [chatUserId, currentUser.id, props.history]);
+	}, [chatUserId, currentUser, props.history]);
 
 
   const getUser = async (id) => {

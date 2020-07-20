@@ -21,8 +21,11 @@ function ProfileComponent({
 
   const handleForm = async (e) => {
     e.preventDefault();
+    if (!name.trim()) {
+    	alert("Display name is mandatory");
+    	return null;
+    }
     setBtnSave('Saving...');
-
     let data = {}
     if (name) { data = Object.assign(data, { displayName: name })}
     if (profileUrl) {
