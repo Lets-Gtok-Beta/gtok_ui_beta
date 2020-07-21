@@ -36,7 +36,7 @@ const SurveysComponent = (props) => {
 				search: `?newSurvey=true`
 			});
 		} else {
-			if (isSurveyFilled(id)) { 
+			if (isSurveyFilled(id) && !currentUser.admin) { 
 				return alert("This survey is already filled.")
 			}
 			history.push({

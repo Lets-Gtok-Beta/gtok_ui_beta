@@ -216,6 +216,10 @@ button:active {
 }
 
 /* Modal component */
+.modal .modal-dialog {
+	max-width: 80% !important;
+}
+
 .modal-subtitle {
 	font-size: 14px;
 }

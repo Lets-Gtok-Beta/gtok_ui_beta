@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import { NotificationComponent } from "components";
+import { NotificationComponent, CheckSimilarityComponent } from "components";
 import { update, arrayAdd, arrayRemove } from "firebase_config";
 
 const SearchUserComponent = ({displayUser, currentUser}) => {
@@ -8,6 +8,8 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	const [ follower, setFollower ] = useState(false);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
 	const [ result, setResult ] = useState({});
+	const [ openSimilarities, setOpenSimilarities ] = useState(false);
+	const [ selectedUser, setSelectedUser ] = useState({});
 
 	useEffect(() => {
 	  const isFollower = async () => {
@@ -30,6 +32,11 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
   	let res = await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
   	setResult(res);
   	setFollower(false);
+  }
+
+  const openModal = (selectedUser) => {
+  	setSelectedUser(selectedUser);
+  	setOpenSimilarities(true);
   }
 
   const msgUser = async () => {
@@ -59,11 +66,14 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 			  <div className="card-body">
 			    <h5 className="card-title">{displayUser.displayName || "No name"}</h5>
 			    <div>
-				    <button className="btn btn-link btn-sm pl-0">Check similarities</button>
+				    <button className="btn btn-link btn-sm pl-0" onClick={e => openModal(displayUser)}>
+				    Check similarities
+				    </button>
 			    	<i className="fa fa-envelope pull-right text-primary" onClick={e => msgUser()}></i>
 				  </div>
 			  </div>
 			</div>
+			{openSimilarities && selectedUser && <CheckSimilarityComponent setOpenModal={setOpenSimilarities} currentUser={currentUser} selectedUser={selectedUser} />}
 		</div>
   );
 };

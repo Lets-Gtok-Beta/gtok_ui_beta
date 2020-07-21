@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
+import { Helmet } from "react-helmet";
+import { Metadata } from "constants/index";
+
 const DefaultLayout = ({children, dbUser}) => {
+	const [metaDetails, setMetaDetails] = useState({});
+	useEffect(() => {
+		let path = window.location.pathname;
+		if (path.includes("/app/chats")) {
+			setMetaDetails(Metadata["/app/chats"])
+		} else {
+			setMetaDetails(Metadata[path]);			
+		}
+	}, [metaDetails]);
+
   return (
     <div>
+    	<Helmet> 
+    		<title>{metaDetails.title}</title>
+				<meta name="description" content= {metaDetails.description}/>
+        <meta name="keywords" content= {metaDetails.keywords} />
+      </Helmet>
     	<nav className="navbar fixed-top navbar-expand-sm">
     		<div className="navbar-brand">
-	        <Link to="/app/home">GTOK</Link>
+	        <Link to="/app/profile">GTOK</Link>
 				</div>
 				<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			    <span className="navbar-toggler-icon"></span>

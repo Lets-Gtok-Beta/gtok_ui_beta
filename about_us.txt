@@ -2,3 +2,78 @@ Mental wealth:
 Life is simple when we forget past and expects nothing from future.
 The biggest problem is thinking that only I've a problem and I'm the problem. No, every human being has a problem in their life. Daily, he/she is struggling to solve it.
 If you've a problem with outside body, then others can help you. Whereas with inside, then you're the only one to solve it.
+
+Similarities- ___ categories
+1. Food : Fav breakfast, Lunch, Snacks, Dinner, Drinks, Likes street food/economical/needs 5 star/posh, Cleanliness, Where do you like to eat most? Home/Hotel/Pub,
+2. Friends : 
+	# How many friends will actually help you, when you're in need right now?
+  # How often do you like to hangout with friends?
+  # How often do you like to hangout with strangers? // explains whether he/she accepts new persons as friends in quick time
+  # Do you like to chat with friends? // this helps personal bot to get ready
+  # Have you ever felt like, I've so many friends in whatsapp/facebook but I haven't one to have a chat
+  #
+3. Behavior/Attitude :
+	# Would you like to stay single more time? // to check whether introvert or extrovert
+	# Would you really help your friends?
+	#
+4. Adult (18+) :
+	# What would you like to do, if you're single, alone?
+	# What porn would you like to?
+	# How often do you think about sex?
+	# What type of gender do you like? (in bed)
+	# 
+5. Health :
+	# Have you ever concerned about your sexual health?
+	# Do you have any major health issues? (like cancer)
+	# Will you do exercises? Yoga / Gym / Other workouts
+	# How will you handle mental stress?
+	# Which climate do you like the most?
+	#
+6. Dreams :
+	# How do you want to live in life? Peaceful/Rich and busy/
+	# How much money will satisfy you? 1Million $ / More than 1 million / I'm greedy, I never satisfy
+	# Do you like to have dreams? Yes, I am very clear about my plans/No, I'm open minded
+	# 
+7. Places/Locations :
+	# Any fav destination that you would like to visit?
+	# Any plans to have a world tour?
+	# What countries do you like the most?
+	# What places have you travelled from childhood? // Should be straight away
+	# 
+8. Relationship status :
+	# Do you want to visit place on your own / friends / family / couple
+	# What relationship do you like in life? 
+	# Have you ever broken with your boyfriend/girlfriend?
+	# 
+9. Job/Career :
+	# Are you looking for a job? If yes, what it is?
+	# What skills do you have?
+	# How much experience do you have?
+	# Would you like to share your linkedin?
+	#
+10. Study :
+	# Are you a topper/back bencher?
+	# Do you have any dream in studies?
+	# What subject will likes you the most? History/Science/Biology
+	# Any favourite teacher?
+	# Any crushes in your school days?
+	# When is your schooling last? (Year required)
+	#
+11. Life : (Philosophy)
+	# What makes you happy in your everyday life?
+	# What is the most painful moment in life?
+	# Does anyone supported you at that time?
+	#
+12. Memories :
+	# Who is your favorite person in your life?
+	# Why?
+	# What are the best memories in your life?
+	# Who is your most unfavorite person in your life?
+	# What are the most bitter memories?
+	#
+13. Sports :
+	# Do you like to play sports? Yes/No, I watch
+	# Which sport is your favourite in childhood?
+	# Is your favourite sport changed now?
+	# Who is your favorite sports person now? (in your favourite sport)
+	#

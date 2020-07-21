@@ -20,7 +20,8 @@ import {
 	DisplaySurveyComponent,
 	ErrorComponent,
 	ChatsComponent,
-	CreateChatComponent
+	CreateChatComponent,
+	CheckSimilarityComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -49,6 +50,7 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/surveys/:id" component={DisplaySurveyComponent} />
 		<AuthRoute exact path="/app/payments" component={PaymentsComponent} />
 		<AuthRoute exact path="/app/search" component={SearchComponent} />
+		<AuthRoute exact path="/app/search/:id" component={CheckSimilarityComponent} />
 		<AuthRoute exact path="/app/question/:id" component={DisplayComponent} />
 		<AuthRoute exact path="/app/chats/:id" component={ChatsComponent} />
 		<AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />

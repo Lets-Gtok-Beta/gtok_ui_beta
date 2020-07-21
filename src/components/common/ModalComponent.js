@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ModalComponent = ({header, subHeader, body, save, close}) => {
+const ModalComponent = ({header, subHeader="", body, save, close, modalWidth="lg"}) => {
 	const [ btnSave, setBtnSave ] = useState("Save");
 
 	const saveModal = async () => {
@@ -13,7 +13,7 @@ const ModalComponent = ({header, subHeader, body, save, close}) => {
 
 	return (
 		<div className="modal fade" id="modal" tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-		  <div className="modal-dialog" role="document">
+		  <div className={`modal-dialog model-${modalWidth}`} role="document">
 		    <div className="modal-content">
 		      <div className="modal-header">
 		        <h6 className="modal-title" id="modalLabel">{header}</h6>
@@ -24,19 +24,25 @@ const ModalComponent = ({header, subHeader, body, save, close}) => {
 		        }
 		      </div>
 		      <div className="modal-body">
-		      	<p className="modal-subtitle">{subHeader}</p>
+		      	{subHeader && <p className="modal-subtitle">{subHeader}</p>}
 		      	{body()}
 		      </div>
 		      <div className="modal-footer">
-		      	<small className="text-danger text-center">
-		      	*Make sure you entered everything correctly. You cannot edit once you save.
-		      	</small>
+		      	{
+		      		save && 
+			      	<small className="text-danger text-center">
+			      	*Make sure you entered everything correctly. You cannot edit once you save.
+			      	</small>
+		      	}
 		        {close ? 
 			        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={close}>Close</button>
 			        :
   		        <button type="button" className="btn btn-sm btn-outline-secondary" data-dismiss="modal">Close</button>
 		        }
-		        <button type="button" className="btn btn-sm btn-success" onClick={e => saveModal(e)} disabled={btnSave !== 'Save'}>{btnSave}</button>
+		        {
+		        	save &&
+			        <button type="button" className="btn btn-sm btn-success" onClick={e => saveModal(e)} disabled={btnSave !== 'Save'}>{btnSave}</button>
+		        }
 		      </div>
 		    </div>
 		  </div>
