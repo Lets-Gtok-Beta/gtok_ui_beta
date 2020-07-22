@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 import { NotificationComponent } from "components";
-import { update, removeProfile, uploadImage, removeImage, remove, signout } from "firebase_config";
+import { update, uploadImage, removeImage, signout } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 
 function ProfileComponent({
@@ -14,7 +14,7 @@ function ProfileComponent({
 	const [file, setFile] = useState('');
 	const [btnUpload, setBtnUpload] = useState('Upload');
 	const [btnSave, setBtnSave] = useState('Save');
-	const [btnDelete, setBtnDelete] = useState('Delete Account');
+	// const [btnDelete, setBtnDelete] = useState('Delete Account');
 	const [btnSignout, setBtnSignout] = useState('Logout');
 	const [result, setResult] = useState({});
   const history = useHistory();
@@ -50,7 +50,7 @@ function ProfileComponent({
   	await bindUser(null);
   	history.push("/logout");
   }
-
+/*
   const deleteAccount = async (e) => {
   	e.preventDefault();
   	setBtnDelete('Deleting...');
@@ -58,7 +58,7 @@ function ProfileComponent({
   	await removeProfile();
 		history.push('/profile_deleted');
   }
-
+*/
   const uploadFile = async () => {
   	if (!file) {
   		setResult({
@@ -114,6 +114,12 @@ function ProfileComponent({
 				    </div>
 				  </div>
 					<div className="form-group row">
+				    <label htmlFor="dob" className="col-sm-2 col-form-label">Date of birth</label>
+				    <div className="col-sm-10">
+				    	{dbUser.dob}
+				    </div>
+				  </div>
+					<div className="form-group row">
 				    <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Email</label>
 				    <div className="col-sm-10">
 				    	{dbUser.email}
@@ -156,11 +162,13 @@ function ProfileComponent({
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
 					 </div>
 				</div>
+			{/*
 				<hr/>
 				<div className="text-center">
 					All your data will be lost, if you delete account. <br/><br/>
 					<button type="button" className="btn btn-danger btn-sm-app" onClick={e => deleteAccount(e)} disabled={btnDelete !== 'Delete Account'}>{btnDelete}</button>
 				</div>
+			*/}
 	  </div>
 	);
 }

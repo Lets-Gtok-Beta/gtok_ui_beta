@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import {Link, useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 import { signup } from "firebase_config";
+import { StaticHeaderComponent } from "components";
 
 const SignupComponent = () => {
   const [name, setName] = useState("");
+  const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
 	const [btnSave, setBtnSave] = useState("Signup");
   const [error, setErrors] = useState("");
   const history = useHistory();
+  const routes = [{route: "/login", title: "Login"}];
 
   const handleForm = async (e) => {
     e.preventDefault();
     if (!name || !name.trim()) {
     	setErrors("Please enter your name");
+    	return;
+    }
+    if (!dob) {
+    	setErrors("Please enter your Date of birth");
     	return;
     }
     if (!email || !email.trim()) {
@@ -34,7 +42,7 @@ const SignupComponent = () => {
     	return;
     }
     setBtnSave("Working...");
-    let result = await signup({email, password, name});
+    let result = await signup({email, password, name, dob});
     setBtnSave("Signup");
     if (result.status !== 200) {
     	setErrors(result.message);
@@ -56,47 +64,58 @@ const SignupComponent = () => {
 
   return (
     <div className="App">
-      <h2>New user</h2>
+    	<StaticHeaderComponent routes={routes} />
+    	<div className="mt-5 pt-3">
+		    <h4>New user</h4>
       {error ? <div className="alert alert-danger">{error}</div> : ''}
-      <div className="form">
-        <input
-          value={name}
-          onChange={e => setName(e.target.value)}
-          name="name"
-          type="text"
-          className="form-input"
-          placeholder="Enter your name"
-        />
-        <input
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          name="email"
-          type="email"
-          className="form-input"
-          placeholder="Enter email"
-        />
-        <input
-          onChange={e => setPassword(e.target.value)}
-          name="password"
-          value={password}
-          type="password"
-          className="form-input"
-          placeholder="Enter password (must be atleast 6 letters)"
-        />
-        <input
-          onChange={e => setCpassword(e.target.value)}
-          name="cpassword"
-          value={cpassword}
-          type="password"
-          className="form-input"
-          placeholder="Re-enter password"
-        />
-        <br/>
-			  <div className="text-center">
-				  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Signup'} onClick={e => handleForm(e)}>{btnSave}</button>
-			  </div>
-      </div>
-      <br/>
+	      <div className="form">
+	        <input
+	          value={name}
+	          onChange={e => setName(e.target.value)}
+	          name="name"
+	          type="text"
+	          className="form-input"
+	          placeholder="Enter your name"
+	        />
+	        <input
+	          onChange={e => setDob(e.target.value)}
+	          name="dob"
+	          value={dob}
+	          type="date"
+	          className="form-input"
+	          placeholder="Date of birth"
+	        />
+	        <input
+	          value={email}
+	          onChange={e => setEmail(e.target.value)}
+	          name="email"
+	          type="email"
+	          className="form-input"
+	          placeholder="Enter email"
+	        />
+	        <input
+	          onChange={e => setPassword(e.target.value)}
+	          name="password"
+	          value={password}
+	          type="password"
+	          className="form-input"
+	          placeholder="Enter password (must be atleast 6 letters)"
+	        />
+	        <input
+	          onChange={e => setCpassword(e.target.value)}
+	          name="cpassword"
+	          value={cpassword}
+	          type="password"
+	          className="form-input"
+	          placeholder="Re-enter password"
+	        />
+	        <br/>
+				  <div className="text-center">
+					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Signup'} onClick={e => handleForm(e)}>{btnSave}</button>
+				  </div>
+	      </div>
+	    </div>
+    <br/>
     {/*
       <button onClick={() => handleGoogleLogin()} class="googleBtn" type="button">
         <img
@@ -106,7 +125,6 @@ const SignupComponent = () => {
         Join With Google
       </button>
     */}
-      Already a user? <Link to="/login">Sign in</Link> here
     </div>
   );
 };

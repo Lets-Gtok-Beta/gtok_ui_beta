@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
+
 import { signin } from 'firebase_config';
 import { SetReload } from "store/actions";
+import { StaticHeaderComponent } from "components";
 
 const LoginComponent = ({bindReload}) => {
   const [email, setEmail] = useState("");
@@ -10,12 +12,14 @@ const LoginComponent = ({bindReload}) => {
 	const [btnSave, setBtnSave] = useState("Login");
   const [error, setErrors] = useState("");
   const history = useHistory();
+  const routes = [{route: "/signup", title: "Signup"}];
 
   const handleForm = async (e) => {
     e.preventDefault();
 
     setBtnSave("Working...");
     let result = await signin({email, password});
+    setBtnSave("Login");
     if (result.status !== 200) {
     	setErrors(result.message);
     	return;
@@ -37,32 +41,35 @@ const LoginComponent = ({bindReload}) => {
 */
   return (
     <div className="App">
-      <h2>Already a user?</h2>
-      {error ? <div className="alert alert-danger">{error}</div> : ''}
-      <div className="form">
-        <input
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          name="email"
-          type="email"
-          className="form-input"
-          placeholder="Enter email"
-        />
-        <input
-          onChange={e => setPassword(e.target.value)}
-          name="password"
-          value={password}
-          type="password"
-          className="form-input"
-          placeholder="Enter password"
-        />
-        <br />
-			  <div className="text-center">
-				  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Login'} onClick={e => handleForm(e)}>{btnSave}</button>
-				</div>
-				<br/>
-        <Link to="/forgot_password">Forgot password</Link>
-      </div>
+    	<StaticHeaderComponent routes={routes} />
+    	<div className="mt-5 pt-3">
+	      <h4>Already a user?</h4>
+	      {error ? <div className="alert alert-danger">{error}</div> : ''}
+	      <div className="form">
+	        <input
+	          value={email}
+	          onChange={e => setEmail(e.target.value)}
+	          name="email"
+	          type="email"
+	          className="form-input"
+	          placeholder="Enter email"
+	        />
+	        <input
+	          onChange={e => setPassword(e.target.value)}
+	          name="password"
+	          value={password}
+	          type="password"
+	          className="form-input"
+	          placeholder="Enter password"
+	        />
+	        <br />
+				  <div className="text-center">
+					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Login'} onClick={e => handleForm(e)}>{btnSave}</button>
+					</div>
+					<br/>
+	        <Link to="/forgot_password">Forgot password</Link>
+	      </div>
+	    </div>
       <br/>
     {/*
       <button onClick={() => signInWithGoogle()} className="googleBtn" type="button">
@@ -73,7 +80,6 @@ const LoginComponent = ({bindReload}) => {
         Login With Google
       </button>
     */}
-      New user? <Link to="/signup">Sign up</Link> here
     </div>
   );
 };

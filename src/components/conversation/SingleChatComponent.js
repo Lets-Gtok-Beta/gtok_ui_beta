@@ -24,7 +24,6 @@ class SingleChatComponent extends Component {
 	componentDidMount() {
 		this.getHistory();
 		this.scrollToBottom();
-		this.updateConvo();
 		// this.scrollToBottom({behavior: "smooth"});
 	}
 
@@ -66,6 +65,8 @@ class SingleChatComponent extends Component {
 		let currentChatUser = chatUserRefs.find(u => u.id === this.state.currentUser.id);
 		let idx = chatUserRefs.findIndex(u => u.id === this.state.currentUser.id);
 		currentChatUser["lastSeen"] = new Date().getTime();
+		currentChatUser["displayName"] = this.state.currentUser.displayName;
+		currentChatUser["photoURL"] = this.state.currentUser.photoURL;
 		chatUserRefs[idx] = currentChatUser;
 
 		await update("conversations", this.state.conversation.id, Object.assign(
@@ -89,12 +90,10 @@ class SingleChatComponent extends Component {
 						messagesList.push(msg);
 					}
 				})
-				await new Promise(resolve => 
-					this.setState({
-						loading: false,
-						messagesList: messagesList.sort((a,b) => a.createdAt - b.createdAt)
-					}, () => resolve())
-				)
+				this.setState({
+					loading: false,
+					messagesList: messagesList.sort((a,b) => a.createdAt - b.createdAt)
+				});
 				// this.bindMessages(this.messagesList.sort((a,b) => a.createdAt - b.createdAt));
 			})
 		return this.unsubscribe;
@@ -123,8 +122,7 @@ class SingleChatComponent extends Component {
   		lastMessageTime: new Date().getTime()  		
   	});
   	this.setState({
-  		message: "",
-  		messagesList: [...this.state.messagesList, data]
+  		message: ""
   	});
   }
 

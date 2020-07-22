@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import {Link, useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as firebase from 'firebase';
-import { NotificationComponent } from "components";
+
+import { NotificationComponent, StaticHeaderComponent } from "components";
 
 const ForgotPasswordComponent = () => {
   const [email, setEmail] = useState("");
 	const [btnSave, setBtnSave] = useState("Send");
   const [result, setResult] = useState("");
   const history = useHistory();
+  const routes = [{route: "/signup", title: "Signup"}, {route: "/login", title: "Login"}];
 
   const handleForm = e => {
     e.preventDefault();
@@ -35,24 +37,27 @@ const ForgotPasswordComponent = () => {
     
   return (
     <div className="App">
-      <h2>Forgot password</h2>
-	  	{
-	  		result.status ? <NotificationComponent result={result} setResult={setResult} /> : ''
-	  	}
-      <div className="form">
-        <input
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          name="email"
-          type="email"
-          className="form-input"
-          placeholder="Enter email"
-        />
-        <br />
-			  <div className="text-center">
-				  <button className="btn btn-sm-app" disabled={btnSave !== 'Send'} onClick={e => handleForm(e)}>{btnSave}</button>
-				 </div>
-      </div>
+    	<StaticHeaderComponent routes={routes} />
+    	<div className="mt-5 pt-3">
+	      <h4>Forgot password</h4>
+		  	{
+		  		result.status ? <NotificationComponent result={result} setResult={setResult} /> : ''
+		  	}
+	      <div className="form">
+	        <input
+	          value={email}
+	          onChange={e => setEmail(e.target.value)}
+	          name="email"
+	          type="email"
+	          className="form-input"
+	          placeholder="Enter email"
+	        />
+	        <br />
+				  <div className="text-center">
+					  <button className="btn btn-sm-app" disabled={btnSave !== 'Send'} onClick={e => handleForm(e)}>{btnSave}</button>
+					 </div>
+	      </div>
+	    </div>
       <br/>
     {/*
       <button onClick={() => signInWithGoogle()} className="googleBtn" type="button">
@@ -63,8 +68,6 @@ const ForgotPasswordComponent = () => {
         Login With Google
       </button>
     */}
-      New user? <Link to="/signup">Sign up</Link> <br/>
-      Existing user? <Link to="/login">Login</Link>
     </div>
   );
 };

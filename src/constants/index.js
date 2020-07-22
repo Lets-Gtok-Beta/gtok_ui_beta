@@ -23,6 +23,10 @@ export const Metadata = {
 		title: "GTOK | Messages",
 		description: "GTOK Messages is a places where you can chat each other"
 	},
+	"/app/payments": {
+		title: "GTOK | Payments",
+		description: "GTOK payments"
+	},
 	"/login": {
 		title: "GTOK | Login",
 		description: "Login into our lets GTOK application to access our app complete features."
@@ -34,6 +38,10 @@ export const Metadata = {
 	"/forgot_password": {
 		title: "GTOK | Forgot password",
 		description: "Forgot password in lets GTOK application."
+	},
+	"/logout": {
+		title: "GTOK | Logout",
+		description: "Logged out."
 	},
 	"/profile_deleted": {
 		title: "GTOK | Profile deleted"

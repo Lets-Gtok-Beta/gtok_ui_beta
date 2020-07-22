@@ -1,12 +1,14 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { StaticHeaderComponent } from "components";
 
 const DeleteProfileComponent = () => {
+  const routes = [{route: "/signup", title: "Signup"}, {route: "/login", title: "Login"}];
   return (
     <div className="App">
-    	<h2>GTOK</h2>
-      <h5>Your account is deleted. We hope you come back again.</h5>
-      <Link to="/signup">Signup</Link>
+    	<StaticHeaderComponent routes={routes} />
+    	<div className="mt-5 pt-3">
+	      <h5>Your account is deleted. We hope you come back.</h5>
+	    </div>
     </div>
   );
 };

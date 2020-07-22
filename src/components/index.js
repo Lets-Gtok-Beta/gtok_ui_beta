@@ -16,6 +16,8 @@ import SearchComponent from "components/search/SearchComponent";
 import SearchUserComponent from "components/search/SearchUserComponent";
 import CheckSimilarityComponent from "components/search/CheckSimilarityComponent";
 import DefaultLayout from "components/common/DefaultLayout";
+import HeaderComponent from "components/common/HeaderComponent";
+import StaticHeaderComponent from "components/common/StaticHeaderComponent";
 import ErrorComponent from "components/common/ErrorComponent";
 import NotificationComponent from "components/common/NotificationComponent";
 import NoInternetNotification from "components/common/NoInternetNotification";
@@ -42,6 +44,8 @@ export {
 	SearchUserComponent,
 	CheckSimilarityComponent,
 	DefaultLayout,
+	HeaderComponent,
+	StaticHeaderComponent,
 	ForgotPasswordComponent,
 	ErrorComponent,
 	NotificationComponent,

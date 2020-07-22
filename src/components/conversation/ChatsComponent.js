@@ -20,6 +20,7 @@ class ChatsComponent extends Component {
 		this.props = props;
 		this.defaultImage = "../../logo192.png"; 
 		this.unsubscribe = "";
+		this.currentChatUser = {};
 		this.bindConvos = props.bindConvos;
 	}
 
@@ -44,6 +45,7 @@ class ChatsComponent extends Component {
 		let result = await getId("conversations", id);
 		result = await this.setConvoFields(result);
 		result["id"] = id;
+		this.currentChatUser = result.usersRef.find(u => u.id === this.state.currentUser.id);
 		this.setState({
 			convoId: id,
 			selectedConvo: result,
@@ -60,7 +62,7 @@ class ChatsComponent extends Component {
 					user["displayName"] !== resultUser["displayName"] || 
 					user["photoURL"] !== resultUser["photoURL"]
 				) {
-					user["groupName"] = resultUser["displayName"];
+					user["displayName"] = resultUser["displayName"];
 					user["photoURL"] = resultUser["photoURL"];
 					isChange = true;
 				}
@@ -132,7 +134,7 @@ class ChatsComponent extends Component {
 							<h6 className="p-0 mb-0 pl-2">{user.displayName}</h6>
 							<small className="p-0 pl-2">
 								{con.lastMessage ? con.lastMessage : "No messages yet"}
-								{con.lastMessageTime > this.state.currentChatUser.lastSeen && <i className="fa fa-dot-circle-o pull-right text-success"></i>}
+								{con.lastMessageTime > this.currentChatUser.lastSeen && <i className="fa fa-dot-circle-o pull-right text-success"></i>}
 							</small>
 						</div>
 					</div>
