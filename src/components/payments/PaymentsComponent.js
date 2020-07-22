@@ -36,19 +36,28 @@ const PaymentsComponent = ({plans, bindSubscriptionPlans}) => {
 								</div>
 							  <div className="body">
 									<div className="text-center pt-3 pb-2">
-									  <h6>{plan.months} month{plan.months > 1 && "s"}</h6>
+										{ !plan.requiredBadges ? <h6>{plan.months} month{plan.months > 1 && "s"}</h6> : <h6> {plan.months} </h6>
+										}
 									</div>
-							  	<h3 className="text-center pt-2 pb-2">
+							  	<h5 className="text-center">
 									  <input className="form-check-input" type="radio" name="subscription_plan" id={i} onChange={e => setSelectedPlan(plan)}/>
-									  <label htmlFor={i}>
-						  			{plan.currency === "gbp" ? <span>&#163;</span> : (
-						  				plan.currency === "inr" ? <span>&#8377;</span> : (
-						  					plan.currency === "usd" ? <span>&#36;</span> : ''
-						  				)
-						  			)}
-							  		{plan.amount_per_week}<small className="small" style={{fontSize: "14px"}}>/week</small>
-							  		</label>
-							  	</h3>
+									  { !plan.requiredBadges ? 
+										  <label htmlFor={i}>
+							  			{plan.currency === "gbp" ? <span>&#163;</span> : (
+							  				plan.currency === "inr" ? <span>&#8377;</span> : (
+							  					plan.currency === "usd" ? <span>&#36;</span> : ''
+							  				)
+							  			)}
+								  		{plan.amountPerWeek}<small className="small" style={{fontSize: "14px"}}>/week</small>
+								  		</label> :
+								  		<label htmlFor={i}>
+								  			{plan.amountPerWeek}
+								  		</label>
+									  }
+							  	</h5>
+							  	{/*plan.badge && <div className="text-center letter-spacing-2">
+							  		<span className="badge badge-warning text-light">{plan.badge}</span> <i className="fa fa-tag text-warning"></i>
+							  	</div>*/}
 							  	<ul className="payment-card-list">
 							  		{
 							  			plan.features.map((feature, i) => (

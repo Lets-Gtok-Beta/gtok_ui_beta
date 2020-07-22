@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
-import { NotificationComponent } from "components";
+
+import { NotificationComponent, SurveysComponent } from "components";
 import { update, uploadImage, removeImage, signout } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 
@@ -18,6 +19,10 @@ function ProfileComponent({
 	const [btnSignout, setBtnSignout] = useState('Logout');
 	const [result, setResult] = useState({});
   const history = useHistory();
+  const pathDetails = {
+  	path: "/app/profile",
+  	isNewPath: true
+  }
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -157,7 +162,21 @@ function ProfileComponent({
 				  <div className="text-center">
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Save'} onClick={e => handleForm(e)}>{btnSave}</button>
 					 </div>
-					<br/>
+					<hr/>
+					<div>
+						<h4 className="text-center">Surveys</h4>
+						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails}/>
+					</div>
+					<hr/>
+					<div className="text-center">
+						<h4>Badges</h4>
+						{
+							dbUser.badges && dbUser.badges[0] ? dbUser.badges.map(badge => (
+							  <button className="btn btn-outline-secondary btn-sm">{badge}</button>
+							)) : <b className="text-secondary">No badges achieved yet. Unlock badges by filling surveys.</b>
+						}
+					</div>
+					<hr/>
 				  <div className="text-center">
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
 					 </div>

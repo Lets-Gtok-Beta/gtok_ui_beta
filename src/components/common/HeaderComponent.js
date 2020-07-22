@@ -42,15 +42,11 @@ const HeaderComponent = ({currentUser}) => {
 				        <Link to="/app/search">Search</Link>
 				      </div>
 			      </li>
-			      {
-			      	currentUser.admin && (
-								<li className="nav-item">
-									<div className="nav-link">
-										<Link to="/app/surveys">Surveys</Link>
-						      </div>
-					      </li>
-					    )
-					  }
+						<li className="nav-item">
+							<div className="nav-link">
+								<Link to="/app/surveys">Surveys</Link>
+				      </div>
+			      </li>
 					  { currentUser.admin && (
 								<li className="nav-item">
 									<div className="nav-link">
@@ -61,7 +57,7 @@ const HeaderComponent = ({currentUser}) => {
 			      }
 						<li className="nav-item">
 							<div className="nav-link">
-				        <Link to="/app/payments">Payments</Link>
+				        <Link to="/app/payments">Subscriptions</Link>
 				      </div>
 			      </li>
 			  	</ul>

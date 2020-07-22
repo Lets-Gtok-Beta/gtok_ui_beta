@@ -10,6 +10,7 @@ const DisplaySurveyComponent = (props) => {
 	const [ response, setResponse ] = useState({});
 	const query = new URLSearchParams(props.location.search);
 	let surveyId = query.get("surveyId");
+	const redirectTo = props.location.state && props.location.state.redirectTo;
 	const history = useHistory();
 
 	useEffect(() => {
@@ -45,6 +46,10 @@ const DisplaySurveyComponent = (props) => {
 	const onClose = () => {
 		surveyId = "";
 		window.jQuery("#modal").modal("hide");
+		if (!!redirectTo.path) {
+			history.push(redirectTo.path);
+			return;
+		}
 		history.push("/app/surveys");
 	}
 

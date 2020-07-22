@@ -29,6 +29,10 @@ code {
 	cursor: pointer;
 }
 
+.letter-spacing-2 {
+	letter-spacing: 0.05em;
+}
+
 input.form-input {
   max-width: 450px;
   width: auto;
