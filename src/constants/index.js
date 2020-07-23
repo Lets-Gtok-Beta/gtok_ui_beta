@@ -27,6 +27,10 @@ export const Metadata = {
 		title: "GTOK | Payments",
 		description: "GTOK payments"
 	},
+	"/app/support": {
+		title: "GTOK | Support",
+		description: "GTOK support has Faq's"
+	},
 	"/login": {
 		title: "GTOK | Login",
 		description: "Login into our lets GTOK application to access our app complete features."
@@ -48,6 +52,9 @@ export const Metadata = {
 	},
 	"/error": {
 		title: "GTOK | 404 Not found"
+	},
+	"default": {
+		title: "GTOK"
 	}
 }
 

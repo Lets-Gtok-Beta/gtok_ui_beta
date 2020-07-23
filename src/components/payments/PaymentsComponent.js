@@ -7,8 +7,8 @@ const PaymentsComponent = ({plans, bindSubscriptionPlans}) => {
 	const [ selectedPlan, setSelectedPlan ] = useState("");
   
   const getPlans = async () => {
-		let content = await get("subscription_plans");
-		bindSubscriptionPlans(content);
+		let content = await get("subscriptions");
+		bindSubscriptionPlans(content.sort((a,b) => a.id - b.id));
   }
   if (!plans[0]) getPlans();
 

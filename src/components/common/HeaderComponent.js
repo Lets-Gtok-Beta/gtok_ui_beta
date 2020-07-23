@@ -11,8 +11,10 @@ const HeaderComponent = ({currentUser}) => {
 		let path = window.location.pathname;
 		if (path.includes("/app/chats")) {
 			setMetaDetails(Metadata["/app/chats"])
+		} else if (path.includes("/app/surveys")) {
+			setMetaDetails(Metadata["/app/surveys"])
 		} else {
-			setMetaDetails(Metadata[path]);			
+			setMetaDetails(Metadata[path || "default"]);
 		}
 	}, [metaDetails]);
 
@@ -73,6 +75,13 @@ const HeaderComponent = ({currentUser}) => {
 				      	</li>
 			      	)
 			      }
+						<li className="nav-item">
+							<div className="nav-link">
+				        <Link to="/app/support">
+				        	<i className="fa fa-question-circle" style={{fontSize: "1.5em"}}></i>
+				        </Link>
+		      		</div>
+		      	</li>
 						<li className="nav-item">
 							<div className="nav-link p-0">
 				        <Link to="/app/profile">

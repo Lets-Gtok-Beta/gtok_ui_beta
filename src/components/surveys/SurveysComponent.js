@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import { get, getQuery, remove, firestore } from "firebase_config";
-import { AddSurveyComponent, DisplaySurveyComponent, NotificationComponent} from "components";
+import { get, getQuery, remove, update, firestore } from "firebase_config";
+import { NotificationComponent} from "components";
 
 const SurveysComponent = ({currentUser, redirectTo={}}) => {
 	const [ result, setResult ] = useState({});
@@ -29,21 +29,20 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
 	}, [refresh, currentUser.email]);
 
 	const openSurveyModal = async (id) => {
-		if (id === 'new') {
-			history.push({
-				pathname: '/app/surveys',
-				search: `?newSurvey=true`
-			});
-		} else {
-			if (isSurveyFilled(id) && !currentUser.admin) { 
-				return alert("This survey is already filled.")
-			}
-			history.push({
-				pathname: '/app/surveys',
-				search: `?surveyId=${id}`,
-				state: { redirectTo }
-			});
+		if (isSurveyFilled(id) && !currentUser.admin && id !== "new") {
+			return alert("This survey is already filled.")
 		}
+		history.push({
+			pathname: '/app/surveys/'+id,
+			state: { redirectTo }
+		});
+	}
+
+	const editSurvey = async (id) => {
+		history.push({
+			pathname: '/app/surveys/'+id,
+			search: `?edit=true`
+		});
 	}
 
 	const removeSurvey = async (id) => {
@@ -62,6 +61,12 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
 		return !!filledSurveysList.find(i => i === id);
 	}
 
+	const setSurveyStatus = async (survey) => {
+		survey["active"] = !survey.active;
+		setSurveysList(surveysList.map(sur => (sur.id === survey.id) && survey));
+		await update("surveys", survey.id, {active: survey.active});
+	}
+
 	return (
     <div className="container p-3">
 	  	{
@@ -72,15 +77,25 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
       	<i className="fa fa-info-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Surveys include different categories. Personal, Daily needs, Profession, Help, Fashion, Food habits, Mental health, Sexual health (18+), Normal health."></i> <br/>
       </h6>
   		{surveysList.map((survey, idx) => {
-  			return survey.canDisplayToUser && (
+  			return (!currentUser.admin) ? survey.active && (
 					<div key={idx}>
 		      	{survey.mandatory && <i className="fa fa-star text-danger"></i>}
 			      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id)} data-target="#modal" data-toggle="modal">
 						  {survey.title}
 						</button> &nbsp;
-						{ !redirectTo.path && <i className={`fa fa-pencil ${!currentUser.admin && 'd-none'}`} onClick={e => removeSurvey(survey.id)} title="Edit survey"></i>	}
-						&nbsp;
-						{ !redirectTo.path && <i className={`fa fa-trash ${!currentUser.admin && 'd-none'}`} onClick={e => removeSurvey(survey.id)} title="Remove survey"></i>}
+					</div>
+	  		) : (
+					<div key={idx}>
+					  <input className="form-check-input" type="checkbox" name={idx} id={survey.id} checked={survey.active} onChange={e => setSurveyStatus(survey)}/>
+					  <label htmlFor={idx}>
+			      	{survey.mandatory && <i className="fa fa-star text-danger"></i>}
+				      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id)} data-target="#modal" data-toggle="modal">
+							  {survey.title}
+							</button> &nbsp;
+							<i className={`fa fa-pencil`} onClick={e => editSurvey(survey.id)} title="Edit survey"></i>
+							&nbsp;
+							<i className={`fa fa-trash`} onClick={e => removeSurvey(survey.id)} title="Remove survey"></i>
+						</label>
 					</div>
 	  		)
 	  	})}
@@ -90,15 +105,13 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
       	<i className="fa fa-star text-danger" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Mandatory survey. You need to complete this to proceed further."></i>
       </small>
 
-      <DisplaySurveyComponent currentUser={currentUser} setRefresh={setRefresh} refresh={refresh} />
-      {	!redirectTo.path && 
+      {	currentUser.admin && 
 				<div className="text-center">
-				  <button className={`btn btn-danger ${currentUser.admin ? '' : 'd-none'}`} onClick={e => openSurveyModal('new')}>
+				  <button className="btn btn-danger" onClick={e => openSurveyModal('new')}>
 					  Add a survey
 					</button>
 				</div>
       }
-      <AddSurveyComponent currentUser={currentUser} setRefresh={setRefresh} refresh={refresh}/>
     </div>
   );
 };

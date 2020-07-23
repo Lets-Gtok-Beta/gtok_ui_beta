@@ -27,6 +27,7 @@ import FormFieldsComponent from "components/common/FormFieldsComponent";
 import ChatsComponent from "components/conversation/ChatsComponent";
 import SingleChatComponent from "components/conversation/SingleChatComponent";
 import CreateChatComponent from "components/conversation/CreateChatComponent";
+import SupportComponent from "components/support/SupportComponent";
 
 export {
 	LoginComponent,
@@ -57,5 +58,6 @@ export {
 	LogoutComponent,
 	ChatsComponent,
 	SingleChatComponent,
-	CreateChatComponent	
+	CreateChatComponent,
+	SupportComponent
 }

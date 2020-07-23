@@ -21,7 +21,8 @@ import {
 	ErrorComponent,
 	ChatsComponent,
 	CreateChatComponent,
-	CheckSimilarityComponent
+	CheckSimilarityComponent,
+	SupportComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -54,6 +55,7 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/question/:id" component={DisplayComponent} />
 		<AuthRoute exact path="/app/chats/:id" component={ChatsComponent} />
 		<AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />
+		<AuthRoute exact path="/app/support" component={SupportComponent} />
 	</Switch>
 );
 

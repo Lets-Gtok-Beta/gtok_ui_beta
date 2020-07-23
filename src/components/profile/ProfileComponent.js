@@ -162,11 +162,12 @@ function ProfileComponent({
 				  <div className="text-center">
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Save'} onClick={e => handleForm(e)}>{btnSave}</button>
 					 </div>
-					<hr/>
+					{ !dbUser.admin &&
 					<div>
+						<hr/>
 						<h4 className="text-center">Surveys</h4>
 						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails}/>
-					</div>
+					</div> }
 					<hr/>
 					<div className="text-center">
 						<h4>Badges</h4>
