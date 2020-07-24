@@ -26,10 +26,10 @@ const HeaderComponent = ({currentUser}) => {
         <meta name="keywords" content= {metaDetails.keywords} />
         <link rel="icon" type="image/png" href={gtokFavicon} sizes="16x16"/>
       </Helmet>
-    	<nav className="navbar fixed-top navbar-expand-sm">
+    	<nav className="navbar fixed-top navbar-expand-sm p-0">
     		<div className="navbar-brand mr-auto">
 	        <Link to="/app/profile">
-	        	<img src={gtokLogo} alt="GTOK" style={{maxHeight: "26px", position: "relative", top: "-7px"}} />
+	        	<img src={gtokLogo} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
 	        </Link>
 				</div>
 				<button className="navbar-toggler navbar-toggler-right pull-right" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,12 +39,12 @@ const HeaderComponent = ({currentUser}) => {
 			  </button>
 			  <div className="collapse navbar-collapse">
 			  	<ul className="navbar-nav mx-auto">
-						<li className="nav-item">
+						<li className="nav-item" title="Search">
 							<div className="nav-link">
 				        <Link to="/app/search">Search</Link>
 				      </div>
 			      </li>
-						<li className="nav-item">
+						<li className="nav-item" title="Surveys">
 							<div className="nav-link">
 								<Link to="/app/surveys">Surveys</Link>
 				      </div>
@@ -57,7 +57,7 @@ const HeaderComponent = ({currentUser}) => {
 						    </li>
 			      	)
 			      }
-						<li className="nav-item">
+						<li className="nav-item" title="Subscriptions">
 							<div className="nav-link">
 				        <Link to="/app/payments">Subscriptions</Link>
 				      </div>
@@ -66,7 +66,7 @@ const HeaderComponent = ({currentUser}) => {
 			  	<ul className="navbar-nav ml-auto">
 			      {
 			      	currentUser.admin && (
-								<li className="nav-item">
+								<li className="nav-item" title="Notifications">
 									<div className="nav-link">
 						        <Link to="/app/alerts">
 						        	<i className="fa fa-bell" style={{fontSize: "1.5em"}}></i><span className="badge text-danger">0</span>
@@ -75,15 +75,15 @@ const HeaderComponent = ({currentUser}) => {
 				      	</li>
 			      	)
 			      }
-						<li className="nav-item">
+						<li className="nav-item nav-support" title="Help">
 							<div className="nav-link">
 				        <Link to="/app/support">
 				        	<i className="fa fa-question-circle" style={{fontSize: "1.5em"}}></i>
 				        </Link>
 		      		</div>
 		      	</li>
-						<li className="nav-item">
-							<div className="nav-link p-0">
+						<li className="nav-item" title="Profile">
+							<div className="nav-link" style={{backgroundColor: "#fff"}}>
 				        <Link to="/app/profile">
 				        	<img src={(currentUser && currentUser.photoURL) || "../logo192.png"} className="navbar-image" alt="Profile pic"/>
 				        </Link>

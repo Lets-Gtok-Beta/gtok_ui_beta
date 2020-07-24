@@ -207,7 +207,7 @@ export const uploadImage = ({
 		(res) => {
 			uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
 				setProfileUrl(downloadUrl);
-				setBtnUpload('Uploaded');
+				setBtnUpload('Upload');
 			});
 		}
 	);

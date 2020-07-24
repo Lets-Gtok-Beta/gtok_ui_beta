@@ -33,6 +33,12 @@ code {
 	letter-spacing: 0.05em;
 }
 
+.badge {
+	vertical-align: middle !important;
+	font-size: x-small !important;
+	border-radius: 50% !important;
+}
+
 input.form-input {
   max-width: 450px;
   width: auto;
@@ -184,6 +190,38 @@ button:active {
 	height: 35px;
 	border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);		
+}
+
+.navbar-nav {
+	text-align: center;
+}
+
+.navbar-nav .nav-item a {
+	padding: 2px 8px;
+	transition: all 0.35s;
+}
+
+.navbar-nav .nav-support,
+.navbar-nav .nav-support a {
+	color: #fff !important;
+	background-color: rgba(220, 53, 69, 1);
+	padding-top: 4px;
+}
+
+.navbar-nav .nav-item:hover {
+	background-color: rgba(220, 53, 69, 1);
+	cursor: pointer;
+}
+
+.navbar-nav .nav-item:hover a,
+.navbar-nav .nav-item:hover a:hover {
+	color: #fff !important;
+	text-decoration: none;
+}
+
+.navbar-nav .nav-profile:hover {
+	background-color: rgba(255, 255, 255, 1);
+	cursor: pointer;
 }
 
 /* Surveys */
