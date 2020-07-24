@@ -26,7 +26,7 @@ const StaticHeaderComponent = ({routes}) => {
       </Helmet>
     	<nav className="navbar fixed-top navbar-expand-sm">
     		<div className="navbar-brand mr-auto">
-	        <Link to="/app/profile">
+	        <Link to="/">
 	        	<img src={gtokLogo} alt="GTOK" style={{maxHeight: "26px", position: "relative", top: "-7px"}} />
 	        </Link>
 				</div>
