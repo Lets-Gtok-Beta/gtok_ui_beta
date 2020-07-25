@@ -21,7 +21,7 @@ const SearchComponent = (props) => {
   	}
 		if (currentUser.admin) { getAdminUsers(); }
 		else { getUsersList(); }
-  }, [currentUser.id]);
+  }, [currentUser]);
 
 /*
   const isFollower = async (user) => {
