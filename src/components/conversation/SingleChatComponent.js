@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { add, getQuery, update, firestore } from "firebase_config";
+import { add, getQuery, update, firestore, timestamp } from "firebase_config";
 import { connect } from "react-redux";
 import moment from "moment";
+import _ from "lodash";
 
 import { SetChatMessages } from "store/actions";
 
@@ -45,14 +46,15 @@ class SingleChatComponent extends Component {
 	getInitialMessages = async (conversation) => {
 		this.setState({loading: true});
 		let result = await getQuery(
-			firestore.collection("messages").where("conversationId", "==", conversation.id).get()
+			firestore.collection("messages").where("conversationId", "==", conversation.id).orderBy("timestamp", "desc").get()
 		);
 		this.setState({
 			conversation,
-			messagesList: result.sort((a,b) => a.createdAt - b.createdAt),
+			messagesList: result,
 			chatUser: conversation.usersRef.find(u => u.id !== this.state.currentUser.id),
 			loading: false
 		});
+		await this.updateConvo();
 	}
 
 	scrollToBottom = () => {
@@ -64,7 +66,7 @@ class SingleChatComponent extends Component {
 		let chatUserRefs = this.state.conversation.usersRef;
 		let currentChatUser = chatUserRefs.find(u => u.id === this.state.currentUser.id);
 		let idx = chatUserRefs.findIndex(u => u.id === this.state.currentUser.id);
-		currentChatUser["lastSeen"] = new Date().getTime();
+		currentChatUser["lastSeen"] = new Date();
 		currentChatUser["displayName"] = this.state.currentUser.displayName;
 		currentChatUser["photoURL"] = this.state.currentUser.photoURL;
 		chatUserRefs[idx] = currentChatUser;
@@ -83,16 +85,19 @@ class SingleChatComponent extends Component {
 		this.setState({loading: true, messagesList: []});
 		this.unsubscribe = await firestore.collection("messages")
 			.where("conversationId", "==", this.state.conversation.id)
+			.orderBy("timestamp", "desc")
 			.onSnapshot(async (snapshot) => {
 				snapshot.docChanges().forEach(async (change) => {
 					if (change.type === "added") {
 						let msg = change.doc.data();
+						msg["id"] = change.doc.id;
 						messagesList.push(msg);
 					}
 				})
+				messagesList = _.uniqBy(messagesList, "id");
 				this.setState({
 					loading: false,
-					messagesList: messagesList.sort((a,b) => a.createdAt - b.createdAt)
+					messagesList: messagesList
 				});
 				// this.bindMessages(this.messagesList.sort((a,b) => a.createdAt - b.createdAt));
 			})
@@ -114,15 +119,17 @@ class SingleChatComponent extends Component {
   		text: this.state.message.trim(),
   		users: this.state.conversation.users,
   		admin: this.state.currentUser.id,
-  		unread: this.state.conversation.users.filter(u => (u !== this.state.currentUser.id))
+  		unreadUsers: this.state.conversation.users.filter(u => (u !== this.state.currentUser.id)),
+  		timestamp
   	}
   	await add("messages", data);
   	await this.updateConvo({
   		lastMessage: this.state.message,
-  		lastMessageTime: new Date().getTime()  		
+  		lastMessageTime: new Date()
   	});
   	this.setState({
-  		message: ""
+  		message: "",
+  		messagesList: [...this.state.messagesList, data]
   	});
   }
 

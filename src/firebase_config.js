@@ -295,6 +295,8 @@ export const arrayAdd = firebase.firestore.FieldValue.arrayUnion;
 
 export const arrayRemove = firebase.firestore.FieldValue.arrayRemove;
 
+export const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
 /* Common code */
 function formatResult(status, message, data={}) {
 	return { status, message, data };

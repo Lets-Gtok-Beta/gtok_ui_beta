@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 import { SingleChatComponent } from "components";
 import { SetConvos } from "store/actions";
+import { truncateText } from "helpers";
 
 class ChatsComponent extends Component {
 	constructor(props) {
@@ -133,8 +134,8 @@ class ChatsComponent extends Component {
 						<div className="media-body">
 							<h6 className="p-0 mb-0 pl-2">{user.displayName}</h6>
 							<small className="p-0 pl-2">
-								{con.lastMessage ? con.lastMessage : "No messages yet"}
-								{con.lastMessageTime > this.currentChatUser.lastSeen && <i className="fa fa-dot-circle-o pull-right text-success"></i>}
+								{con.lastMessage ? truncateText(con.lastMessage, 25) : "No messages yet"}
+								{(con.lastMessageTime > this.currentChatUser.lastSeen) ? <i className="fa fa-dot-circle-o pull-right text-success"></i> : ""}
 							</small>
 						</div>
 					</div>
@@ -147,7 +148,7 @@ class ChatsComponent extends Component {
 	    <div className="container-fluid">
 	      {/*<h5 className="text-center">
 	      	This is our personal bot system.
-	      	If you're not a premium user, your chat will be erased completely after 6 hours.
+	      	If you're not a premium user, your chat will be erased completely after 2 hours.
 	      </h5>
 	      {
 	      	conversation.id && <SingleChatComponent conversation={conversation} currentUser={currentUser} />

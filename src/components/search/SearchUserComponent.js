@@ -40,7 +40,8 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
   }
 
   const msgUser = async () => {
-  	if (!currentUser.premium) {
+  	let premium = currentUser.badges.find(b => b.title === "Premium");
+  	if (!premium) {
   		alert("Upgrade to premium to message others");
   		return null;
   	}
