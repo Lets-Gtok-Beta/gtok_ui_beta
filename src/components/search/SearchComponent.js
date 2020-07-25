@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { get } from "firebase_config";
+import { get, getQuery, firestore } from "firebase_config";
 import { SearchUserComponent } from "components";
 
 const SearchComponent = (props) => {
@@ -7,12 +7,20 @@ const SearchComponent = (props) => {
 	const [ users, setUsers ] = useState("");
 
   useEffect(() => {
-  	async function getUsersList(){
+  	async function getUsersList() {
   		let users = await get("users");
   		users = users.filter(u => u.id !== currentUser.id);
   		setUsers(users);
   	}
-  	getUsersList();
+  	async function getAdminUsers() {
+			let users = await getQuery(
+				firestore.collection("users").where("admin", "==", true).get()
+			);
+  		users = users.filter(u => u.id !== currentUser.id);
+  		setUsers(users);
+  	}
+		if (currentUser.admin) { getAdminUsers(); }
+		else { getUsersList(); }
   }, [currentUser.id]);
 
 /*

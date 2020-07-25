@@ -46,7 +46,7 @@ class SingleChatComponent extends Component {
 	getInitialMessages = async (conversation) => {
 		this.setState({loading: true});
 		let result = await getQuery(
-			firestore.collection("messages").where("conversationId", "==", conversation.id).orderBy("timestamp", "desc").get()
+			firestore.collection("messages").where("conversationId", "==", conversation.id).orderBy("timestamp").get()
 		);
 		this.setState({
 			conversation,
@@ -85,7 +85,7 @@ class SingleChatComponent extends Component {
 		this.setState({loading: true, messagesList: []});
 		this.unsubscribe = await firestore.collection("messages")
 			.where("conversationId", "==", this.state.conversation.id)
-			.orderBy("timestamp", "desc")
+			.orderBy("timestamp")
 			.onSnapshot(async (snapshot) => {
 				snapshot.docChanges().forEach(async (change) => {
 					if (change.type === "added") {
