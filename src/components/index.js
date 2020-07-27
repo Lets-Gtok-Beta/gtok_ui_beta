@@ -8,6 +8,8 @@ import HomeComponent from "components/home/HomeComponent";
 import DisplayComponent from "components/display_question/DisplayComponent";
 import ProfileComponent from "components/profile/ProfileComponent";
 import GraphsComponent from "components/graphs/GraphsComponent";
+import LineGraphComponent from "components/graphs/LineGraphComponent";
+import LineChartComponent from "components/graphs/LineChartComponent";
 import SurveysComponent from "components/surveys/SurveysComponent";
 import AddSurveyComponent from "components/surveys/AddSurveyComponent";
 import DisplaySurveyComponent from "components/surveys/DisplaySurveyComponent";
@@ -38,6 +40,8 @@ export {
 	DisplayComponent,
 	ProfileComponent,
 	GraphsComponent,
+	LineGraphComponent,
+	LineChartComponent,
 	SurveysComponent,
 	AddSurveyComponent,
 	PaymentsComponent,

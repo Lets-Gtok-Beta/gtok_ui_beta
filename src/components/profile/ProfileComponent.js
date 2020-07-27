@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { NotificationComponent, SurveysComponent } from "components";
 import { update, uploadImage, removeImage, signout } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
+import { capitalizeFirstLetter } from "helpers";
 
 function ProfileComponent({
 	user, currentUser, dbUser, bindLoggedIn, bindUser, bindDbUser
@@ -42,7 +43,7 @@ function ProfileComponent({
     	return null;
     }
     let data = {}
-    if (name) { data = Object.assign(data, { displayName: name })}
+    if (name) { data = Object.assign(data, { displayName: name.toLowerCase() })}
     if (profileUrl) {
     	data = Object.assign(data, { photoURL: profileUrl })
     	setBtnUpload("Upload");
@@ -144,7 +145,7 @@ function ProfileComponent({
 					<div className="form-group row">
 				    <label htmlFor="userName" className="col-sm-2 col-form-label">Name</label>
 				    <div className="col-sm-10">
-				      <input type="text" className="form-input" id="userName" value={name || ''} placeholder="Display name" onChange={e => handleChange("name", e.target.value)} />
+				      <input type="text" className="form-input" id="userName" value={capitalizeFirstLetter(name) || ''} placeholder="Display name" onChange={e => handleChange("name", e.target.value)} />
 				      {btnSave==="name" && updateElements()}
 				    </div>
 				  </div>

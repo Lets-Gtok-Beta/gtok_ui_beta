@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import { NotificationComponent, CheckSimilarityComponent } from "components";
+
 import { update, arrayAdd, arrayRemove } from "firebase_config";
+import { 
+	NotificationComponent, 
+	CheckSimilarityComponent
+} from "components";
+import { capitalizeFirstLetter } from "helpers";
 
 const SearchUserComponent = ({displayUser, currentUser}) => {
 	const history = useHistory();
@@ -10,6 +15,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	const [ result, setResult ] = useState({});
 	const [ openSimilarities, setOpenSimilarities ] = useState(false);
 	const [ selectedUser, setSelectedUser ] = useState({});
+	const defaultImage = "../logo192.png";
 
 	useEffect(() => {
 	  const isFollower = async () => {
@@ -49,29 +55,34 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
   }
 
   return (
-		<div className="col-xs-12 col-sm-3 col-md-2 mt-3">
-			<div className="card">
+		<div className="container col-xs-12 mt-3">
+			<div className="card p-2">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
-				<div className="profile-card-img">
-			  	<img src={displayUser.photoURL || "../logo192.png"} alt="Card img cap" />
-			  	<div className="img-bottom">
-			  		<button className="btn btn-sm btn-danger">
-				    {
-				    	isFollowerLoading ? <i className="fa fa-spinner"></i> : (
-					    	follower ? <small className="pull-right" onClick={e => unFollowUser()}>Unfollow</small> : <small className="pull-right" onClick={e => followUser()}>Follow</small>
-					    )
-				    }
-				    </button>
-			  	</div>
+				<div className="media profile_card_img">
+			  	<img className="mr-2" src={displayUser.photoURL || defaultImage} alt="Card img cap" />
+				  <div className="media-body">
+				    <h6 className="mt-0 text-camelcase">{capitalizeFirstLetter(displayUser.displayName) || "No name"}</h6>
+				    <p>
+				  		<button className={`btn btn-sm ${follower ? "btn-danger" : "btn-outline-danger"} btn_follow`}>
+					    {
+					    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
+						    	follower ? <small className="pull-right" onClick={e => unFollowUser()}>Unfollow</small> : <small className="pull-right" onClick={e => followUser()}>Follow</small>
+						    )
+					    }
+					    </button>
+					    <button className="btn btn-sm btn-outline-primary ml-2 btn_send_text" onClick={e => msgUser()}>
+					    	<small>Send Text</small>
+						  </button>
+				    </p>
+				  </div>
 			  </div>
 			  <div className="card-body">
-			    <h5 className="card-title">{displayUser.displayName || "No name"}</h5>
-			    <div>
+			  	<small>
+				  	Today, {displayUser.displayName} looks 90% similar with you.
 				    <button className="btn btn-link btn-sm pl-0" onClick={e => openModal(displayUser)}>
-				    Check similarities
+				    Click here to see similarities
 				    </button>
-			    	<i className="fa fa-envelope pull-right text-primary" onClick={e => msgUser()}></i>
-				  </div>
+				  </small>
 			  </div>
 			</div>
 			{openSimilarities && selectedUser && <CheckSimilarityComponent setOpenModal={setOpenSimilarities} currentUser={currentUser} selectedUser={selectedUser} />}

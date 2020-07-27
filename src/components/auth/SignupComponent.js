@@ -42,7 +42,7 @@ const SignupComponent = () => {
     	return;
     }
     setBtnSave("Working...");
-    let result = await signup({email, password, name, dob});
+    let result = await signup({email, password, name: name.toLowerCase(), dob});
     setBtnSave("Signup");
     if (result.status !== 200) {
     	setErrors(result.message);
