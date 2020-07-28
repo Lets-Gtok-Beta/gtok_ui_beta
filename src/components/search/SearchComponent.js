@@ -63,7 +63,7 @@ const SearchComponent = (props) => {
 			users = users.filter(u => u.id !== currentUser.id);
 			setUsers(users);			
 		} else {
-			readoutLoud("No search results found");
+			// readoutLoud("No search results found");
 		}
 	}
 

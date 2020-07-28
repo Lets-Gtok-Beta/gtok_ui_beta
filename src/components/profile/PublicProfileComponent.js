@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, withRouter, Link } from 'react-router-dom';
-import { connect } from "react-redux";
 
-import { NotificationComponent, SurveysComponent } from "components";
 import { getId } from "firebase_config";
-import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { capitalizeFirstLetter } from "helpers";
+import { CalendarComponent } from "components";
+import { CalendarChartData } from "constants/calendar";
 
-function ProfileComponent(props) {
+function PublicProfileComponent(props) {
 	const { currentUser } = props;
 	const userId = props.match.params.name;
 	const defaultImage = "../logo192.png";
@@ -26,11 +25,24 @@ function ProfileComponent(props) {
 			else setDisplayUser(user);
 			setLoading(false);
 		}
-		if (currentUser.id !== userId) {
-			getUser();
-		}
+		getUser();
 	}, [userId]);
   const history = useHistory();
+
+  const displayFollowers = async () => {
+  	if (!currentUser.premium) {
+	  	alert("Please upgrade to see followers.");
+	  	return;
+  	}
+  }
+
+  const msgUser = async () => {
+  	if (!currentUser.premium) {
+  		alert("Upgrade to premium to message others");
+  		return null;
+  	}
+  	history.push("/app/chats/new/"+displayUser.id);
+  }
 
 	return (
 	  <div className="container-fluid">
@@ -90,7 +102,7 @@ function ProfileComponent(props) {
 						</div>
 						<div className="">
 							Today, 0% similarity
-							
+							<CalendarComponent data={CalendarChartData} startDate="2020-07-01" />
 						</div>
 					</div>
 				</div>
@@ -99,4 +111,4 @@ function ProfileComponent(props) {
 	);
 }
 
-export default withRouter(ProfileComponent);
+export default withRouter(PublicProfileComponent);

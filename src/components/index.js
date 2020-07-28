@@ -6,10 +6,12 @@ import DeleteProfileComponent from "components/auth/DeleteProfileComponent";
 import AlertsComponent from "components/alerts/AlertsComponent";
 import HomeComponent from "components/home/HomeComponent";
 import DisplayComponent from "components/display_question/DisplayComponent";
-import ProfileComponent from "components/profile/ProfileComponent";
+import PrivateProfileComponent from "components/profile/PrivateProfileComponent";
+import PublicProfileComponent from "components/profile/PublicProfileComponent";
 import GraphsComponent from "components/graphs/GraphsComponent";
 import LineGraphComponent from "components/graphs/LineGraphComponent";
 import LineChartComponent from "components/graphs/LineChartComponent";
+import CalendarComponent from "components/graphs/CalendarComponent";
 import SurveysComponent from "components/surveys/SurveysComponent";
 import AddSurveyComponent from "components/surveys/AddSurveyComponent";
 import DisplaySurveyComponent from "components/surveys/DisplaySurveyComponent";
@@ -38,10 +40,12 @@ export {
 	AlertsComponent,
 	HomeComponent,
 	DisplayComponent,
-	ProfileComponent,
+	PrivateProfileComponent,
+	PublicProfileComponent,
 	GraphsComponent,
 	LineGraphComponent,
 	LineChartComponent,
+	CalendarComponent,
 	SurveysComponent,
 	AddSurveyComponent,
 	PaymentsComponent,

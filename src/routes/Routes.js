@@ -10,7 +10,8 @@ import {
 	AlertsComponent,
 	HomeComponent,
 	DisplayComponent,
-	ProfileComponent,
+	PublicProfileComponent,
+	PrivateProfileComponent,
 	GraphsComponent,
 	SurveysComponent,
 	PaymentsComponent,
@@ -45,7 +46,8 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app" component={LandingComponent} />
 		<AuthRoute exact path="/app/alerts" component={AlertsComponent} />
 		<AuthRoute exact path="/app/home" component={HomeComponent} />
-		<AuthRoute exact path="/app/profile" component={ProfileComponent} />
+		<AuthRoute exact path="/app/profile" component={PrivateProfileComponent} />
+		<AuthRoute exact path="/app/profile/:name" component={PublicProfileComponent} />
 		<AuthRoute exact path="/app/graphs" component={GraphsComponent} />
 		<AuthRoute exact path="/app/surveys" component={SurveysComponent} />
 		<AuthRoute exact path="/app/surveys/:id" component={DisplaySurveyComponent} />

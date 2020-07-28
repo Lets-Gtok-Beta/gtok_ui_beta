@@ -13,6 +13,8 @@ const HeaderComponent = ({currentUser}) => {
 			setMetaDetails(Metadata["/app/chats"])
 		} else if (path.includes("/app/surveys")) {
 			setMetaDetails(Metadata["/app/surveys"])
+		} else if (path.includes("/app/profile")) {
+			setMetaDetails(Metadata["/app/profile"])
 		} else {
 			setMetaDetails(Metadata[path || "default"]);
 		}

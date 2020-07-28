@@ -114,6 +114,7 @@ button:active {
 	height: 120px;
 	width: 120px;
 	border-radius: 50%;
+	object-fit: cover;
 }
 
 /* Notification */
@@ -303,12 +304,44 @@ button:active {
 	width: 69px;
 	height: 69px;
 	border-radius: 50%;
+	transition: all 0.3s;
 }
 
 .profile-card-img .img-bottom {
 	position: absolute;
 	bottom: 0;
 	right: 0;
+}
+
+.profile_card_img h6 a {
+	color: #000;
+	text-decoration: none;
+}
+
+.profile_card_big_img {
+	width: 100%;
+	z-index: 99;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: none;
+	background-color: rgba(0,0,0,0.9);
+	transition: all 0.3s;
+}
+
+.profile_card_big_img img {
+	width: 100% !important;
+	height: 125px !important;
+	object-fit: contain !important;
+	transition: all 0.3s !important;
+	transform: scale(1, 1) !important;
+}
+
+.profile_card_big_img img:active,
+.profile_card_big_img img:focus {
+	width: 100% !important;
+	height: 125px !important;
+	object-fit: contain !important;
 }
 
 .btn_follow small {

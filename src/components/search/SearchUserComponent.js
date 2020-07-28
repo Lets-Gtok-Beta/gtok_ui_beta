@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import { update, arrayAdd, arrayRemove } from "firebase_config";
 import { 
@@ -15,6 +15,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	const [ result, setResult ] = useState({});
 	const [ openSimilarities, setOpenSimilarities ] = useState(false);
 	const [ selectedUser, setSelectedUser ] = useState({});
+	const [ bigImg, setBigImg ] = useState('');
 	const defaultImage = "../logo192.png";
 
 	useEffect(() => {
@@ -58,10 +59,21 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 		<div className="container col-xs-12 mt-3">
 			<div className="card p-2">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
+				{console.log('bigImg', bigImg)}
+				{/*
+					bigImg &&
+					<div className="profile_card_big_img" onClick={e => setBigImg("")}>
+				  	<img className="mr-2" src={bigImg} alt="Card img cap" />
+					</div>*/
+				}
 				<div className="media profile_card_img">
-			  	<img className="mr-2" src={displayUser.photoURL || defaultImage} alt="Card img cap" />
+			  	<img className="mr-2" src={displayUser.photoURL || defaultImage} alt="Card img cap" onClick={e => setBigImg(displayUser.photoURL)} />
 				  <div className="media-body">
-				    <h6 className="mt-0 text-camelcase">{capitalizeFirstLetter(displayUser.displayName) || "No name"}</h6>
+				    <h6 className="mt-0 text-camelcase">
+					  	<Link to={"/app/profile/"+displayUser.id}>
+					    	{capitalizeFirstLetter(displayUser.displayName) || "No name"}
+					   	</Link>
+				    </h6>
 				    <p>
 				  		<button className={`btn btn-sm ${follower ? "btn-danger" : "btn-outline-danger"} btn_follow`}>
 					    {
