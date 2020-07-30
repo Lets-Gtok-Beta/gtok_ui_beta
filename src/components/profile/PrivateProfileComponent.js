@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { NotificationComponent, SurveysComponent } from "components";
+import { 
+	NotificationComponent,
+	SurveysComponent,
+	PermissionsComponent
+} from "components";
 import { update, uploadImage, removeImage, signout } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { capitalizeFirstLetter } from "helpers";
@@ -190,9 +194,11 @@ function PrivateProfileComponent({
 					<div>
 						<hr/>
 						<h4 className="text-center">Surveys</h4>
-						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails}/>
+						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails} />
 					</div> }
 					<hr/>
+					<PermissionsComponent currentUser={dbUser} />
+				  <hr/>
 				  <div className="text-center">
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
 					 </div>

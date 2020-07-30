@@ -65,15 +65,19 @@ export const googleSignin = () => {
 */
 
 /* Signup Code */
-export const signup = ({email, password, name, dob}) => {
+export const signup = ({email, password, data}) => {
   return auth.createUserWithEmailAndPassword(email, password)
 	  .then(async (res) => {
 	    if (res.user) {
 	    	let userJson = res.user.toJSON();
 	    	let user = Object.assign(userJson.providerData[0], {
 	    		followers: [],
-	    		displayName: name,
-	    		dob: dob
+	    		displayName: data["name"],
+	    		dob: data["dob"],
+	    		permissions: {
+	    			tnc: data["tnc"],
+	    			emailUpdates: data["emailUpdates"]
+	    		}
 	    	});
 	    	let firestoreStatus = await addToFirestore('users', user);
 	    	if (firestoreStatus) {
@@ -239,7 +243,7 @@ export const add = (collection, data) => {
 export const update = (collection, id, data) => {
 	data['updatedAt'] = new Date().getTime();
 	return firestore.collection(collection).doc(id).update(data)
-		.then(() => formatResult(200, 'Successfully updated'))
+		.then((res) => formatResult(200, 'Successfully updated', res))
 		.catch(e => formatResult(422, e.message));
 }
 

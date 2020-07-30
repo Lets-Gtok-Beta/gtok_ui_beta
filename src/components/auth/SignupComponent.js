@@ -10,6 +10,8 @@ const SignupComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
+  const [tnc, setTnc] = useState(false);
+  const [emailUpdates, setEmailUpdates] = useState(false);
 	const [btnSave, setBtnSave] = useState("Signup");
   const [error, setErrors] = useState("");
   const history = useHistory();
@@ -41,8 +43,18 @@ const SignupComponent = () => {
     	setErrors("Password & confirm password must be same");
     	return;
     }
+    if (!tnc) {
+    	setErrors("Agree to our Terms and conditions");
+    	return;
+    }
+    let data = {
+    	name: name.toLowerCase(),
+    	dob,
+    	tnc,
+    	emailUpdates
+    }
     setBtnSave("Working...");
-    let result = await signup({email, password, name: name.toLowerCase(), dob});
+    let result = await signup({email, password, data});
     setBtnSave("Signup");
     if (result.status !== 200) {
     	setErrors(result.message);
@@ -110,6 +122,22 @@ const SignupComponent = () => {
 	          placeholder="Re-enter password"
 	        />
 	        <br/>
+					<div className="d-flex">
+						<div className="custom-switch mb-2">
+						  <input type="checkbox" className="custom-control-input" id="tnc" name="tnc" onChange={e => setTnc(e.target.value==="on")} />
+						  <label className="custom-control-label text-left" htmlFor="tnc">
+						  	<small>Agree to our Terms and Conditions.</small>
+						  </label>
+						</div>
+					</div>
+					<div className="d-flex">
+						<div className="custom-switch mb-2">
+						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(e.target.value === "on")} />
+						  <label className="custom-control-label" htmlFor="emailUpdates">
+						  	<small>Would like to get email notifications.</small>
+						  </label>
+						</div>
+					</div>	        
 				  <div className="text-center">
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Signup'} onClick={e => handleForm(e)}>{btnSave}</button>
 				  </div>

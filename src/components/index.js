@@ -32,6 +32,7 @@ import ChatsComponent from "components/conversation/ChatsComponent";
 import SingleChatComponent from "components/conversation/SingleChatComponent";
 import CreateChatComponent from "components/conversation/CreateChatComponent";
 import SupportComponent from "components/support/SupportComponent";
+import PermissionsComponent from "components/permissions/PermissionsComponent";
 
 export {
 	LoginComponent,
@@ -67,5 +68,6 @@ export {
 	ChatsComponent,
 	SingleChatComponent,
 	CreateChatComponent,
-	SupportComponent
+	SupportComponent,
+	PermissionsComponent
 }

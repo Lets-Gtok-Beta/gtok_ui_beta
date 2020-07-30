@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, withRouter } from 'react-router-dom';
 
-import { NotificationComponent, ModalComponent, LineGraphComponent } from "components";
-import { Categories } from "constants/categories";
+import { NotificationComponent, ModalComponent } from "components";
+import { RangeCategories } from "constants/categories";
 
 const CheckSimilarityComponent = ({currentUser, setOpenModal, selectedUser}) => {
 	// const [ survey, setSurvey ] = useState("");
@@ -19,8 +19,16 @@ const CheckSimilarityComponent = ({currentUser, setOpenModal, selectedUser}) => 
 	const modalBody = () => {
 		return (
 			<div>
-				<button className="btn btn-outline-primary btn-sm">Today similarities</button>
-				<LineGraphComponent data={Categories} />
+				<button className="btn btn-outline-primary btn-sm mb-2">Today similarities</button>
+				{/*<LineGraphComponent data={Categories} />*/}
+				{
+					RangeCategories.map(category => (
+						<div>
+							<label htmlFor="customRange1">{category.id} - {category.value}%</label>
+							<input type="range" className="custom-range" id="customRange1" value={category.value} min="0" max="100"/>
+						</div>
+					))
+				}
 			</div>
 		);
 	}

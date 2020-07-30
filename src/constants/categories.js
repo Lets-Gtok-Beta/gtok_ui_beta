@@ -1,3 +1,30 @@
+export const RangeCategories = [
+	{
+		"id": "Food",
+		"value": 80
+	},
+	{
+		"id": "Outfit",
+		"value": 90
+	},
+	{
+		"id": "Face coverings",
+		"value": 80
+	},
+	{
+		"id": "Laziness (Emotion)",
+		"value": 20
+	},
+	{
+		"id": "Sad (Emotion)",
+		"value": 0
+	},
+	{
+		"id": "Happy (Emotion)",
+		"value": 70
+	}
+]
+
 export const Categories = [
   {
     "id": "Food",

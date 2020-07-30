@@ -14,6 +14,12 @@ const LoginComponent = ({bindReload}) => {
   const history = useHistory();
   const routes = [{route: "/signup", title: "Signup"}];
 
+	const handleKeyDown =(event) => {
+		if (event.keyCode === 13) {
+			handleForm(event);
+		}
+	}
+
   const handleForm = async (e) => {
     e.preventDefault();
 
@@ -40,7 +46,7 @@ const LoginComponent = ({bindReload}) => {
 	}
 */
   return (
-    <div className="App">
+    <div className="App" onKeyDown={e => handleKeyDown(e)}>
     	<StaticHeaderComponent routes={routes} />
     	<div className="mt-5 pt-3">
 	      <h4>Already a user?</h4>
@@ -53,6 +59,7 @@ const LoginComponent = ({bindReload}) => {
 	          type="email"
 	          className="form-input"
 	          placeholder="Enter email"
+	          autoFocus={true}
 	        />
 	        <input
 	          onChange={e => setPassword(e.target.value)}
