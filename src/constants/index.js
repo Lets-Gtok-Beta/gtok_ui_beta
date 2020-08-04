@@ -8,8 +8,8 @@ export const Metadata = {
 		description: "GTOK search is a place where you can find similaraties between people."
 	},
 	"/app/surveys": {
-		title: "GTOK | Surveys",
-		description: "GTOK surveys is a place where you can enter your details."
+		title: "GTOK | Similaraties",
+		description: "GTOK similaraties is a place where you can fill details."
 	},
 	"/app/graphs": {
 		title: "GTOK | Graphs",

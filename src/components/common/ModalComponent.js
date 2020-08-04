@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 
-const ModalComponent = ({header, subHeader="", body, save, close, modalWidth="lg"}) => {
+const ModalComponent = ({
+	header, subHeader="", body, save, close, beforeSave, modalWidth="lg"
+}) => {
 	const [ btnSave, setBtnSave ] = useState("Save");
 
 	const saveModal = async () => {
-		if (window.confirm("Are you sure to save?")) {		
-			setBtnSave("Saving...")
-			await save();
-			setBtnSave("Saved!")
+		let checksPassed = true;
+		if(!!beforeSave) {
+			checksPassed = await beforeSave();
 		}
+		if (checksPassed)
+			if (window.confirm("Are you sure to save?")) {		
+				setBtnSave("Saving...")
+				await save();
+				setBtnSave("Saved!")
+			}
 	}
 
 	return (

@@ -71,7 +71,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 				  <div className="media-body">
 				    <h6 className="mt-0 text-camelcase">
 					  	<Link to={"/app/profile/"+displayUser.id}>
-					    	{capitalizeFirstLetter(displayUser.displayName) || "No name"}
+					    	{(displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)) || "No name"}
 					   	</Link>
 				    </h6>
 				    <p>

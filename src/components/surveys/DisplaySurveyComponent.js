@@ -46,6 +46,16 @@ const DisplaySurveyComponent = (props) => {
 		));
 	}
 
+	const checkBeforeSave = () => {
+		if (surveyId !== "new" &&
+			survey.values.length !== Object.keys(response).length
+		) {
+			alert("All questions are mandatory.")
+			return false;
+		}
+		return true;
+	}
+
 	const onSave = async () => {
 		if (surveyId==="new" && !currentUser.admin) history.push('/error');
 		setBtnSave("Saving...");
@@ -63,18 +73,17 @@ const DisplaySurveyComponent = (props) => {
 			result = await add('surveys', data);
 		} else {
 			let data = {
-				user_email: currentUser.email,
+				userId: currentUser.id,
 				survey_id: surveyId
 			}
 			data = Object.assign(data, {response: response});
 			if (!!query.get("edit")) {
 				// await update("surveyResponses", surveyId, data);
 			} else {
-				result = await add("user_responses", data)
+				result = await add("survey_responses", data)
+				setResult(result);
 			}
 		}
-		setResult(result);
-		setBtnSave("Saved!");
 		// props.setRefresh(!props.refresh);
 		// onClose();
 	}
@@ -92,10 +101,10 @@ const DisplaySurveyComponent = (props) => {
 	return (
 		<div>
 	  	{
-	  		result.status ? <NotificationComponent result={result} setResult={setResult} /> : ''
+	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
 			{surveyId && 
-				<ModalComponent body={modalBody} header={surveyId === "new" ? "Add a new survey" : survey.title} subHeader={survey.sub_title || ""} save={onSave} close={onClose} btnSave={btnSave}/>
+				<ModalComponent body={modalBody} header={surveyId === "new" ? "Add a new survey" : survey.title} subHeader={survey.sub_title || ""} save={onSave} close={onClose} btnSave={btnSave} beforeSave={checkBeforeSave}/>
 			}
 		</div>
 	)

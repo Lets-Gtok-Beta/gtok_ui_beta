@@ -89,17 +89,6 @@ function PublicProfileComponent(props) {
 					    	{displayUser.email} &nbsp;
 					    </div>
 					  </div>
-						<div className="text-center">
-							<h6>
-								<b>Badges</b> &nbsp;
-								<span className="badge badge-secondary">{displayUser.badges && displayUser.badges.length}</span>
-							</h6>
-							{
-								displayUser.badges ? displayUser.badges.map((badge, idx) => (
-								  <button key={idx} className="btn btn-secondary btn-sm ml-2">{badge.title}</button>
-								)) : <b className="text-secondary">No badges achieved yet. Unlock badges by filling surveys.</b>
-							}
-						</div>
 						<div className="">
 							Today, 0% similarity
 							<CalendarComponent data={CalendarChartData} startDate="2020-07-01" />

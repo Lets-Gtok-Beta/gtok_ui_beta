@@ -48,7 +48,7 @@ const HeaderComponent = ({currentUser}) => {
 			      </li>
 						<li className="nav-item" title="Surveys">
 							<div className="nav-link">
-								<Link to="/app/surveys">Surveys</Link>
+								<Link to="/app/surveys">Similarities</Link>
 				      </div>
 			      </li>
 					  { currentUser.admin && (
@@ -59,11 +59,12 @@ const HeaderComponent = ({currentUser}) => {
 						    </li>
 			      	)
 			      }
+			    {/*
 						<li className="nav-item" title="Subscriptions">
 							<div className="nav-link">
 				        <Link to="/app/payments">Subscriptions</Link>
 				      </div>
-			      </li>
+			      </li>*/}
 			  	</ul>
 			  	<ul className="navbar-nav ml-auto">
 			      {

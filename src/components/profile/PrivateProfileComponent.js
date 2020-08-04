@@ -27,7 +27,6 @@ function PrivateProfileComponent({
   	path: "/app/profile",
   	isNewPath: true
   }
-  const badges = (dbUser.badges && dbUser.badges.sort((a,b) => a.id - b.id)) || [];
 
   // Window handlers
 	window.jQuery('[data-toggle="popover"]').popover();
@@ -179,21 +178,10 @@ function PrivateProfileComponent({
 				      <input type="file" className="form-control-plaintext d-none" id="staticImage" onChange={e => uploadFile(e.target.files[0])} accept="image/*" />
 				    </div>
 				  </div>
-					<div className="text-center">
-						<h6>
-							<b>Badges</b> &nbsp;
-							<span className="badge badge-secondary">{badges.length}</span>
-						</h6>
-						{
-							badges[0] ? badges.map((badge, idx) => (
-							  <button key={idx} className="btn btn-secondary btn-sm ml-2">{badge.title}</button>
-							)) : <b className="text-secondary">No badges achieved yet. Unlock badges by filling surveys.</b>
-						}
-					</div>
 					{ !dbUser.admin &&
 					<div>
 						<hr/>
-						<h4 className="text-center">Surveys</h4>
+						<h4 className="text-center">Similarities</h4>
 						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails} />
 					</div> }
 					<hr/>

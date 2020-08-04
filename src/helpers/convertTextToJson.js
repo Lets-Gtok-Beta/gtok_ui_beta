@@ -1,8 +1,9 @@
 const convertTextToJson = (text) => {
 	text = text.split('\n');
 	let jsonFormat = {
-		title: text[0],
-		sub_title: text[1],
+		title: text[0].trim(),
+		sub_title: text[1].trim(),
+		category: text[0].trim().toLowerCase().replace(/ /g, "_"),
 		values: []
 	};
 	let keys = text[2].split(',');
@@ -11,7 +12,7 @@ const convertTextToJson = (text) => {
 		let line = text[i].split(',');
 		let list = {}
 		for (let k in keys) {
-			list[keys[k]] = line[k];
+			list[keys[k]] = line[k].trim();
 		}
 		if (
 			list['type'] === 'radio' || 
