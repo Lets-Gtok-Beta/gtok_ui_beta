@@ -168,9 +168,6 @@ class ChatsComponent extends Component {
 						}
 					</div>
 					<div className="col-9">
-			      <h5 className="text-center">
-			      	If you're not a premium user, your chat will be erased completely after 6 hours.
-			      </h5>
 			      {
 			      	this.state.selectedConvo.id && <SingleChatComponent conversation={this.state.selectedConvo} currentUser={this.state.currentUser} />
 			      }
