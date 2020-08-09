@@ -54,11 +54,7 @@ const SignupComponent = () => {
     	emailUpdates
     }
     setBtnSave("Working...");
-    let createAuthUser = await signup({email, password, data});
-    if (createAuthUser.status !== 200) {
-    	setErrors(createAuthUser.message);
-    	return;
-    }    
+    await signup({email, password, data});
     let userData = {
   		email,
   		followers: [],
