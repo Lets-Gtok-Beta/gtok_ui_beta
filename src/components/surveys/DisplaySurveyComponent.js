@@ -76,7 +76,7 @@ const DisplaySurveyComponent = (props) => {
 				userId: currentUser.id,
 				survey_id: surveyId
 			}
-			data = Object.assign(data, {response: response});
+			data = Object.assign(data, {response: response, category: survey.category});
 			if (!!query.get("edit")) {
 				// await update("surveyResponses", surveyId, data);
 			} else {

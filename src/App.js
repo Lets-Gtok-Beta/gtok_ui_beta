@@ -9,7 +9,7 @@ import {
 } from "./firebase_config";
 import "./App.css";
 
-import { CookieNotification, NoInternetNotification } from "components";
+import { CookieNotification, NoInternetNotification, LoadingComponent } from "components";
 import { SetDbUser, SetUser, SetLoggedIn } from "store/actions";
 
 export const AuthContext = React.createContext();
@@ -55,7 +55,7 @@ class App extends Component {
 
 	render() {
 		return (
-			this.state.loading ? <div>Loading</div> :
+			this.state.loading ? <div><LoadingComponent /></div> :
 				<div>
 					<CookieNotification />
 					<NoInternetNotification />

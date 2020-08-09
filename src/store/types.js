@@ -7,3 +7,5 @@ export const SET_RELOAD = "SET_RELOAD";
 
 export const SET_CHAT_MESSAGES = "SET_CHAT_MESSAGES";
 export const SET_CONVOS = "SET_CONVOS";
+
+export const SET_SURVEYS_LIST = "SET_SURVEYS_LIST";

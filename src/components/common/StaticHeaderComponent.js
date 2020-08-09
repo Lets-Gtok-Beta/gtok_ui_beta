@@ -29,6 +29,7 @@ const StaticHeaderComponent = ({routes}) => {
 	        <Link to="/">
 	        	<img src={gtokLogo} alt="GTOK" style={{maxHeight: "26px", position: "relative", top: "-7px"}} />
 	        </Link>
+        	<span className="badge badge-danger beta-badge">Beta</span>
 				</div>
 				<button className="navbar-toggler navbar-toggler-right pull-right" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			    <span className="navbar-toggler-icon">

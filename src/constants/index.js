@@ -7,9 +7,9 @@ export const Metadata = {
 		title: "GTOK | Search",
 		description: "GTOK search is a place where you can find similaraties between people."
 	},
-	"/app/surveys": {
-		title: "GTOK | Similaraties",
-		description: "GTOK similaraties is a place where you can fill details."
+	"/app/similarities": {
+		title: "GTOK | Similarities",
+		description: "GTOK similarities is a place where you can fill details."
 	},
 	"/app/graphs": {
 		title: "GTOK | Graphs",
@@ -38,6 +38,9 @@ export const Metadata = {
 	"/signup": {
 		title: "GTOK | Signup",
 		description: "Signup into our lets GTOK application."
+	},
+	"/signup_success": {
+		title: "GTOK | Signup success"
 	},
 	"/forgot_password": {
 		title: "GTOK | Forgot password",

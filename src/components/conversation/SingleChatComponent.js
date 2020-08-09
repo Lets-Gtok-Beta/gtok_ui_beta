@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
 
+import { LoadingComponent } from "components";
 import { SetChatMessages } from "store/actions";
 
 class SingleChatComponent extends Component {	
@@ -151,7 +152,7 @@ class SingleChatComponent extends Component {
     		</div>
 	    	<div className="chat-window pt-2 pr-2">
 		    	{
-		    		this.state.loading ? <i className="fa fa-spinner"></i> : 
+		    		this.state.loading ? <LoadingComponent /> : 
 		    		this.state.messagesList[0] ? 
 		    			this.state.messagesList.map((msg, idx) => (
 			    			<div key={idx}>

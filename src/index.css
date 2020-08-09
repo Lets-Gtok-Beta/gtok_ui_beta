@@ -110,12 +110,44 @@ button:active {
   margin: 0 10px;
 }
 
-.profilePic {
+.beta-badge {
+	border-radius: 3px !important;
+  letter-spacing: 0.5px !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+}
+
+.profile-pic-section {
+	position: relative;
+	cursor: pointer;
+}
+
+.profile-pic-section .profilePic {
 	height: 120px;
 	width: 120px;
 	border-radius: 50%;
 	object-fit: cover;
+	transition: all 0.3s;
 }
+
+.profile-pic-section .hover-text {
+	display: none;
+	position: absolute;
+	top: 53px;
+	left: 18px;
+	color: #000;
+	transition: all 0.3s;
+}
+
+.profile-pic-section:hover .profilePic {
+	opacity: 0.1;
+	border: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.profile-pic-section:hover .hover-text {
+	display: inline;
+}
+
 
 /* Notification */
 .notification {

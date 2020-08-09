@@ -59,12 +59,11 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 		<div className="container col-xs-12 mt-3">
 			<div className="card p-2">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
-				{console.log('bigImg', bigImg)}
-				{/*
+				{
 					bigImg &&
 					<div className="profile_card_big_img" onClick={e => setBigImg("")}>
 				  	<img className="mr-2" src={bigImg} alt="Card img cap" />
-					</div>*/
+					</div>
 				}
 				<div className="media profile_card_img">
 			  	<img className="mr-2" src={displayUser.photoURL || defaultImage} alt="Card img cap" onClick={e => setBigImg(displayUser.photoURL)} />
@@ -90,9 +89,9 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 			  </div>
 			  <div className="card-body">
 			  	<small>
-				  	Today, {displayUser.displayName} looks 90% similar with you.
+				  	Checkout your today's similarities with {displayUser.displayName}.
 				    <button className="btn btn-link btn-sm pl-0" onClick={e => openModal(displayUser)}>
-				    Click here to see similarities
+				    Click here
 				    </button>
 				  </small>
 			  </div>

@@ -1,35 +1,96 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SupportComponent = ({currentUser}) => {
 	return (
 		<div className="container-fluid">
-			<h4 className="text-center">How our app works?</h4>
+			<h4 className="text-center text-secondary py-2">How our app works?</h4>
 			<div id="accordion">
 			  <div className="card">
 			    <div className="card-header" id="headingOne">
-		        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-		          Step 1 : Fill surveys (Or) Chat with personal bot
+		        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		          Step 1 : Similarities page
 		        </button>
 			    </div>
-
-			    <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-			      <div className="card-body">
-			        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+			    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+			      <div className="card-body p-4 text-justify text-secondary">
+			      	Various categories will be displayed in <Link to="/app/similarities"> similarities </Link> page. In each category, you need to answer few questions. Fill as many categories as possible, to get better similarity result.
 			      </div>
 			    </div>
 			  </div>
 			  <div className="card">
 			    <div className="card-header" id="headingTwo">
 		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-		          Step 2 : Earn badges & Unlock features
+		          Step 2 : Search page
 		        </button>
 			    </div>
 			    <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-			      <div className="card-body">
-			        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+			      <div className="card-body p-4 text-justify text-secondary">
+			      	You can search and find people here. Also, you can find similarities in various categories with others. <Link to="/app/search">Search</Link> here.
 			      </div>
 			    </div>
 			  </div>
+			  <div className="card">
+			    <div className="card-header" id="headingThree">
+		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		          Step 3 : Chat page
+		        </button>
+			    </div>
+			    <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+			      <div className="card-body p-4 text-justify text-secondary">
+			      	You can chat with others based on similarities. Lets get to know each other by saying 'Hi!'.
+			      </div>
+			    </div>
+			  </div>
+			  <div className="card">
+			    <div className="card-header" id="headingFour">
+		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+		          Step 4 : Profile page
+		        </button>
+			    </div>
+			    <div id="collapseFour" className="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+			      <div className="card-body p-4 text-justify text-secondary">
+			      	In profile page, you can update your profile information. You cannot edit email and date of birth. If you wish to update email or date of birth, send us a mail at <span className="btn btn-link p-0"> letsgtok@gmail.com</span>
+			      </div>
+			    </div>
+			  </div>
+			  <div className="card">
+			    <div className="card-header" id="headingFive">
+		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+		          Step 5 : Manage permissions
+		        </button>
+			    </div>
+			    <div id="collapseFive" className="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+			      <div className="card-body p-4 text-justify text-secondary">
+			      	You can manage your permissions in <Link to="/app/profile">profile</Link> page. You can set permissions like who can see your profile, similarities etc.
+			      </div>
+			    </div>
+			  </div>
+			  <div className="card">
+			    <div className="card-header" id="headingSix">
+		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+		          Gtok bot
+		        </button>
+			    </div>
+			    <div id="collapseSix" className="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+			      <div className="card-body p-4 text-justify text-secondary">
+			      	Gtok bot is an Artificial Intelligence bot where you can chat, follow, search, answer similarity questions in a simple way. Gtok bot can talk to you and helps you at anytime. Currently, GTOK bot is unavailable in Beta version.
+			      </div>
+			    </div>
+			  </div>
+			  <div className="card">
+			    <div className="card-header" id="headingSeven">
+		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+		          Any queries / Contact us
+		        </button>
+			    </div>
+			    <div id="collapseSeven" className="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
+			      <div className="card-body p-4 text-justify text-secondary">
+							We always happy to listen your feedback or queries. Drop us an email at <span className="btn btn-link p-0"> letsgtok@gmail.com </span>
+			      </div>
+			    </div>
+			  </div>
+			{/*
 			  <div className="card">
 			    <div className="card-header" id="headingThree">
 		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#stepThree" aria-expanded="true" aria-controls="stepThree">
@@ -58,18 +119,7 @@ const SupportComponent = ({currentUser}) => {
 			      </div>
 			    </div>
 			  </div>
-			  <div className="card">
-			    <div className="card-header" id="headingFour">
-		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-		          Step 4 : Unlock premium features
-		        </button>
-			    </div>
-			    <div id="collapseThree" className="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-			      <div className="card-body">
-			        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-			      </div>
-			    </div>
-			  </div>
+			*/}
 			</div>
 		</div>
 	)

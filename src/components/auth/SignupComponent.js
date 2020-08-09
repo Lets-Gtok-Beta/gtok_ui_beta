@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import { signup } from "firebase_config";
+import { signup, add } from "firebase_config";
 import { StaticHeaderComponent } from "components";
 
 const SignupComponent = () => {
@@ -11,7 +11,7 @@ const SignupComponent = () => {
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
   const [tnc, setTnc] = useState(false);
-  const [emailUpdates, setEmailUpdates] = useState(false);
+  const [emailUpdates, setEmailUpdates] = useState(true);
 	const [btnSave, setBtnSave] = useState("Signup");
   const [error, setErrors] = useState("");
   const history = useHistory();
@@ -54,13 +54,28 @@ const SignupComponent = () => {
     	emailUpdates
     }
     setBtnSave("Working...");
-    let result = await signup({email, password, data});
-    setBtnSave("Signup");
-    if (result.status !== 200) {
-    	setErrors(result.message);
+    let createAuthUser = await signup({email, password, data});
+    if (createAuthUser.status !== 200) {
+    	setErrors(createAuthUser.message);
     	return;
-    } 
-  	history.push("/login");
+    }    
+    let userData = {
+  		email,
+  		followers: [],
+  		displayName: name.toLowerCase(),
+  		dob,
+  		permissions: {
+  			tnc,
+  			emailUpdates
+  		}
+    }
+    let createDbUser = await add("users", userData);
+    setBtnSave("Signup");
+    if (createDbUser.status !== 200) {
+    	setErrors(createDbUser.message);
+    	return;
+    }
+  	history.push("/signup_success");
   };
 
 	/*
@@ -96,6 +111,7 @@ const SignupComponent = () => {
 	          type="date"
 	          className="form-input"
 	          placeholder="Date of birth"
+	          max="2003-01-01"
 	        />
 	        <input
 	          value={email}
@@ -124,7 +140,7 @@ const SignupComponent = () => {
 	        <br/>
 					<div className="d-flex">
 						<div className="custom-switch mb-2">
-						  <input type="checkbox" className="custom-control-input" id="tnc" name="tnc" onChange={e => setTnc(e.target.value==="on")} />
+						  <input type="checkbox" className="custom-control-input" id="tnc" name="tnc" onChange={e => setTnc(!tnc)} checked={tnc} />
 						  <label className="custom-control-label text-left" htmlFor="tnc">
 						  	<small>Agree to our Terms and Conditions.</small>
 						  </label>
@@ -132,7 +148,7 @@ const SignupComponent = () => {
 					</div>
 					<div className="d-flex">
 						<div className="custom-switch mb-2">
-						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(e.target.value === "on")} />
+						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
 						  <label className="custom-control-label" htmlFor="emailUpdates">
 						  	<small>Would like to get email notifications.</small>
 						  </label>

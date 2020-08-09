@@ -1,26 +1,30 @@
+export const SimilarityCategories = [
+	{
+		"id": "food_habits",
+		"text": "Food habits",
+		"value": 80
+	}
+]
+
 export const RangeCategories = [
 	{
-		"id": "Food",
+		"id": "food_habits",
+		"text": "Food habits",
 		"value": 80
 	},
 	{
-		"id": "Outfit",
+		"id": "outfit",
+		"text": "Outfit",
 		"value": 90
 	},
 	{
-		"id": "Face coverings",
+		"id": "face_coverings",
+		"text": "Face coverings",
 		"value": 80
 	},
 	{
-		"id": "Laziness (Emotion)",
-		"value": 20
-	},
-	{
-		"id": "Sad (Emotion)",
-		"value": 0
-	},
-	{
-		"id": "Happy (Emotion)",
+		"id": "emotion_happy",
+		"text": "Happy Day",
 		"value": 70
 	}
 ]

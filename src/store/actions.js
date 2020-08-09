@@ -5,7 +5,8 @@ import {
 	SET_LOGGED_IN,
 	SET_RELOAD,
 	SET_CHAT_MESSAGES,
-	SET_CONVOS
+	SET_CONVOS,
+	SET_SURVEYS_LIST
 } from "./types.js";
 
 export const SetDbUser = (content) => {
@@ -67,6 +68,15 @@ export const SetConvos = (content) => {
 		type: SET_CONVOS,
 		payload: {
 			convos: content
+		}
+	}
+}
+
+export const SetSurveysList = (content) => {
+	return {
+		type: SET_SURVEYS_LIST,
+		payload: {
+			surveys: content
 		}
 	}
 }

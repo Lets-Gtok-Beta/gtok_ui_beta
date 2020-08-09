@@ -11,8 +11,8 @@ const HeaderComponent = ({currentUser}) => {
 		let path = window.location.pathname;
 		if (path.includes("/app/chats")) {
 			setMetaDetails(Metadata["/app/chats"])
-		} else if (path.includes("/app/surveys")) {
-			setMetaDetails(Metadata["/app/surveys"])
+		} else if (path.includes("/app/similarities")) {
+			setMetaDetails(Metadata["/app/similarities"])
 		} else if (path.includes("/app/profile")) {
 			setMetaDetails(Metadata["/app/profile"])
 		} else {
@@ -32,6 +32,7 @@ const HeaderComponent = ({currentUser}) => {
     		<div className="navbar-brand mr-auto">
 	        <Link to="/app/profile">
 	        	<img src={gtokLogo} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
+	        	<span className="badge badge-danger beta-badge">Beta</span>
 	        </Link>
 				</div>
 				<button className="navbar-toggler navbar-toggler-right pull-right" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,9 +47,9 @@ const HeaderComponent = ({currentUser}) => {
 				        <Link to="/app/search">Search</Link>
 				      </div>
 			      </li>
-						<li className="nav-item" title="Surveys">
+						<li className="nav-item" title="Similarities">
 							<div className="nav-link">
-								<Link to="/app/surveys">Similarities</Link>
+								<Link to="/app/similarities">Similarities</Link>
 				      </div>
 			      </li>
 					  { currentUser.admin && (

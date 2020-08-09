@@ -101,9 +101,11 @@ function PrivateProfileComponent({
   }
 
   const deleteFile = async () => {
-  	await removeImage(profileUrl);
-  	setProfileUrl(defaultImage);
-    await updateDbUser({ photoURL: defaultImage });
+  	if (window.confirm("Are you sure you want to remove profile image?")) {		
+	  	await removeImage(profileUrl);
+	  	setProfileUrl(defaultImage);
+	    await updateDbUser({ photoURL: defaultImage });
+  	}
   }
 
   const displayFollowers = async () => {
@@ -128,11 +130,17 @@ function PrivateProfileComponent({
 				<div className="text-center mb-3">
 			    <label htmlFor="staticImage">
 			    	{
-			    		btnUpload === "Upload" ? <img 
-								src={profileUrl} 
-								alt="dp" 
-								className="profilePic"
-							/> : <div className="profilePic text-center"><i className="fa fa-spinner fa-spin"></i></div>
+			    		btnUpload === "Upload" ? 
+			    		<div className="profile-pic-section">
+				    		<img 
+									src={profileUrl} 
+									alt="dp" 
+									className="profilePic"
+								/>
+								<span className="hover-text">
+								<i className="fa fa-plus"></i> &nbsp;
+								Upload </span>
+							</div> : <div className="profilePic text-center"><i className="fa fa-spinner fa-spin"></i></div>
 			    	}
 					</label>
 					<span className={`icon-bg-dark ${defaultImage === profileUrl ? 'd-none' : ''}`} onClick={deleteFile} title="Delete image">

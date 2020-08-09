@@ -68,23 +68,12 @@ export const googleSignin = () => {
 export const signup = ({email, password, data}) => {
   return auth.createUserWithEmailAndPassword(email, password)
 	  .then(async (res) => {
-	    if (res.user) {
-	    	let userJson = res.user.toJSON();
-	    	let user = Object.assign(userJson.providerData[0], {
-	    		followers: [],
-	    		displayName: data["name"],
-	    		dob: data["dob"],
-	    		permissions: {
-	    			tnc: data["tnc"],
-	    			emailUpdates: data["emailUpdates"]
-	    		}
-	    	});
-	    	let firestoreStatus = await addToFirestore('users', user);
-	    	if (firestoreStatus) {
-		    	return formatResult(200, 'Successfully created');
-	    	}
-	    	return formatResult(422, 'Not created!');
-	    }
+	  	if (res.user && res.user.emailVerified === false) {
+	  		res.user.sendEmailVerification().then(() => {
+	  			console.log("Successfully email sent");
+	  		})
+	  	}
+	  	formatResult(200, "Successfully user created");
 	  })
     .catch(e => formatResult(422, e.message));
 }
@@ -227,9 +216,7 @@ export const removeImage = (imageUrl) => {
 export const addToFirestore = (collection, data) => {
 	data['createdAt'] = new Date().getTime();
 	data['updatedAt'] = new Date().getTime();
-	return firestore.collection(collection).add(data)
-		.then(res => formatResult(200, 'Successfully created', res))
-		.catch(e => formatResult(500, 'Something went wrong'))
+	return firestore.collection(collection).add(data);
 }
 
 export const add = (collection, data) => {

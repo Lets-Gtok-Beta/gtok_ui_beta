@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { getId, firestore } from "firebase_config";
 import { connect } from "react-redux";
 
-import { SingleChatComponent } from "components";
+import { SingleChatComponent, LoadingComponent } from "components";
 import { SetConvos } from "store/actions";
 import { truncateText } from "helpers";
 
@@ -122,7 +122,7 @@ class ChatsComponent extends Component {
 				<div className="media-body">
 					<h6 className="p-0 mb-0 pl-2">{con.groupName}</h6>
 					<small className="p-0 pl-2">
-					{con.lastMessage ? con.lastMessage : "No messages yet"}
+					{con.lastMessage ? truncateText(con.lastMessage, 25) : "No messages yet"}
 					</small>
 				</div>
 			</div>
@@ -157,7 +157,7 @@ class ChatsComponent extends Component {
 						<iframe height="430" width="350" src="https://bot.dialogflow.com/3b271305-b775-411d-a423-adbd77bfca40"></iframe>*/}
 				<div className="row">
 					<div className="col-3 sidebar p-0">
-						{ this.state.loading ? <i className="fa fa-spinner"></i> : 
+						{ this.state.loading ? <LoadingComponent /> : 
 							<ul className="conversation-list p-0">
 								{ this.state.convos && this.state.convos.map((con, idx) => (
 									<li onClick={e => this.selectConvo(con)} key={idx} className={`${con.id === this.state.convoId ? "active" : ""}`}>
@@ -168,9 +168,6 @@ class ChatsComponent extends Component {
 						}
 					</div>
 					<div className="col-9">
-			      <h5 className="text-center">
-			      	If you're not a premium user, your chat will be erased completely after 6 hours.
-			      </h5>
 			      {
 			      	this.state.selectedConvo.id && <SingleChatComponent conversation={this.state.selectedConvo} currentUser={this.state.currentUser} />
 			      }

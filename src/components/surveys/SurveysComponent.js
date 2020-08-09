@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from 'react-router-dom';
-import { get, getQuery, remove, update, firestore } from "firebase_config";
-import { NotificationComponent} from "components";
+import { connect } from "react-redux";
 
-const SurveysComponent = ({currentUser, redirectTo={}}) => {
+import { get, getQuery, remove, update, firestore } from "firebase_config";
+import { NotificationComponent, LoadingComponent } from "components";
+import { SetSurveysList } from "store/actions";
+
+const SurveysComponent = ({
+	currentUser, redirectTo={}, surveysList, bindSurveysList
+}) => {
 	const [ result, setResult ] = useState({});
-	const [ surveysList, setSurveysList ] = useState([]);
 	const [ filledSurveysList, setFilledSurveysList ] = useState([]);
 	const [ refresh, setRefresh ] = useState(false);
+	const [ loading, setLoading ] = useState(true);
 	const history = useHistory();
 
 	useEffect(() => {
 		window.jQuery('[data-toggle="popover"]').popover();
-		getSurveys();
 		async function getFilledSurveys() {
 			let responses = await getQuery(firestore.collection('survey_responses').where("userId", "==", currentUser.id).get());
 			let surveyIds = [];
@@ -20,28 +24,38 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
 				surveyIds.push(r.survey_id);
 			}
 			setFilledSurveysList(surveyIds);
+			setLoading(false);
 		}
 		getFilledSurveys();
 	}, [refresh, currentUser]);
 
 	const getSurveys = async () => {
-		let surveys = await get("surveys");
-		setSurveysList(surveys.sort((a,b) => a.createdAt - b.createdAt));
+		let surveys = [];
+		if (currentUser.admin) {
+			surveys = await get("surveys");
+		} else {
+			surveys = await getQuery(
+				firestore.collection('surveys').where("active", "==", true).get()
+			);
+		}
+		bindSurveysList(surveys.sort((a,b) => a.createdAt - b.createdAt));
+		setLoading(false);
 	}
+	if (!surveysList[0]) getSurveys();
 
 	const openSurveyModal = async (id, survey={}) => {
 		if (isSurveyFilled(id) && !currentUser.admin && id !== "new") {
 			return alert(survey.title + " similarity is completed. Try another category.")
 		}
 		history.push({
-			pathname: '/app/surveys/'+id,
+			pathname: '/app/similarities/'+id,
 			state: { redirectTo }
 		});
 	}
 
 	const editSurvey = async (id) => {
 		history.push({
-			pathname: '/app/surveys/'+id,
+			pathname: '/app/similarities/'+id,
 			search: `?edit=true`
 		});
 	}
@@ -77,6 +91,7 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
       	To compute similarity scale, you need to answer few questions in each category. &nbsp;
       	<i className="fa fa-info-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories include Personal, Daily needs, Profession, Help, Fashion, Food habits, Mental health, Sexual health (18+), Normal health."></i> <br/>
       </h6>
+	  	{ loading && <LoadingComponent />	}
       {	currentUser.admin && 
       	<div className="d-flex align-content-end mt-4">
 				  <button className="btn btn-danger" onClick={e => openSurveyModal('new')}>
@@ -90,7 +105,7 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
 				</div>
       }
       <div className="d-flex">
-  		{surveysList.map((survey, idx) => {
+  		{surveysList && surveysList.map((survey, idx) => {
   			return (!currentUser.admin) ? survey.active && (
 					<div key={idx}>
 			      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id, survey)} data-target="#modal" data-toggle="modal">
@@ -122,4 +137,18 @@ const SurveysComponent = ({currentUser, redirectTo={}}) => {
   );
 };
 
-export default SurveysComponent;
+const mapStateToProps = (state) => {
+	const { surveysList } = state.surveys;
+	return { surveysList };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindSurveysList: (content) => dispatch(SetSurveysList(content))
+	}
+}
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(SurveysComponent);

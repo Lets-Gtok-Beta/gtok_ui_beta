@@ -1,6 +1,7 @@
 import LoginComponent from "components/auth/LoginComponent";
 import LogoutComponent from "components/auth/LogoutComponent";
 import SignupComponent from "components/auth/SignupComponent";
+import SignupSuccessComponent from "components/auth/SignupSuccessComponent";
 import ForgotPasswordComponent from "components/auth/ForgotPasswordComponent";
 import DeleteProfileComponent from "components/auth/DeleteProfileComponent";
 import AlertsComponent from "components/alerts/AlertsComponent";
@@ -33,10 +34,12 @@ import SingleChatComponent from "components/conversation/SingleChatComponent";
 import CreateChatComponent from "components/conversation/CreateChatComponent";
 import SupportComponent from "components/support/SupportComponent";
 import PermissionsComponent from "components/permissions/PermissionsComponent";
+import LoadingComponent from "components/common/LoadingComponent";
 
 export {
 	LoginComponent,
 	SignupComponent,
+	SignupSuccessComponent,
 	DeleteProfileComponent,
 	AlertsComponent,
 	HomeComponent,
@@ -69,5 +72,6 @@ export {
 	SingleChatComponent,
 	CreateChatComponent,
 	SupportComponent,
-	PermissionsComponent
+	PermissionsComponent,
+	LoadingComponent
 }

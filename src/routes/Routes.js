@@ -7,6 +7,7 @@ import {
 	LoginComponent,
 	LogoutComponent,
 	SignupComponent,
+	SignupSuccessComponent,
 	AlertsComponent,
 	HomeComponent,
 	DisplayComponent,
@@ -40,6 +41,7 @@ export const Routes = (props) => (
 		<Route path="/login" component={LoginComponent} />
 		<Route path="/logout" component={LogoutComponent} />
 		<Route exact path="/signup" component={SignupComponent} />
+		<Route exact path="/signup_success" component={SignupSuccessComponent} />
 		<Route exact path="/forgot_password" component={ForgotPasswordComponent} />
 		<Route exact path="/profile_deleted" component={DeleteProfileComponent} />
 		<Route exact path="/error" component={ErrorComponent} />
@@ -49,8 +51,8 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/profile" component={PrivateProfileComponent} />
 		<AuthRoute exact path="/app/profile/:name" component={PublicProfileComponent} />
 		<AuthRoute exact path="/app/graphs" component={GraphsComponent} />
-		<AuthRoute exact path="/app/surveys" component={SurveysComponent} />
-		<AuthRoute exact path="/app/surveys/:id" component={DisplaySurveyComponent} />
+		<AuthRoute exact path="/app/similarities" component={SurveysComponent} />
+		<AuthRoute exact path="/app/similarities/:id" component={DisplaySurveyComponent} />
 		<AuthRoute exact path="/app/payments" component={PaymentsComponent} />
 		<AuthRoute exact path="/app/search" component={SearchComponent} />
 		<AuthRoute exact path="/app/search/:id" component={CheckSimilarityComponent} />
