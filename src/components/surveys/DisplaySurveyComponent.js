@@ -42,15 +42,19 @@ const DisplaySurveyComponent = (props) => {
 	    <textarea className="survey-textbox" rows={15} placeholder="Survey details..." onChange={e => setSurveyText(e.target.value)}></textarea>
     </div> : 
 		survey && survey.values && survey.values.map((val, idx) => (
-			<FormFieldsComponent ques={val} key={idx} response={response} setResponse={setResponse}/>
+			<FormFieldsComponent ques={val} key={val} response={response} setResponse={setResponse}/>
 		));
 	}
 
 	const checkBeforeSave = () => {
+		if (!surveyText) {
+			alert("No text found");
+			return false;
+		}
 		if (surveyId !== "new" &&
 			survey.values.length !== Object.keys(response).length
 		) {
-			alert("All questions are mandatory.")
+			alert("All questions are mandatory. If you don't know any answer, write N/A");
 			return false;
 		}
 		return true;
@@ -85,7 +89,7 @@ const DisplaySurveyComponent = (props) => {
 			}
 		}
 		// props.setRefresh(!props.refresh);
-		// onClose();
+		onClose();
 	}
 
 	const onClose = () => {
@@ -95,7 +99,7 @@ const DisplaySurveyComponent = (props) => {
 			history.push(redirectTo.path);
 			return;
 		}
-		history.push("/app/surveys");
+		history.push("/app/similarities");
 	}
 
 	return (

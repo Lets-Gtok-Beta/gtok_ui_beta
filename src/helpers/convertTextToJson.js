@@ -3,12 +3,12 @@ const convertTextToJson = (text) => {
 	let jsonFormat = {
 		title: text[0].trim(),
 		sub_title: text[1].trim(),
-		category: text[0].trim().toLowerCase().replace(/ /g, "_"),
+		category: text[2].trim(),
 		values: []
 	};
-	let keys = text[2].split(',');
+	let keys = text[3].split(',');
 
-	for (var i = 3; i < text.length; i++) {
+	for (var i = 4; i < text.length; i++) {
 		let line = text[i].split(',');
 		let list = {}
 		for (let k in keys) {
