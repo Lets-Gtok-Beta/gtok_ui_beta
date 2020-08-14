@@ -89,7 +89,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 			  </div>
 			  <div className="card-body">
 			  	<small>
-				  	Checkout your today's similarities with {displayUser.displayName}.
+				  	See your similarities with {displayUser.displayName}.
 				    <button className="btn btn-link btn-sm pl-0" onClick={e => openModal(displayUser)}>
 				    Click here
 				    </button>

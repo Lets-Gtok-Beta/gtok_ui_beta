@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import { get, getQuery, firestore } from "firebase_config";
 import { ModalComponent } from "components";
-import { SimilarityCategories } from "constants/categories";
 import { SimilarityChecker } from "lib/api/SimilarityChecker";
 import { SetSurveysList } from "store/actions";
 
@@ -12,25 +11,30 @@ const CheckSimilarityComponent = ({
 	currentUser, setOpenModal, selectedUser, surveysList, bindSurveysList
 }) => {
 	const [ similarityResult, setSimilarityResult ] = useState();
+	const [ similarityDescription, setSimilarityDescription ] = useState();
+	const [ selectedSurveyTitle, setSelectedSurveyTitle ] = useState("General");
 	const history = useHistory();
 
 	useEffect(() => {
 		window.jQuery("#modal").modal("show");
 	}, []);
 
-	const getSimilarities = async (category) => {
+	const getSimilarities = async (survey) => {
 		let responses = await getQuery(
-			firestore.collection("survey_responses").where("category", "==", category.id).where("userId", "in", [currentUser.id, selectedUser.id]).get()
+			firestore.collection("survey_responses").where("category", "==", survey.category).where("userId", "in", [currentUser.id, selectedUser.id]).get()
 		);
-		console.log("responses", responses)
 		let result = "";
 		if (responses.length === 2) {
 			result = await SimilarityChecker(responses);
 		} else {
-			result = selectedUser.displayName + " has not updated " + category.text + " yet";
+			result = selectedUser.displayName + " has not updated " + survey.title + " yet";
 		}
-		setSimilarityResult(result)
+		setSimilarityResult(result.common);
+		setSimilarityDescription(result.description);
+		setSelectedSurveyTitle(survey.title);
 	}
+
+	getSimilarities({category: "general", title: "General"});
 
 	const getSurveys = async () => {
 		let surveys = [];
@@ -50,31 +54,34 @@ const CheckSimilarityComponent = ({
 		return (
 			<div>
 				{/*<LineGraphComponent data={Categories} />*/}
+				<div className="d-flex flex-row">
 				{
-					SimilarityCategories.map(category => (
-						<div key={category.id}>
-							<button className="btn btn-sm btn-outline-primary" onClick={e => getSimilarities(category)}>{category.text}</button>
-							{similarityResult && typeof(similarityResult) !== "string" ?
-								(
-									<div>
-										You both similar in {similarityResult.length} {category.text.toLowerCase()}. <br/>
-										{
-										similarityResult.map(sim => (
-											<div>{sim.key} - {sim.value}</div>
-										))}
-									</div>
-								) : (
-									<div className="text-center pt-2">
-										{similarityResult}
-									</div>
-								)
-							}
-						{/*
-							<label htmlFor="customRange1">{category.text} - {category.value}%</label>
-							<input type="range" className="custom-range" id="customRange1" value={category.value} min="0" max="100"/>
-						*/}
-						</div>
+					surveysList.map((survey, idx) => (
+						<button className={`btn btn-sm ${selectedSurveyTitle === survey.title ? "btn-primary" : "btn-outline-primary"}`} onClick={e => getSimilarities(survey)} key={idx}>{survey.title}</button>
 					))
+				}
+				</div>
+				{/*
+					<label htmlFor="customRange1">{category.text} - {category.value}%</label>
+					<input type="range" className="custom-range" id="customRange1" value={category.value} min="0" max="100"/>
+				*/}
+				{similarityResult && typeof(similarityResult) !== "string" ?
+					(
+						<div className="mt-3">
+							<h6 className="text-primary text-center" dangerouslySetInnerHTML={{__html: similarityDescription}}>
+							</h6>
+							<br/>
+							<h6 className="text-center font-bold">Complete details</h6>
+							{
+							similarityResult.map(sim => (
+								<div key={sim.key}>{sim.key} - {sim.value}</div>
+							))}
+						</div>
+					) : (
+						<div className="text-center pt-2">
+							{similarityResult}
+						</div>
+					)
 				}
 			</div>
 		);
@@ -88,7 +95,7 @@ const CheckSimilarityComponent = ({
 	}
 	return (
 		<div>
-			<ModalComponent body={modalBody} header={`Your similarities with ${selectedUser.displayName}`} modelWidth="xl" close={onClose}/>
+			<ModalComponent body={modalBody} header={`Similarities with ${selectedUser.displayName}`} modelWidth="xl" close={onClose}/>
 		</div>
 	)
 }

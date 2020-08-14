@@ -10,22 +10,22 @@ const FormFieldsComponent = ({ques, response, setResponse}) => {
 	}
 
 	let typeGeneral = () => (
-    <input type={ques.type} className="form-control survey-input" id="typeGeneral" placeholder="Your response here..." required={ques.required === "true"} onChange={e => setResponse({...response, [ques.qId]: e.target.value})}/>
+    <input type={ques.type} className="form-control survey-input" id="typeGeneral" placeholder="Your response here..." required={ques.required === "true"} onChange={e => setResponse({...response, [ques.question]: e.target.value})}/>
 	);
 	let typeFile = () => (
-    <input type="file" className="form-control survey-input" id="typeFile" required={ques.required === "true"} onChange={e => setResponse({...response, [ques.qId]: e.target.value})}/>
+    <input type="file" className="form-control survey-input" id="typeFile" required={ques.required === "true"} onChange={e => setResponse({...response, [ques.question]: e.target.value})}/>
 	);
 	let typeRadio = () => (
-		<div>
+		<div className="row pl-3 pr-3">
 			{
 				ques.value.map((val, idx) => (
-					<div className="form-check" key={idx}>
-					  <input className="form-check-input" type="radio" name={ques.qId} id={ques.qId+"."+idx} value={val} onChange={e => setResponse({...response, [ques.qId]: e.target.value})} />
+					<div className="form-check col-xs-12 col-sm-6 col-md-4" key={idx}>
+					  <input className="form-check-input" type="radio" name={ques.qId} id={ques.qId+"."+idx} value={val} onChange={e => setResponse({...response, [ques.question]: e.target.value})} />
 					  <label className="form-check-label" htmlFor={ques.qId+"."+idx}>
 						  {val ? val : (<div className="d-flex flex-row align-items-center"> 
 						  	<div className="">Other</div>
 						  	<div className="pl-2">
-						  		<input type="text" className="form-control survey-input" placeholder="Other" onChange={e => setResponse({...response, [ques.qId]: e.target.value})}/>
+						  		<input type="text" className="form-control survey-input" placeholder="Other" onChange={e => setResponse({...response, [ques.question]: (e.target.value && e.target.value.toLowerCase().trim())})}/>
 						  	</div>
 						  </div>) }
 					  </label>
@@ -35,16 +35,16 @@ const FormFieldsComponent = ({ques, response, setResponse}) => {
 		</div>
 	);
 	let typeCheckbox = () => (
-		<div>
+		<div className="row pl-3 pr-3">
 			{
 				ques.value.map((val, idx) => (
-					<div className="form-check" key={idx}>
-					  <input className="form-check-input" type="checkbox" name={ques.qId} id={ques.qId+"."+idx} value={val} onChange={e => setArrayValues(ques.qId, e.target.value, idx)}/>
+					<div className="form-check col-xs-12 col-sm-6 col-md-4" key={idx}>
+					  <input className="form-check-input" type="checkbox" name={ques.qId} id={ques.qId+"."+idx} value={val} onChange={e => setArrayValues(ques.question, e.target.value, idx)}/>
 					  <label className="form-check-label" htmlFor={ques.qId+"."+idx}>
 						  {val ? val : (<div className="d-flex flex-row align-items-center"> 
 						  	<div className="">Other</div>
 						  	<div className="pl-2">
-						  		<input type="text" className="form-control survey-input" placeholder="Other" onChange={e => setArrayValues(ques.qId, e.target.value, idx)}/> 
+						  		<input type="text" className="form-control survey-input" placeholder="Other" onChange={e => setArrayValues(ques.question, e.target.value.toLowerCase().trim(), idx)}/> 
 						  	</div>
 						  </div>) }
 					  </label>
@@ -55,7 +55,7 @@ const FormFieldsComponent = ({ques, response, setResponse}) => {
 	);
 	let typeDropdown = () => (
 		<div>
-			<select className="custom-select" onChange={e => setResponse({...response, [ques.qId]: e.target.value})}>
+			<select className="custom-select" onChange={e => setResponse({...response, [ques.question]: e.target.value})}>
 			  <option defaultValue>Select value</option>
 				{
 					ques.value.map((val, idx) => (

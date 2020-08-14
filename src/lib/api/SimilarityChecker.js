@@ -15,12 +15,13 @@ SimilarityChecker
 	b. If the output is checkbox, then - selected options must match exactly
 	c. If the output is text, then - context must match
 */
-import _ from "lodash";
 
 export const SimilarityChecker = (input=[]) => {
 	let res1 = input[0] && input[0].response;
 	let res2 = input[1] && input[1].response;
 	let common = [];
+	let description = "";
+
 	for (let i in res1) {
 		if (typeof(res1[i]) === "string") {
 			if (res1[i] === res2[i]) {
@@ -30,14 +31,20 @@ export const SimilarityChecker = (input=[]) => {
 			// let atleastOne = false;
 			let res1i = [];
 			let res2i = [];
-			for (let j in res1[i]) {
-				res1i.push(res1[i][j]);
+			for (let val in res1[i]) {
+				res1i.push(res1[i][val]);
 			}
-			for (let j in res2[i]) {
-				res2i.push(res2[i][j]);
+			for (let val in res2[i]) {
+				// res2i.push(res2[i][j]);
+				let com = res1i.find(ans => ans === res2[i][val]);
+				if (!!com) res2i.push(com);
 			}
-			common.push({"key": [i-1], "value": _.isEqual(res1i.sort(), res2i.sort())});
+			if (res2i[0]) {
+				res2i = res2i.sort().toString().replace(/,/g, ", ");
+				description += res2i + ", ";
+				common.push({"key": i, "value": res2i});
+			}
 		}
 	}
-	return common;
+	return {common, description};
 }

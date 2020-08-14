@@ -91,7 +91,6 @@ const SurveysComponent = ({
       	To compute similarity scale, you need to answer few questions in each category. &nbsp;
       	<i className="fa fa-info-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories include Personal, Daily needs, Profession, Help, Fashion, Food habits, Mental health, Sexual health (18+), Normal health."></i> <br/>
       </h6>
-	  	{ loading && <LoadingComponent />	}
       {	currentUser.admin && 
       	<div className="d-flex align-content-end mt-4">
 				  <button className="btn btn-danger" onClick={e => openSurveyModal('new')}>
@@ -104,35 +103,43 @@ const SurveysComponent = ({
 					</Link>
 				</div>
       }
-      <div className="d-flex">
-  		{surveysList && surveysList.map((survey, idx) => {
-  			return (!currentUser.admin) ? survey.active && (
-					<div key={idx}>
-			      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id, survey)} data-target="#modal" data-toggle="modal">
-						  {survey.title}
-						</button> &nbsp;
-					</div>
-	  		) : (
-					<div key={idx} className="mt-2 ml-5">
-					  <input className="form-check-input" type="checkbox" name={idx} id={survey.id} checked={survey.active} onChange={e => setSurveyStatus(survey)}/>
-					  <label htmlFor={idx}>
-				      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id, survey)} data-target="#modal" data-toggle="modal">
-							  {survey.title}
-							</button> &nbsp;
-							<i className={`fa fa-pencil`} onClick={e => editSurvey(survey.id)} title="Edit survey"></i>
-							&nbsp;
-							<i className={`fa fa-trash`} onClick={e => removeSurvey(survey.id)} title="Remove survey"></i>
-						</label>
-		      	{survey.mandatory && <i className="fa fa-star text-danger"></i>}
-					</div>
-	  		)
-	  	})}
-	  	</div>
-	  	<br/>
-    	<small className="text-left">
-    		Note : &nbsp;
-      	<i className="fa fa-star text-danger" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Mandatory survey. You need to complete this to proceed further."></i>
-      </small>
+      <div className="container mt-4">
+	      <div className="row">
+		  		{surveysList && surveysList.map((survey, idx) => {
+		  			return (!currentUser.admin) ? survey.active && (
+							<div key={idx}>
+					      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id, survey)} data-target="#modal" data-toggle="modal">
+								  {survey.title}
+								</button> &nbsp;
+							</div>
+			  		) : (
+							<div key={idx} className="col-xs-12 col-sm-6">
+								<div className="">
+								  <input className="form-check-input" type="checkbox" name={idx} id={survey.id} checked={survey.active} onChange={e => setSurveyStatus(survey)}/>
+								  <label htmlFor={idx}>
+							      <button className={`btn btn-sm ${isSurveyFilled(survey.id) ? "btn-primary" : "btn-outline-primary"}`} onClick={e => openSurveyModal(survey.id, survey)} data-target="#modal" data-toggle="modal">
+										  {survey.title}
+										</button> &nbsp;
+										<button className="btn btn-sm btn-primary" onClick={e => editSurvey(survey.id)} title="Edit survey">
+										<i className="fa fa-pencil"></i>
+										</button>
+										&nbsp;
+										<button className="btn btn-sm btn-danger" onClick={e => removeSurvey(survey.id)} title="Remove survey">
+											<i className="fa fa-trash"></i>
+										</button>
+									</label>
+					      	{survey.mandatory && 
+					      		<button className="btn btn-sm">
+						      		<i className="fa fa-star text-danger"></i>
+						      	</button>
+					      	}
+					      </div>
+							</div>
+			  		)
+			  	})}
+		  	</div>
+		  </div>
+	  	{ loading && <LoadingComponent />	}
     </div>
   );
 };
