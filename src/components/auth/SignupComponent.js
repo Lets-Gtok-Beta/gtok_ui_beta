@@ -10,12 +10,12 @@ const SignupComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
-  const [tnc, setTnc] = useState(false);
+  // const [tnc, setTnc] = useState(false);
   const [emailUpdates, setEmailUpdates] = useState(true);
-	const [btnSave, setBtnSave] = useState("Signup");
+	const [btnSave, setBtnSave] = useState("Submit");
   const [error, setErrors] = useState("");
   const history = useHistory();
-  const routes = [{route: "/login", title: "Login"}];
+  const routes = [];
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -43,17 +43,16 @@ const SignupComponent = () => {
     	setErrors("Password & confirm password must be same");
     	return;
     }
-    if (!tnc) {
-    	setErrors("Agree to our Terms and conditions");
-    	return;
-    }
+    // if (!tnc) {
+    // 	setErrors("Agree to our Terms and conditions");
+    // 	return;
+    // }
     let data = {
     	name: name.toLowerCase(),
     	dob,
-    	tnc,
     	emailUpdates
     }
-    setBtnSave("Working...");
+    setBtnSave("Submitting...");
     await signup({email, password, data});
     let userData = {
   		email,
@@ -61,12 +60,12 @@ const SignupComponent = () => {
   		displayName: name.toLowerCase(),
   		dob,
   		permissions: {
-  			tnc,
+  			tnc: true,
   			emailUpdates
   		}
     }
     let createDbUser = await add("users", userData);
-    setBtnSave("Signup");
+    setBtnSave("Submit");
     if (createDbUser.status !== 200) {
     	setErrors(createDbUser.message);
     	return;
@@ -89,7 +88,7 @@ const SignupComponent = () => {
     <div className="App">
     	<StaticHeaderComponent routes={routes} />
     	<div className="mt-5 pt-3">
-		    <h4>New user</h4>
+		    <h4>Signup</h4>
       {error ? <div className="alert alert-danger">{error}</div> : ''}
 	      <div className="form">
 	        <input
@@ -134,6 +133,7 @@ const SignupComponent = () => {
 	          placeholder="Re-enter password"
 	        />
 	        <br/>
+	      {/*
 					<div className="d-flex">
 						<div className="custom-switch mb-2">
 						  <input type="checkbox" className="custom-control-input" id="tnc" name="tnc" onChange={e => setTnc(!tnc)} checked={tnc} />
@@ -142,6 +142,7 @@ const SignupComponent = () => {
 						  </label>
 						</div>
 					</div>
+				*/}
 					<div className="d-flex">
 						<div className="custom-switch mb-2">
 						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
@@ -149,9 +150,9 @@ const SignupComponent = () => {
 						  	<small>Would like to get email notifications.</small>
 						  </label>
 						</div>
-					</div>	        
+					</div>
 				  <div className="text-center">
-					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Signup'} onClick={e => handleForm(e)}>{btnSave}</button>
+					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
 				  </div>
 	      </div>
 	    </div>
