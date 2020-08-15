@@ -89,8 +89,9 @@ const SignupComponent = () => {
     	<StaticHeaderComponent routes={routes} />
     	<div className="mt-5 pt-3">
 		    <h4>Signup</h4>
+		    <caption>Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</caption>
       {error ? <div className="alert alert-danger">{error}</div> : ''}
-	      <div className="form">
+	      <div className="form pt-4">
 	        <input
 	          value={name}
 	          onChange={e => setName(e.target.value)}
