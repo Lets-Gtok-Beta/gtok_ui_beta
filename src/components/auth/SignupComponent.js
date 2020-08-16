@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from 'react-router-dom';
 
 import { signup, add } from "firebase_config";
 import { StaticHeaderComponent } from "components";
@@ -15,7 +15,6 @@ const SignupComponent = () => {
 	const [btnSave, setBtnSave] = useState("Submit");
   const [error, setErrors] = useState("");
   const history = useHistory();
-  const routes = [];
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -86,7 +85,7 @@ const SignupComponent = () => {
 
   return (
     <div className="App">
-    	<StaticHeaderComponent routes={routes} />
+    	<StaticHeaderComponent />
     	<div className="mt-5 pt-3">
 		    <h4>Signup</h4>
 		    <div classname="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
@@ -155,6 +154,8 @@ const SignupComponent = () => {
 				  <div className="text-center">
 					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
 				  </div>
+					<br/>
+	        <Link to="/login">Existing User? Login</Link>
 	      </div>
 	    </div>
     <br/>

@@ -24,12 +24,14 @@ const CheckSimilarityComponent = ({
 			firestore.collection("survey_responses").where("category", "==", survey.category).where("userId", "in", [currentUser.id, selectedUser.id]).get()
 		);
 		let result = "";
+		console.log("responses", responses)
 		if (responses.length === 2) {
 			result = await SimilarityChecker(responses);
+			setSimilarityResult(result.common);
 		} else {
-			result = selectedUser.displayName + " has not updated " + survey.title + " yet";
+			result = selectedUser.displayName + " has not updated " + survey.title + " category yet";
+			setSimilarityResult(result);
 		}
-		setSimilarityResult(result.common);
 		setSimilarityDescription(result.description);
 		setSelectedSurveyTitle(survey.title);
 	}

@@ -9,10 +9,10 @@ import { StaticHeaderComponent } from "components";
 const LoginComponent = ({bindReload}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-	const [btnSave, setBtnSave] = useState("Login");
+	const [btnSave, setBtnSave] = useState("Submit");
   const [error, setErrors] = useState("");
   const history = useHistory();
-  const routes = [{route: "/signup", title: "Signup"}];
+  const routes = [];
 
 	const handleKeyDown =(event) => {
 		if (event.keyCode === 13) {
@@ -23,9 +23,9 @@ const LoginComponent = ({bindReload}) => {
   const handleForm = async (e) => {
     e.preventDefault();
 
-    setBtnSave("Working...");
+    setBtnSave("Submitting...");
     let result = await signin({email, password});
-    setBtnSave("Login");
+    setBtnSave("Submit");
     if (result.status !== 200) {
     	setErrors(result.message);
     	return;
@@ -49,7 +49,7 @@ const LoginComponent = ({bindReload}) => {
     <div className="App" onKeyDown={e => handleKeyDown(e)}>
     	<StaticHeaderComponent routes={routes} />
     	<div className="mt-5 pt-3">
-	      <h4>Already a user?</h4>
+	      <h4>Login</h4>
 	      {error ? <div className="alert alert-danger">{error}</div> : ''}
 	      <div className="form">
 	        <input
@@ -71,10 +71,11 @@ const LoginComponent = ({bindReload}) => {
 	        />
 	        <br />
 				  <div className="text-center">
-					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Login'} onClick={e => handleForm(e)}>{btnSave}</button>
+					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
 					</div>
 					<br/>
 	        <Link to="/forgot_password">Forgot password</Link>
+	        <Link to="/signup">New User? Signup</Link>
 	      </div>
 	    </div>
       <br/>

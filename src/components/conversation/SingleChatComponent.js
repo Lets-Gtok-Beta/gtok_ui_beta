@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
 
+import { capitalizeFirstLetter } from "helpers";
 import { LoadingComponent } from "components";
 import { SetChatMessages } from "store/actions";
+import { gtokFavicon } from "images";
 
 class SingleChatComponent extends Component {	
 	constructor(props) {
@@ -142,9 +144,11 @@ class SingleChatComponent extends Component {
 	  return (
 	    <div className="container p-2">
     		<div className="chat-window-header media p-2">
-    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || this.defaultImage} alt="user dp" className="chat-window-dp" />
+    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
     			<div className="media-body">
-    				<h6 className="p-0 mb-0 pl-2">{this.state.conversation.groupName || this.state.chatUser.displayName}</h6>
+    				<h6 className="p-0 mb-0 pl-2">
+    				{this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}
+    				</h6>
     				<small className="p-0 pl-2">
     				Last updated {moment(this.state.conversation.updatedAt).format("HH:mm DD/MM/YY")}
     				</small>

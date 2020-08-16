@@ -4,8 +4,10 @@ import { getId, firestore } from "firebase_config";
 import { connect } from "react-redux";
 
 import { SingleChatComponent, LoadingComponent } from "components";
+import { capitalizeFirstLetter } from "helpers";
 import { SetConvos } from "store/actions";
 import { truncateText } from "helpers";
+import { gtokFavicon } from "images";
 
 class ChatsComponent extends Component {
 	constructor(props) {
@@ -118,7 +120,7 @@ class ChatsComponent extends Component {
 	renderConvo = (con) => {
 		return con.group ?
 			<div className="media p-2">
-				<img src={con.photoURL || this.defaultImage} alt="user dp" className="chat-window-dp" />
+				<img src={con.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
 				<div className="media-body">
 					<h6 className="p-0 mb-0 pl-2">{con.groupName}</h6>
 					<small className="p-0 pl-2">
@@ -130,9 +132,9 @@ class ChatsComponent extends Component {
 			con.usersRef.map((user, idx) => {
 				return user.id !== this.state.currentUser.id && (
 					<div className="media p-2" key={idx}>
-						<img src={user.photoURL || this.defaultImage} alt="user dp" className="chat-window-dp" />
+						<img src={user.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
 						<div className="media-body">
-							<h6 className="p-0 mb-0 pl-2">{user.displayName}</h6>
+							<h6 className="p-0 mb-0 pl-2">{capitalizeFirstLetter(user.displayName)}</h6>
 							<small className="p-0 pl-2">
 								{con.lastMessage ? truncateText(con.lastMessage, 25) : "No messages yet"}
 								{(con.lastMessageTime > this.currentChatUser.lastSeen) ? <i className="fa fa-dot-circle-o pull-right text-success"></i> : ""}

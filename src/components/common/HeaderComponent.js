@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Helmet } from "react-helmet";
 import { Metadata } from "constants/index";
-import { gtokLogo, gtokFavicon } from "images";
+import { gtokFavicon } from "images";
 
 const HeaderComponent = ({currentUser}) => {
 	const [metaDetails, setMetaDetails] = useState({});
@@ -28,11 +28,11 @@ const HeaderComponent = ({currentUser}) => {
         <meta name="keywords" content= {metaDetails.keywords} />
         <link rel="icon" type="image/png" href={gtokFavicon} sizes="16x16"/>
       </Helmet>
-    	<nav className="navbar fixed-top navbar-expand-sm p-0">
+    	<nav className="navbar fixed-top navbar-expand-sm py-md-0">
     		<div className="navbar-brand mr-auto">
 	        <Link to="/app/profile">
-	        	<img src={gtokLogo} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
-	        	<span className="badge badge-danger beta-badge">Beta</span>
+	        	<img src={gtokFavicon} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
+	        	<span className="badge badge-secondary beta-badge">Beta</span>
 	        </Link>
 				</div>
 				<button className="navbar-toggler navbar-toggler-right pull-right" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,12 +44,12 @@ const HeaderComponent = ({currentUser}) => {
 			  	<ul className="navbar-nav mx-auto">
 						<li className="nav-item" title="Search">
 							<div className="nav-link">
-				        <Link to="/app/search">Search</Link>
+				        <Link to="/app/search" className="text-secondary">Search</Link>
 				      </div>
 			      </li>
-						<li className="nav-item" title="Similarities">
+						<li className="nav-item" title="Categories">
 							<div className="nav-link">
-								<Link to="/app/similarities">Similarities</Link>
+								<Link to="/app/similarities" className="text-secondary">Categories</Link>
 				      </div>
 			      </li>
 					  { currentUser.admin && (

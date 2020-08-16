@@ -122,7 +122,7 @@ button:active {
 	cursor: pointer;
 }
 
-.profile-pic-section .profilePic {
+.profilePic {
 	height: 120px;
 	width: 120px;
 	border-radius: 50%;
@@ -214,8 +214,8 @@ button:active {
 	height: 56px;
 }
 
-.nav-link a{
-	color: #DC3545 !important;
+.nav-link a {
+	/*color: #DC3545 !important;*/
 }
 
 .navbar-image {
@@ -238,18 +238,19 @@ button:active {
 .navbar-nav .nav-support a {
 	color: #fff !important;
 	background-color: rgba(220, 53, 69, 1);
+	/*background-color: #6C757D;*/
 	padding-top: 4px;
 }
 
 .navbar-nav .nav-item:hover {
-	background-color: rgba(220, 53, 69, 1);
+	/*background-color: rgba(220, 53, 69, 1);*/
 	cursor: pointer;
 }
 
 .navbar-nav .nav-item:hover a,
 .navbar-nav .nav-item:hover a:hover {
-	color: #fff !important;
-	text-decoration: none;
+	/*color: #fff !important;*/
+	/*text-decoration: none;*/
 }
 
 .navbar-nav .nav-profile:hover {
@@ -294,7 +295,7 @@ button:active {
 
 /* Modal component */
 .modal .modal-dialog {
-	max-width: 80% !important;
+	max-width: 100% !important;
 }
 
 .modal-subtitle {
@@ -380,8 +381,8 @@ button:active {
 	padding: 1px 7px !important;
 }
 
-.btn_send_text small,
 .btn_send_text {
+	font-size: medium;
 	padding: 2.5px 7px !important;
 }
 
@@ -525,4 +526,22 @@ button:active {
 	background-color: #f1f1f1;
 	color: #DC3545;
 	border-radius: 20px 20px 0px;
+}
+
+/* Media queries */
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+	.modal .modal-dialog {
+		max-width: 80% !important;
+	}
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
 }
