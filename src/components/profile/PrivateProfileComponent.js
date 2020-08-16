@@ -10,11 +10,12 @@ import {
 import { update, uploadImage, removeImage, signout } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { capitalizeFirstLetter } from "helpers";
+import { gtokFavicon } from "images";
 
 function PrivateProfileComponent({
 	user, currentUser, dbUser, bindLoggedIn, bindUser, bindDbUser
 }) {
-	const defaultImage = "../logo192.png";
+	const defaultImage = gtokFavicon;
 	const [name, setName] = useState(dbUser.displayName);
 	const [profileUrl, setProfileUrl] = useState(dbUser.photoURL || defaultImage);
 	const [btnUpload, setBtnUpload] = useState('Upload');
@@ -110,7 +111,7 @@ function PrivateProfileComponent({
 
   const displayFollowers = async () => {
   	if (!currentUser.premium) {
-	  	alert("Please upgrade to see your followers.");
+	  	alert("You cannot see followers at this time.");
 	  	return;
   	}
   }
@@ -148,7 +149,7 @@ function PrivateProfileComponent({
 					</span>
 					{btnSave==="image" && updateElements()}
 					<br/>
-					<button className="mt-3 btn btn-sm btn-danger" onClick={e => displayFollowers(e)}>
+					<button className="mt-3 btn btn-sm btn-secondary" onClick={e => displayFollowers(e)}>
 						Followers <span className="badge badge-light">{dbUser && dbUser.followers && dbUser.followers.length}</span>
 					</button>
 			  </div>
@@ -189,10 +190,11 @@ function PrivateProfileComponent({
 					{ !dbUser.admin &&
 					<div>
 						<hr/>
-						<h4 className="text-center">Similarities</h4>
+						<h5 className="text-center">Categories</h5>
 						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails} />
 					</div> }
 					<hr/>
+					<h5 className="text-center">Permissions</h5>
 					<PermissionsComponent currentUser={dbUser} />
 				  <hr/>
 				  <div className="text-center">

@@ -7,6 +7,7 @@ import {
 	CheckSimilarityComponent
 } from "components";
 import { capitalizeFirstLetter } from "helpers";
+import { gtokFavicon } from "images";
 
 const SearchUserComponent = ({displayUser, currentUser}) => {
 	const history = useHistory();
@@ -16,7 +17,6 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	const [ openSimilarities, setOpenSimilarities ] = useState(false);
 	const [ selectedUser, setSelectedUser ] = useState({});
 	const [ bigImg, setBigImg ] = useState('');
-	const defaultImage = "../logo192.png";
 
 	useEffect(() => {
 	  const isFollower = async () => {
@@ -56,7 +56,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
   }
 
   return (
-		<div className="container col-xs-12 mt-3">
+		<div className="container col-xs-12 my-xs-2 my-md-3">
 			<div className="card p-2">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
 				{
@@ -66,7 +66,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 					</div>
 				}
 				<div className="media profile_card_img">
-			  	<img className="mr-2" src={displayUser.photoURL || defaultImage} alt="Card img cap" onClick={e => setBigImg(displayUser.photoURL)} />
+			  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" onClick={e => setBigImg(displayUser.photoURL)} />
 				  <div className="media-body">
 				    <h6 className="mt-0 text-camelcase">
 					  	<Link to={"/app/profile/"+displayUser.id}>
@@ -74,15 +74,15 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 					   	</Link>
 				    </h6>
 				    <p>
-				  		<button className={`btn btn-sm ${follower ? "btn-danger" : "btn-outline-danger"} btn_follow`}>
+				  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"} btn_follow`}>
 					    {
 					    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
 						    	follower ? <small className="pull-right" onClick={e => unFollowUser()}>Unfollow</small> : <small className="pull-right" onClick={e => followUser()}>Follow</small>
 						    )
 					    }
 					    </button>
-					    <button className="btn btn-sm btn-outline-primary ml-2 btn_send_text" onClick={e => msgUser()}>
-					    	<small>Send Text</small>
+					    <button className="btn btn-sm btn-outline-secondary ml-2 btn_send_text" onClick={e => msgUser()} title="Send text">
+					    	<i className="fa fa-comment"></i>
 						  </button>
 				    </p>
 				  </div>

@@ -127,6 +127,7 @@ const SearchComponent = (props) => {
 		}
 	}
 
+/*
 	const readoutLoud = (text) => {
 		var speech = new SpeechSynthesisUtterance();
 
@@ -139,11 +140,11 @@ const SearchComponent = (props) => {
 		window.speechSynthesis.speak(speech);
 		setMicrophoneText(speech.text);
 	}
-
+*/
   return (
     <div className="container-fluid">
-    	<div className="row">
-				<div className="input-group mb-3">
+    	<div className="d-flex">
+				<div className="input-group my-3">
 				  <input type="text" className="form-control" aria-label="Search" placeholder="Search on names..." onChange={e => searchValue(e.target.value)}/>
 				  <div className="input-group-append">
 				  	{
@@ -155,9 +156,11 @@ const SearchComponent = (props) => {
 					    	<i className="fa fa-microphone"></i>
 					    </span>
 				  	}
+				  {/*
 				    <span className="input-group-text" onClick={e => readoutLoud()}>
 				    	<i className="fa fa-volume-control-phone"></i>
 				    </span>
+				  */}
 				    <span className="input-group-text">
 			      	<i className="fa fa-question-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Try to speack 'search <YOUR_NAME>' For example - search Naga, search Prabha"></i> <br/>
 				    </span>

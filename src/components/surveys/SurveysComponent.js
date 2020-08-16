@@ -45,7 +45,7 @@ const SurveysComponent = ({
 
 	const openSurveyModal = async (id, survey={}) => {
 		if (isSurveyFilled(id) && !currentUser.admin && id !== "new") {
-			return alert(survey.title + " similarity is completed. Try another category.")
+			return alert(survey.title + " category is completed. Try another category.")
 		}
 		history.push({
 			pathname: '/app/similarities/'+id,
@@ -87,9 +87,9 @@ const SurveysComponent = ({
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
-      <h6 className="text-center">
-      	To compute similarity scale, you need to answer few questions in each category. &nbsp;
-      	<i className="fa fa-info-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories include Personal, Daily needs, Profession, Help, Fashion, Food habits, Mental health, Sexual health (18+), Normal health."></i> <br/>
+      <h6 className="text-center text-secondary">
+      	To find similarities, you need to answer few questions in each category. &nbsp;
+      	<i className="fa fa-info-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories include Daily needs, Profession, Help, Fashion, Food habits, Health & more"></i> <br/>
       </h6>
       {	currentUser.admin && 
       	<div className="d-flex align-content-end mt-4">

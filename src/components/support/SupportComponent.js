@@ -9,12 +9,12 @@ const SupportComponent = ({currentUser}) => {
 			  <div className="card">
 			    <div className="card-header" id="headingOne">
 		        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-		          Step 1 : Similarities page
+		          Step 1 : Categories page
 		        </button>
 			    </div>
 			    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			      <div className="card-body p-4 text-justify text-secondary">
-			      	Various categories will be displayed in <Link to="/app/similarities"> similarities </Link> page. In each category, you need to answer few questions. Fill as many categories as possible, to get better similarity result.
+			      	Various categories will be displayed in <Link to="/app/similarities"> categories </Link> page. In each category, you need to answer few questions. Fill as many categories as possible, to get better similarity result.
 			      </div>
 			    </div>
 			  </div>
@@ -66,6 +66,7 @@ const SupportComponent = ({currentUser}) => {
 			      </div>
 			    </div>
 			  </div>
+			{/*
 			  <div className="card">
 			    <div className="card-header" id="headingSix">
 		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
@@ -78,6 +79,7 @@ const SupportComponent = ({currentUser}) => {
 			      </div>
 			    </div>
 			  </div>
+			*/}
 			  <div className="card">
 			    <div className="card-header" id="headingSeven">
 		        <button className="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
@@ -86,7 +88,7 @@ const SupportComponent = ({currentUser}) => {
 			    </div>
 			    <div id="collapseSeven" className="collapse" aria-labelledby="headingSeven" data-parent="#accordion">
 			      <div className="card-body p-4 text-justify text-secondary">
-							We always happy to listen your feedback or queries. Drop us an email at <span className="btn btn-link p-0"> letsgtok@gmail.com </span>
+							We are always happy to listen your feedback or queries. Drop us an email at <span className="btn btn-link p-0"> letsgtok@gmail.com </span>
 			      </div>
 			    </div>
 			  </div>

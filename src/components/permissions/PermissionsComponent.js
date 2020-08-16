@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { get, update } from "firebase_config";
+import { update, getQuery, firestore } from "firebase_config";
 
 function PublicProfileComponent({currentUser}) {
 	const [ loading, setLoading ] = useState(true);
@@ -9,7 +9,9 @@ function PublicProfileComponent({currentUser}) {
 
 	useEffect(() => {
 		async function getPermissions() {
-			let pms = await get("permissions");
+			let pms = await getQuery(
+				firestore.collection("permissions").where("active", "==", true).get()
+			);
 			setPermissions(pms.sort((a,b) => a.id - b.id));
 			setLoading(false);
 		}
@@ -26,10 +28,6 @@ function PublicProfileComponent({currentUser}) {
 
 	return (
 	  <div className="container">
-			<h6 className="text-center">
-				<b>Permissions</b> &nbsp;
-				{loading &&<i className="fa fa-spinner fa-spin"></i>}
-			</h6>
 			{
 	  		permissions.map((pm, idx) => (
 					<div className="d-flex align-content-center" key={idx}>
@@ -42,6 +40,9 @@ function PublicProfileComponent({currentUser}) {
 					</div>
 	  		))
   		}
+  		<div className="text-center">
+				{loading &&<i className="fa fa-spinner fa-spin"></i>}
+			</div>
 		</div>
 	);
 }

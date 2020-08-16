@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as firebase from 'firebase';
 
-import { NotificationComponent, StaticHeaderComponent } from "components";
+import { StaticHeaderComponent } from "components";
 
 const ForgotPasswordComponent = () => {
   const [email, setEmail] = useState("");
 	const [btnSave, setBtnSave] = useState("Send");
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState({});
   const history = useHistory();
-  const routes = [{route: "/signup", title: "Signup"}, {route: "/login", title: "Login"}];
 
   const handleForm = e => {
     e.preventDefault();
@@ -34,29 +33,50 @@ const ForgotPasswordComponent = () => {
     	});
     });
   };
+
+  const renderSuccessNotification = () => (
+  	<div>
+  		<div className="h3 text-success"><i className="fa fa-check-circle"></i></div>
+      <h5 className="text-center text-secondary">Your forgot password email sent successfully.</h5>
+  	</div>
+  );
+
+  const renderFailNotification = () => (
+  	<div>
+  		<div className="h3 text-danger"><i className="fa fa-times-circle"></i></div>
+      <h5 className="text-center text-secondary">Something went wrong. Try again later.</h5>
+  	</div>
+  );
     
+  const renderForm = () => (
+  	<div>
+      <h4>Forgot password</h4>
+      <div className="form">
+        <input
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          name="email"
+          type="email"
+          className="form-input"
+          placeholder="Enter email"
+        />
+        <br />
+			  <div className="text-center">
+				  <button className="btn btn-sm-app" disabled={btnSave !== 'Send'} onClick={e => handleForm(e)}>{btnSave}</button>
+				 </div>
+      </div>
+  	</div>
+  );
+
   return (
     <div className="App">
-    	<StaticHeaderComponent routes={routes} />
+    	<StaticHeaderComponent />
     	<div className="mt-5 pt-3">
-	      <h4>Forgot password</h4>
 		  	{
-		  		result.status ? <NotificationComponent result={result} setResult={setResult} /> : ''
+		  		result.status ? (result.status === 200 ? renderSuccessNotification() : renderFailNotification()) : renderForm()
 		  	}
-	      <div className="form">
-	        <input
-	          value={email}
-	          onChange={e => setEmail(e.target.value)}
-	          name="email"
-	          type="email"
-	          className="form-input"
-	          placeholder="Enter email"
-	        />
-	        <br />
-				  <div className="text-center">
-					  <button className="btn btn-sm-app" disabled={btnSave !== 'Send'} onClick={e => handleForm(e)}>{btnSave}</button>
-					 </div>
-	      </div>
+				<br/>
+        <Link to="/login">&#8592; Go back</Link>
 	    </div>
       <br/>
     {/*
