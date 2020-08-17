@@ -67,12 +67,26 @@ class SingleChatComponent extends Component {
 	updateConvo = async (data = {}) => {
 		// Simplify these lines of code in future
 		let chatUserRefs = this.state.conversation.usersRef;
-		let currentChatUser = chatUserRefs.find(u => u.id === this.state.currentUser.id);
-		let idx = chatUserRefs.findIndex(u => u.id === this.state.currentUser.id);
-		currentChatUser["lastSeen"] = new Date();
-		currentChatUser["displayName"] = this.state.currentUser.displayName;
-		currentChatUser["photoURL"] = this.state.currentUser.photoURL;
-		chatUserRefs[idx] = currentChatUser;
+		chatUserRefs = chatUserRefs.map((user) => {
+			if (user.id === this.state.currentUser.id) {
+				user["lastSeen"] = new Date();
+				user["displayName"] = this.state.currentUser.displayName;
+				user["photoURL"] = this.state.currentUser.photoURL;
+				user["unread"] = false;
+			} else {
+				if (data["newMessage"]) {
+					user["unread"] = true;
+					delete data["newMessage"];
+				}
+			}
+			return user;
+		});
+		// let currentChatUser = chatUserRefs.find(u => u.id === this.state.currentUser.id);
+		// let idx = chatUserRefs.findIndex(u => u.id === this.state.currentUser.id);
+		// currentChatUser["lastSeen"] = timestamp;
+		// currentChatUser["displayName"] = this.state.currentUser.displayName;
+		// currentChatUser["photoURL"] = this.state.currentUser.photoURL;
+		// chatUserRefs[idx] = currentChatUser;
 
 		await update("conversations", this.state.conversation.id, Object.assign(
 			this.state.conversation,
@@ -122,13 +136,13 @@ class SingleChatComponent extends Component {
   		text: this.state.message.trim(),
   		users: this.state.conversation.users,
   		admin: this.state.currentUser.id,
-  		unreadUsers: this.state.conversation.users.filter(u => (u !== this.state.currentUser.id)),
   		timestamp
   	}
   	await add("messages", data);
   	await this.updateConvo({
   		lastMessage: this.state.message,
-  		lastMessageTime: new Date()
+  		lastMessageTime: timestamp,
+  		newMessage: true
   	});
   	this.setState({
   		message: "",
@@ -170,7 +184,7 @@ class SingleChatComponent extends Component {
 		    	}
 	    		<div ref={el => {this.el = el;}}></div>
 	    	</div>
-	      <div className="row">
+	      <div className="d-flex flex-row">
 	    		<div className="col-11">
 		      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
 		      	</textarea>
