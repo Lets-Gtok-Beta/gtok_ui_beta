@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 
 import { Helmet } from "react-helmet";
 import { Metadata } from "constants/index";
 import { gtokFavicon } from "images";
+import { SetNewMessagesCount, SetNewAlertsCount } from "store/actions";
 
-const HeaderComponent = ({currentUser}) => {
+const HeaderComponent = ({
+	currentUser, newMessagesCount, bindNewMessagesCount, newAlertsCount, bindNewAlertsCount
+}) => {
 	const [metaDetails, setMetaDetails] = useState({});
 	useEffect(() => {
 		let path = window.location.pathname;
@@ -18,7 +22,9 @@ const HeaderComponent = ({currentUser}) => {
 		} else {
 			setMetaDetails(Metadata[path || "default"]);
 		}
-	}, [metaDetails]);
+		bindNewMessagesCount(currentUser);
+		bindNewAlertsCount(currentUser);
+	}, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, currentUser]);
 
   return (
     <div>
@@ -42,7 +48,7 @@ const HeaderComponent = ({currentUser}) => {
 			  </button>
 			  <div className="collapse navbar-collapse">
 			  	<ul className="navbar-nav mx-auto">
-						<li className="nav-item" title="Search">
+						<li className="nav-item active" title="Search">
 							<div className="nav-link">
 				        <Link to="/app/search" className="text-secondary">Search</Link>
 				      </div>
@@ -55,10 +61,17 @@ const HeaderComponent = ({currentUser}) => {
 						<li className="nav-item" title="Messages">
 							<div className="nav-link">
 								<Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G" className="text-secondary">
-								Messages
+								Messages{newMessagesCount > 0 && <span className="badge badge-danger count-badge">{newMessagesCount}</span>}
 								</Link>
 				      </div>
 			      </li>
+						<li className="nav-item" title="Alerts">
+							<div className="nav-link">
+				        <Link to="/app/alerts" className="text-secondary">
+				        	Alerts{newAlertsCount > 0 && <span className="badge badge-danger count-badge">{newAlertsCount}</span>}
+				        </Link>
+		      		</div>
+		      	</li>
 					  { currentUser.admin && (
 								<li className="nav-item">
 									<div className="nav-link">
@@ -75,17 +88,6 @@ const HeaderComponent = ({currentUser}) => {
 			      </li>*/}
 			  	</ul>
 			  	<ul className="navbar-nav ml-auto">
-			      {
-			      	currentUser.admin && (
-								<li className="nav-item" title="Notifications">
-									<div className="nav-link">
-						        <Link to="/app/alerts">
-						        	<i className="fa fa-bell" style={{fontSize: "1.5em"}}></i><span className="badge text-danger">0</span>
-						        </Link>
-				      		</div>
-				      	</li>
-			      	)
-			      }
 						<li className="nav-item nav-support" title="Help">
 							<div className="nav-link">
 				        <Link to="/app/support">
@@ -94,7 +96,7 @@ const HeaderComponent = ({currentUser}) => {
 		      		</div>
 		      	</li>
 						<li className="nav-item" title="Profile">
-							<div className="nav-link" style={{backgroundColor: "#fff"}}>
+							<div className="nav-link">
 				        <Link to="/app/profile">
 				        	<img src={(currentUser && currentUser.photoURL) || "../logo192.png"} className="navbar-image" alt="Profile pic"/>
 				        </Link>
@@ -107,4 +109,20 @@ const HeaderComponent = ({currentUser}) => {
   );
 };
 
-export default HeaderComponent;
+const mapStateToProps = (state) => {
+	const { newMessagesCount } = state.chatMessages;
+	const { newAlertsCount } = state.alerts;
+	return { newMessagesCount, newAlertsCount };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindNewMessagesCount: (content) => dispatch(SetNewMessagesCount(content)),
+		bindNewAlertsCount: (content) => dispatch(SetNewAlertsCount(content))
+	}
+}
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(HeaderComponent);

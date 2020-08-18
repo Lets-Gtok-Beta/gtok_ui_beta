@@ -117,6 +117,11 @@ button:active {
   font-weight: 400 !important;
 }
 
+.count-badge {
+	position: relative;
+	top: -5px;
+}
+
 .profile-pic-section {
 	position: relative;
 	cursor: pointer;

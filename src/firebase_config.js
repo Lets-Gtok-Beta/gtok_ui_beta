@@ -288,6 +288,8 @@ export const arrayRemove = firebase.firestore.FieldValue.arrayRemove;
 
 export const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
+// export const timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+
 /* Common code */
 function formatResult(status, message, data={}) {
 	return { status, message, data };
