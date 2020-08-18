@@ -52,6 +52,13 @@ const HeaderComponent = ({currentUser}) => {
 								<Link to="/app/similarities" className="text-secondary">Categories</Link>
 				      </div>
 			      </li>
+						<li className="nav-item" title="Messages">
+							<div className="nav-link">
+								<Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G" className="text-secondary">
+								Messages
+								</Link>
+				      </div>
+			      </li>
 					  { currentUser.admin && (
 								<li className="nav-item">
 									<div className="nav-link">

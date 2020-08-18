@@ -17,13 +17,10 @@ class ChatsComponent extends Component {
 			selectedConvo: {},
 			currentUser: props.currentUser,
 			convos: [],
-			loading: true,
-			currentChatUser: {},
+			loading: true
 		}
 		this.props = props;
-		this.defaultImage = "../../logo192.png"; 
 		this.unsubscribe = "";
-		this.currentChatUser = {};
 		this.bindConvos = props.bindConvos;
 	}
 
@@ -33,7 +30,8 @@ class ChatsComponent extends Component {
 	}
 
 	componentWillReceiveProps(newProps) {
-		if (newProps.match.params.id !== this.props.match.params.id) {
+		let newPropsId = newProps.match.params.id;
+		if (newPropsId !== this.props.match.params.id) {
 			this.props = newProps;
 			this.getSelectedConversation(newProps.match.params.id);
 		}
@@ -48,11 +46,9 @@ class ChatsComponent extends Component {
 		let result = await getId("conversations", id);
 		result = await this.setConvoFields(result);
 		result["id"] = id;
-		this.currentChatUser = result.usersRef.find(u => u.id === this.state.currentUser.id);
 		this.setState({
 			convoId: id,
-			selectedConvo: result,
-			currentChatUser: result.usersRef.find(u => u.id === this.state.currentUser.id)
+			selectedConvo: result
 		});
 	}
 
@@ -98,14 +94,14 @@ class ChatsComponent extends Component {
 						let convosList = this.state.convos;
 						let idx = convosList.findIndex(con => con.id === convo.id);
 						convosList[idx] = convo;
-						this.setState({
-							convos: convosList.sort((a,b) => b.updatedAt - a.updatedAt),
-							loading: false
-						});
+						// this.setState({
+						// 	convos: convosList.sort((a,b) => a.lastMessageTime - b.lastMessageTime),
+						// 	loading: false
+						// });
 					}
 				})
 				this.setState({
-					convos: convosList.sort((a,b) => b.updatedAt - a.updatedAt),
+					convos: convosList.sort((a,b) => b.lastMessageTime - a.lastMessageTime),
 					loading: false
 				});
 				// this.bindConvos(this.convosList.sort((a,b) => a.updatedAt - b.updatedAt));
@@ -137,7 +133,15 @@ class ChatsComponent extends Component {
 							<h6 className="p-0 mb-0 pl-2">{capitalizeFirstLetter(user.displayName)}</h6>
 							<small className="p-0 pl-2">
 								{con.lastMessage ? truncateText(con.lastMessage, 25) : "No messages yet"}
-								{(con.lastMessageTime > this.currentChatUser.lastSeen) ? <i className="fa fa-dot-circle-o pull-right text-success"></i> : ""}
+								{
+									con.usersRef.map(user => {
+										if(user.id === this.state.currentUser.id && user.unread) {
+											return (
+												<span className="badge badge-secondary pull-right" key={user.id}>1</span>
+											);
+										} else return "";
+									})
+								}
 							</small>
 						</div>
 					</div>
@@ -158,7 +162,7 @@ class ChatsComponent extends Component {
 
 						<iframe height="430" width="350" src="https://bot.dialogflow.com/3b271305-b775-411d-a423-adbd77bfca40"></iframe>*/}
 				<div className="row">
-					<div className="col-3 sidebar p-0">
+					<div className="col-xs-12 col-md-3 sidebar p-0">
 						{ this.state.loading ? <LoadingComponent /> : 
 							<ul className="conversation-list p-0">
 								{ this.state.convos && this.state.convos.map((con, idx) => (
@@ -169,7 +173,7 @@ class ChatsComponent extends Component {
 							</ul>
 						}
 					</div>
-					<div className="col-9">
+					<div className="col-xs-12 col-md-9">
 			      {
 			      	this.state.selectedConvo.id && <SingleChatComponent conversation={this.state.selectedConvo} currentUser={this.state.currentUser} />
 			      }
