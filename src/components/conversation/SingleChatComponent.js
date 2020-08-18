@@ -6,7 +6,7 @@ import _ from "lodash";
 
 import { capitalizeFirstLetter } from "helpers";
 import { LoadingComponent } from "components";
-import { SetChatMessages } from "store/actions";
+import { SetChatMessages, SetNewMessagesCount } from "store/actions";
 import { gtokFavicon } from "images";
 
 class SingleChatComponent extends Component {	
@@ -23,10 +23,11 @@ class SingleChatComponent extends Component {
 		this.unsubscribe = "";
 		// this.messagesList = [];
 		this.bindMessages = props.bindMessages;
+		this.bindNewMessagesCount = props.bindNewMessagesCount;
 	}
 
 	componentDidMount() {
-		this.getHistory();
+		this.getMessagesSnapshot();
 		this.scrollToBottom();
 		// this.scrollToBottom({behavior: "smooth"});
 	}
@@ -95,9 +96,10 @@ class SingleChatComponent extends Component {
 				usersRef: chatUserRefs
 			}
 		));
+		this.bindNewMessagesCount(this.state.currentUser);
 	}
 
-	getHistory = async () => {
+	getMessagesSnapshot = async () => {
 		let messagesList = []
 		this.setState({loading: true, messagesList: []});
 		this.unsubscribe = await firestore.collection("messages")
@@ -116,6 +118,7 @@ class SingleChatComponent extends Component {
 					loading: false,
 					messagesList: messagesList
 				});
+				await this.updateConvo();
 				// this.bindMessages(this.messagesList.sort((a,b) => a.createdAt - b.createdAt));
 			})
 		return this.unsubscribe;
@@ -205,7 +208,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindMessages: (content) => dispatch(SetChatMessages(content))
+		bindMessages: (content) => dispatch(SetChatMessages(content)),
+		bindNewMessagesCount: (content) => dispatch(SetNewMessagesCount(content)),
 	}
 }
 

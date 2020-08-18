@@ -9,3 +9,9 @@ export const SET_CHAT_MESSAGES = "SET_CHAT_MESSAGES";
 export const SET_CONVOS = "SET_CONVOS";
 
 export const SET_SURVEYS_LIST = "SET_SURVEYS_LIST";
+
+export const GET_ALERTS = "GET_ALERTS";
+export const SET_ALERTS = "SET_ALERTS";
+export const SET_NEW_ALERTS_COUNT = "SET_NEW_ALERTS_COUNT";
+
+export const SET_NEW_MESSAGES_COUNT = "SET_NEW_MESSAGES_COUNT";

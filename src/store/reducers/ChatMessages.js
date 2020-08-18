@@ -1,7 +1,11 @@
-import { SET_CHAT_MESSAGES } from "../types";
+import {
+	SET_CHAT_MESSAGES,
+	SET_NEW_MESSAGES_COUNT
+} from "../types";
 
 const INITIAL_STATE = {
-	messages: []
+	messages: [],
+	newMessagesCount: 0
 }
 
 const ChatMessages = (state=INITIAL_STATE, action) => {
@@ -12,6 +16,12 @@ const ChatMessages = (state=INITIAL_STATE, action) => {
 				...state,
 				messages: payload.messages
 			};
+		}
+		case SET_NEW_MESSAGES_COUNT: {
+			return {
+				...state,
+				newMessagesCount: payload.newMessagesCount
+			}
 		}
 		default:
 			return state;

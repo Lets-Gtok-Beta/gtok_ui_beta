@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, Link } from 'react-router-dom';
 
-import { update, arrayAdd, arrayRemove } from "firebase_config";
+import { add, update, arrayAdd, arrayRemove, timestamp } from "firebase_config";
 import { 
 	NotificationComponent, 
 	CheckSimilarityComponent
@@ -22,23 +22,35 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	  const isFollower = async () => {
 	  	let f = await displayUser.followers.find(f => f === currentUser.id);
 	  	setIsFollowerLoading(false);
-	  	setFollower(!!f)
+	  	if (!!f) {
+	  		setFollower(true);
+	  	}
 	  }
 		isFollower();
 	}, [currentUser.id, displayUser.followers]);
 
   const followUser = async () => {
   	setResult({status: 100, message: "Processing..."});
-  	let res = await update("users", displayUser.id, { followers: arrayAdd(currentUser.id) });
+  	setIsFollowerLoading(true);
+  	let res = "";
+  	if (!follower) {
+	  	res = await update("users", displayUser.id, { followers: arrayAdd(currentUser.id) });
+	  	/* Alert display user about current user */
+	  	await add("logs", {
+	  		text: `${currentUser.displayName} followed you`,
+	  		photoURL: currentUser.photoURL,
+	  		receiverId: displayUser.id,
+	  		userId: currentUser.id,
+	  		actionType: "follow",
+	  		timestamp
+	  	});
+	  	setFollower(true);
+  	} else {
+	  	res = await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
+	  	setFollower(false);
+  	}
+  	setIsFollowerLoading(false);
   	setResult(res);
-  	setFollower(true);
-  }
-
-  const unFollowUser = async () => {
-  	setResult({status: 100, message: "Processing..."});
-  	let res = await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
-  	setResult(res);
-  	setFollower(false);
   }
 
   const openModal = (selectedUser) => {
@@ -77,7 +89,9 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 				  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"} btn_follow`}>
 					    {
 					    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
-						    	follower ? <small className="pull-right" onClick={e => unFollowUser()}>Unfollow</small> : <small className="pull-right" onClick={e => followUser()}>Follow</small>
+						    	<small className="pull-right" onClick={e => followUser()}>{
+						    		follower ? "Unfollow"	: "Follow"
+						    	}</small>
 						    )
 					    }
 					    </button>
