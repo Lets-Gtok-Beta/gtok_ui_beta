@@ -61,7 +61,8 @@ const SignupComponent = () => {
   		permissions: {
   			tnc: true,
   			emailUpdates
-  		}
+  		},
+  		photoURL: null
     }
     let createDbUser = await add("users", userData);
     setBtnSave("Submit");
