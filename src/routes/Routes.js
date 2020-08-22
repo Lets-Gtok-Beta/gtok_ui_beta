@@ -46,6 +46,7 @@ export const Routes = (props) => (
 		<Route exact path="/profile_deleted" component={DeleteProfileComponent} />
 		<Route exact path="/error" component={ErrorComponent} />
 		<AuthRoute exact path="/app" component={LandingComponent} />
+		<AuthRoute exact path="/app/chats" component={LandingComponent} />
 		<AuthRoute exact path="/app/alerts" component={AlertsComponent} />
 		<AuthRoute exact path="/app/home" component={HomeComponent} />
 		<AuthRoute exact path="/app/profile" component={PrivateProfileComponent} />

@@ -35,6 +35,7 @@ import CreateChatComponent from "components/conversation/CreateChatComponent";
 import SupportComponent from "components/support/SupportComponent";
 import PermissionsComponent from "components/permissions/PermissionsComponent";
 import LoadingComponent from "components/common/LoadingComponent";
+import DisplayPostComponent from "components/home/DisplayPostComponent";
 
 export {
 	LoginComponent,
@@ -73,5 +74,6 @@ export {
 	CreateChatComponent,
 	SupportComponent,
 	PermissionsComponent,
-	LoadingComponent
+	LoadingComponent,
+	DisplayPostComponent
 }

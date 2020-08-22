@@ -2,21 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { get, getQuery, firestore } from "firebase_config";
+import { getQuery, firestore } from "firebase_config";
 import { ModalComponent } from "components";
 import { SimilarityChecker } from "lib/api/SimilarityChecker";
-import { SetSurveysList } from "store/actions";
 
 const CheckSimilarityComponent = ({
-	currentUser, setOpenModal, selectedUser, surveysList, bindSurveysList
+	currentUser, setOpenModal, selectedUser, surveysList, redirectTo="search"
 }) => {
 	const [ similarityResult, setSimilarityResult ] = useState();
 	const [ similarityDescription, setSimilarityDescription ] = useState();
 	const [ selectedSurveyTitle, setSelectedSurveyTitle ] = useState("General");
 	const history = useHistory();
+	window.jQuery("#modal").modal("show");
 
 	useEffect(() => {
-		window.jQuery("#modal").modal("show");
 	}, []);
 
 	const getSimilarities = async (survey) => {
@@ -24,7 +23,6 @@ const CheckSimilarityComponent = ({
 			firestore.collection("survey_responses").where("category", "==", survey.category).where("userId", "in", [currentUser.id, selectedUser.id]).get()
 		);
 		let result = "";
-		console.log("responses", responses)
 		if (responses.length === 2) {
 			result = await SimilarityChecker(responses);
 			setSimilarityResult(result.common);
@@ -37,20 +35,6 @@ const CheckSimilarityComponent = ({
 	}
 
 	getSimilarities({category: "general", title: "General"});
-
-	const getSurveys = async () => {
-		let surveys = [];
-		if (currentUser.admin) {
-			surveys = await get("surveys");
-		} else {
-			surveys = await getQuery(
-				firestore.collection('surveys').where("active", "==", true).get()
-			);
-		}
-		bindSurveysList(surveys.sort((a,b) => a.createdAt - b.createdAt));
-	}
-	if (!surveysList[0]) getSurveys();
-
 
 	const modalBody = () => {
 		return (
@@ -93,7 +77,7 @@ const CheckSimilarityComponent = ({
 		// surveyId = "";
 		window.jQuery("#modal").modal("hide");
 		setOpenModal(false);
-		history.push("/app/search");
+		history.push("/app/"+redirectTo);
 	}
 	return (
 		<div>
@@ -107,13 +91,7 @@ const mapStateToProps = (state) => {
 	return { surveysList };
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		bindSurveysList: (content) => dispatch(SetSurveysList(content))
-	}
-}
-
 export default connect(
 	mapStateToProps, 
-	mapDispatchToProps
+	null
 )(CheckSimilarityComponent);

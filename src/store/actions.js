@@ -10,7 +10,11 @@ import {
 	SET_NEW_MESSAGES_COUNT,
 	SET_NEW_ALERTS_COUNT
 } from "./types.js";
-import { getNewMessagesCount, getNewAlertsCount } from "lib/api";
+import { 
+	getNewMessagesCount,
+	getNewAlertsCount,
+	getSurveysList
+} from "lib/api";
 
 export const SetDbUser = (content) => {
 	return {
@@ -75,12 +79,16 @@ export const SetConvos = (content) => {
 	}
 }
 
-export const SetSurveysList = (content) => {
-	return {
-		type: SET_SURVEYS_LIST,
-		payload: {
-			surveys: content
-		}
+export const SetSurveysList = (currentUser) => {
+	return (dispatch) => {
+		getSurveysList(currentUser).then(res => {
+			dispatch({
+				type: SET_SURVEYS_LIST,
+				payload: {
+					surveys: res
+				}				
+			});
+		});
 	}
 }
 

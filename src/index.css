@@ -29,6 +29,10 @@ code {
 	cursor: pointer;
 }
 
+.font-small {
+	font-size: small !important;
+}
+
 .letter-spacing-2 {
 	letter-spacing: 0.05em;
 }
@@ -263,6 +267,25 @@ button:active {
 	cursor: pointer;
 }
 
+/* Home */
+.create-post-card {
+	border-radius: 0px !important;	
+}
+
+.create-post-card-type {
+	cursor: pointer;
+	border: 0px solid #fff !important;
+	border-radius: 0px !important;
+	font-weight: bold;
+	color: #777;
+}
+
+.post-card-image img {
+	object-fit: contain;
+	width: 39px;
+	border-radius: 50%;
+}
+
 /* Surveys */
 .survey-textbox,
 .survey-textbox:focus,
@@ -292,8 +315,8 @@ button:active {
 
 .survey-input:focus,
 .survey-input:active,
-.custom-select:focus,
-.custom-select:active {
+.select:focus,
+.select:active {
 	box-shadow: none !important;
   border-bottom: 2px solid #DC3545 !important;
 }
@@ -312,7 +335,7 @@ button:active {
 	font-size: 14px !important;
 }
 
-.custom-select {
+.select {
 	border: 0px !important;
   border-bottom: 1px solid #aaa !important;
   border-radius: 0px !important;
@@ -534,6 +557,12 @@ button:active {
 }
 
 /* Media queries */
+@media (max-width: 575px) {
+	.font-xs-small {
+		font-size: small !important;
+	}
+}
+
 @media (min-width: 576px) {
 }
 

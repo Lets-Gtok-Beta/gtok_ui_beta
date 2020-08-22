@@ -101,13 +101,10 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 				    </p>
 				  </div>
 			  </div>
-			  <div className="card-body">
-			  	<small>
-				  	See your similarities with {displayUser.displayName}.
-				    <button className="btn btn-link btn-sm pl-0" onClick={e => openModal(displayUser)}>
-				    Click here
-				    </button>
-				  </small>
+			  <div className="pull-right pt-0">
+			    <button className="btn btn-link btn-sm pt-0 pl-0 pull-right" onClick={e => openModal(displayUser)}>
+				    Compare with {displayUser.displayName.split(" ")[0]}
+			    </button>
 			  </div>
 			</div>
 			{openSimilarities && selectedUser && <CheckSimilarityComponent setOpenModal={setOpenSimilarities} currentUser={currentUser} selectedUser={selectedUser} />}
