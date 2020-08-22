@@ -8,10 +8,13 @@ import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon } from "images";
 
 function PublicProfileComponent(props) {
-	const { premium } = props.currentUser;
+	const { id, premium } = props.currentUser;
 	const userId = props.match.params.name;
 	const [ displayUser, setDisplayUser ] = useState();
 	const [ loading, setLoading ] = useState(true);
+
+	const history = useHistory();
+	if (userId === id ) history.push("/app/profile");
 
 	useEffect(() => {
 		if (!userId) { 
@@ -27,7 +30,6 @@ function PublicProfileComponent(props) {
 		}
 		getUser();
 	}, [userId]);
-  const history = useHistory();
 
   const displayFollowers = async () => {
   	if (!premium) {

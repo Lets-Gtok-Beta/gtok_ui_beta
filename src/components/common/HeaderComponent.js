@@ -5,10 +5,15 @@ import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
 import { Metadata } from "constants/index";
 import { gtokFavicon } from "images";
-import { SetNewMessagesCount, SetNewAlertsCount } from "store/actions";
+import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList } from "store/actions";
 
 const HeaderComponent = ({
-	currentUser, newMessagesCount, bindNewMessagesCount, newAlertsCount, bindNewAlertsCount
+	currentUser,
+	newMessagesCount,
+	bindNewMessagesCount,
+	newAlertsCount,
+	bindNewAlertsCount,
+	bindSurveysList
 }) => {
 	const [metaDetails, setMetaDetails] = useState({});
 	useEffect(() => {
@@ -24,7 +29,8 @@ const HeaderComponent = ({
 		}
 		bindNewMessagesCount(currentUser);
 		bindNewAlertsCount(currentUser);
-	}, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, currentUser]);
+		bindSurveysList(currentUser);
+	}, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, bindSurveysList, currentUser]);
 
   return (
     <div>
@@ -36,7 +42,7 @@ const HeaderComponent = ({
       </Helmet>
     	<nav className="navbar fixed-top navbar-expand-sm py-md-0">
     		<div className="navbar-brand mr-auto">
-	        <Link to="/app/profile">
+	        <Link to="/app/home">
 	        	<img src={gtokFavicon} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
 	        	<span className="badge badge-secondary beta-badge">Beta</span>
 	        </Link>
@@ -48,6 +54,11 @@ const HeaderComponent = ({
 			  </button>
 			  <div className="collapse navbar-collapse">
 			  	<ul className="navbar-nav mx-auto">
+						<li className="nav-item active" title="Home">
+							<div className="nav-link">
+				        <Link to="/app/home" className="text-secondary">Home</Link>
+				      </div>
+			      </li>
 						<li className="nav-item active" title="Search">
 							<div className="nav-link">
 				        <Link to="/app/search" className="text-secondary">Search</Link>
@@ -118,7 +129,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		bindNewMessagesCount: (content) => dispatch(SetNewMessagesCount(content)),
-		bindNewAlertsCount: (content) => dispatch(SetNewAlertsCount(content))
+		bindNewAlertsCount: (content) => dispatch(SetNewAlertsCount(content)),
+		bindSurveysList: (content) => dispatch(SetSurveysList(content))
 	}
 }
 

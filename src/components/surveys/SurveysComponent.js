@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { get, getQuery, remove, update, firestore } from "firebase_config";
+import { getQuery, remove, update, firestore } from "firebase_config";
 import { NotificationComponent, LoadingComponent } from "components";
 import { SetSurveysList } from "store/actions";
 
@@ -28,20 +28,6 @@ const SurveysComponent = ({
 		}
 		getFilledSurveys();
 	}, [refresh, currentUser]);
-
-	const getSurveys = async () => {
-		let surveys = [];
-		if (currentUser.admin) {
-			surveys = await get("surveys");
-		} else {
-			surveys = await getQuery(
-				firestore.collection('surveys').where("active", "==", true).get()
-			);
-		}
-		bindSurveysList(surveys.sort((a,b) => a.createdAt - b.createdAt));
-		setLoading(false);
-	}
-	if (!surveysList[0]) getSurveys();
 
 	const openSurveyModal = async (id, survey={}) => {
 		if (isSurveyFilled(id) && !currentUser.admin && id !== "new") {
@@ -79,7 +65,7 @@ const SurveysComponent = ({
 	const setSurveyStatus = async (survey) => {
 		survey["active"] = !survey.active;
 		await update("surveys", survey.id, {active: survey.active});
-		await getSurveys();
+		await bindSurveysList(currentUser);
 	}
 
 	return (

@@ -55,7 +55,7 @@ const FormFieldsComponent = ({ques, response, setResponse}) => {
 	);
 	let typeDropdown = () => (
 		<div>
-			<select className="custom-select" onChange={e => setResponse({...response, [ques.question]: e.target.value})}>
+			<select className="custom-select select" onChange={e => setResponse({...response, [ques.question]: e.target.value})}>
 			  <option defaultValue>Select value</option>
 				{
 					ques.value.map((val, idx) => (

@@ -1,63 +1,67 @@
 export const Metadata = {
+	"/app/home": {
+		title: "Lets Gtok",
+		description: "GTOK profile is a place where you can edit profile page."
+	},
 	"/app/profile": {
-		title: "GTOK | Profile",
+		title: "Profile | Lets Gtok",
 		description: "GTOK profile is a place where you can edit profile page."
 	},
 	"/app/search": {
-		title: "GTOK | Search",
+		title: "Search | Lets Gtok",
 		description: "GTOK search is a place where you can find similaraties between people."
 	},
 	"/app/similarities": {
-		title: "GTOK | Similarities",
+		title: "Similarities | Lets Gtok",
 		description: "GTOK similarities is a place where you can fill details."
 	},
 	"/app/graphs": {
-		title: "GTOK | Graphs",
+		title: "Graphs | Lets Gtok",
 		description: "GTOK graphs is an analytics page."
 	},
 	"/app/alerts": {
-		title: "GTOK | Alerts",
+		title: "Alerts | Lets Gtok",
 		description: "GTOK alerts"
 	},
 	"/app/chats": {
-		title: "GTOK | Messages",
+		title: "Messages | Lets Gtok",
 		description: "GTOK Messages is a places where you can chat each other"
 	},
 	"/app/payments": {
-		title: "GTOK | Payments",
+		title: "Payments | Lets Gtok",
 		description: "GTOK payments"
 	},
 	"/app/support": {
-		title: "GTOK | Support",
+		title: "Support | Lets Gtok",
 		description: "GTOK support has Faq's"
 	},
 	"/login": {
-		title: "GTOK | Login",
+		title: "Login | Lets Gtok",
 		description: "Login into our lets GTOK application to access our app complete features."
 	},
 	"/signup": {
-		title: "GTOK | Signup",
+		title: "Signup | Lets Gtok",
 		description: "Signup into our lets GTOK application."
 	},
 	"/signup_success": {
-		title: "GTOK | Signup success"
+		title: "Signup success | Lets Gtok"
 	},
 	"/forgot_password": {
-		title: "GTOK | Forgot password",
+		title: "Forgot password | Lets Gtok",
 		description: "Forgot password in lets GTOK application."
 	},
 	"/logout": {
-		title: "GTOK | Logout",
+		title: "Logout | Lets Gtok",
 		description: "Logged out."
 	},
 	"/profile_deleted": {
-		title: "GTOK | Profile deleted"
+		title: "Profile deleted | Lets Gtok"
 	},
 	"/error": {
-		title: "GTOK | 404 Not found"
+		title: "Error | Lets Gtok"
 	},
 	"default": {
-		title: "GTOK"
+		title: "Lets Gtok"
 	}
 }
 
