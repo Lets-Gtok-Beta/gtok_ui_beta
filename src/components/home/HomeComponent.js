@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import { add, get } from "firebase_config";
 import { DisplayPostComponent } from "components";
 
 const HomeComponent = ({currentUser}) => {
 	const [ charCount, setCharCount ] = useState(143);
-	const [ postType, setPostType ] = useState("help");
+	const [ postType, setPostType ] = useState("human");
 	const [ postText, setPostText ] = useState("");
 	const [ category, setCategory ] = useState("");
 	const [ postBtn, setPostBtn ] = useState("Post");
@@ -59,13 +60,22 @@ const HomeComponent = ({currentUser}) => {
     <div className="container">
       <div className="card create-post-card">
       	<div className="d-flex">
-      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType === "help" ? "#eee" : "white")}} onClick={e => setPostType("help")}>Need help. Type here...</div>
-      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "help" ? "#eee" : "white")}} onClick={e => setPostType("not-help")}>Else, Type here...</div>
+      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "bot" ? "#eee" : "white")}} onClick={e => setPostType("human")}>Type a post</div>
+      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType === "bot" ? "#eee" : "white")}} onClick={e => setPostType("bot")}>Automate a post</div>
       	</div>
       	{
-      		postType && 
+      		postType === "bot" ?
+      		<div className="">
+      			<p className="p-3 px-md-5 text-center">
+      			Our <b>Gtok Bot</b> automatically generates a post, if you answer few questions. <br/>
+      			<Link to="/app/similarities" className="text-center">
+      			Generate Post
+      			</Link>
+      			</p>
+      		</div>
+      		:
 	      	<div className="">
-			    	<textarea className="survey-textbox font-xs-small" rows={3} placeholder={postType === "help" ? "Share what help do you require. Ex: Needs a job..." : "Write something about yourself and find how many similar people around you. Ex: Love BBQ..."} maxLength="143" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
+			    	<textarea className="survey-textbox font-xs-small" rows={3} placeholder="Write something about yourself and find how many similar people around you. Ex: Love BBQ, Needs a job..." maxLength="143" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
 						<div className="input-group px-1">
 						  <div className="input-group-prepend">
 						    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">

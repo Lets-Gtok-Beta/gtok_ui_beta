@@ -89,7 +89,7 @@ const SignupComponent = () => {
     	<StaticHeaderComponent />
     	<div className="mt-5 pt-3">
 		    <h4>Signup</h4>
-		    <div classname="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
+		    <div className="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
       {error ? <div className="alert alert-danger">{error}</div> : ''}
 	      <div className="form pt-4">
 	        <input
@@ -153,7 +153,7 @@ const SignupComponent = () => {
 						</div>
 					</div>
 				  <div className="text-center">
-					  <button className="btn btn-sm btn-sm-app" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+					  <button className="btn btn-secondary btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
 				  </div>
 					<br/>
 	        <Link to="/login">Existing User? Login</Link>

@@ -74,7 +74,7 @@ const SurveysComponent = ({
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
       <h6 className="text-center text-secondary">
-      	To find similarities, you need to answer few questions in each category. &nbsp;
+      	To find similarities or to generate a post, you need to answer few questions in each category. &nbsp;
       	<i className="fa fa-info-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories include Daily needs, Profession, Help, Fashion, Food habits, Health & more"></i> <br/>
       </h6>
       {	currentUser.admin && 

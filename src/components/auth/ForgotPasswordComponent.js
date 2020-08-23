@@ -62,7 +62,7 @@ const ForgotPasswordComponent = () => {
         />
         <br />
 			  <div className="text-center">
-				  <button className="btn btn-sm-app" disabled={btnSave !== 'Send'} onClick={e => handleForm(e)}>{btnSave}</button>
+				  <button className="btn btn-secondary btn-sm" disabled={btnSave !== 'Send'} onClick={e => handleForm(e)}>{btnSave}</button>
 				 </div>
       </div>
   	</div>
