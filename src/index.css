@@ -267,8 +267,14 @@ button:active {
 .navbar-nav .nav-item:hover a,
 .navbar-nav .nav-item:hover a:hover {
 	/*color: #fff !important;*/
-	/*text-decoration: none;*/
+	text-decoration: none;
 }
+
+.navbar-nav .nav-item-active {
+	border-bottom: 2px solid #6c757d;
+	color: red;
+}
+
 
 .navbar-nav .nav-profile:hover {
 	background-color: rgba(255, 255, 255, 1);
@@ -284,8 +290,7 @@ button:active {
 	cursor: pointer;
 	border: 0px solid #fff !important;
 	border-radius: 0px !important;
-	font-weight: bold;
-	color: #777;
+	color: #6c757d !important;
 }
 
 .post-card-image img {

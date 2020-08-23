@@ -54,29 +54,24 @@ const HeaderComponent = ({
 			  </button>
 			  <div className="collapse navbar-collapse">
 			  	<ul className="navbar-nav mx-auto">
-						<li className="nav-item active" title="Home">
+						<li className={`nav-item ${(metaDetails.path === "home") && "nav-item-active"}`} title="Home">
 							<div className="nav-link">
 				        <Link to="/app/home" className="text-secondary">Home</Link>
 				      </div>
 			      </li>
-						<li className="nav-item active" title="Search">
+						<li className={`nav-item ${(metaDetails.path === "search") && "nav-item-active"}`} title="Search">
 							<div className="nav-link">
 				        <Link to="/app/search" className="text-secondary">Search</Link>
 				      </div>
 			      </li>
-						<li className="nav-item" title="Categories">
-							<div className="nav-link">
-								<Link to="/app/similarities" className="text-secondary">Categories</Link>
-				      </div>
-			      </li>
-						<li className="nav-item" title="Messages">
+						<li className={`nav-item ${(metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
 							<div className="nav-link">
 								<Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G" className="text-secondary">
 								Messages{newMessagesCount > 0 && <span className="badge badge-danger count-badge">{newMessagesCount}</span>}
 								</Link>
 				      </div>
 			      </li>
-						<li className="nav-item" title="Alerts">
+						<li className={`nav-item ${(metaDetails.path === "alerts") && "nav-item-active"}`} title="Alerts">
 							<div className="nav-link">
 				        <Link to="/app/alerts" className="text-secondary">
 				        	Alerts{newAlertsCount > 0 && <span className="badge badge-danger count-badge">{newAlertsCount}</span>}
@@ -84,9 +79,17 @@ const HeaderComponent = ({
 		      		</div>
 		      	</li>
 					  { currentUser.admin && (
-								<li className="nav-item">
+							<li className={`nav-item ${(metaDetails.path === "similarities") && "nav-item-active"}`} title="Similarities">
+								<div className="nav-link">
+									<Link to="/app/similarities" className="text-secondary">Similarities</Link>
+					      </div>
+				      </li>
+				      )
+				    }
+					  { currentUser.admin && (
+								<li className={`nav-item ${(metaDetails.path === "graphs") && "nav-item-active"}`} title="Graphs">
 									<div className="nav-link">
-										<Link to="/app/graphs">Graphs</Link>
+										<Link to="/app/graphs" className="text-secondary">Graphs</Link>
 						      </div>
 						    </li>
 			      	)

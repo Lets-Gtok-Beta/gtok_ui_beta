@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 const ModalComponent = ({
-	header, subHeader="", body, save, close, beforeSave, modalWidth="lg"
+	header, subHeader="", body, save, close, beforeSave, modalWidth="lg", btnSave="Save"
 }) => {
-	const [ btnSave, setBtnSave ] = useState("Save");
+	const [ buttonSave, setButtonSave ] = useState(btnSave);
 
 	const saveModal = async () => {
 		let checksPassed = true;
@@ -12,9 +12,9 @@ const ModalComponent = ({
 		}
 		if (checksPassed)
 			if (window.confirm("Are you sure to save?")) {		
-				setBtnSave("Saving...")
+				setButtonSave("Saving...")
 				await save();
-				setBtnSave("Saved!")
+				setButtonSave("Saved!")
 			}
 	}
 
@@ -31,12 +31,12 @@ const ModalComponent = ({
 		        }
 		      </div>
 		      <div className="modal-body">
-		      	{subHeader && <p className="modal-subtitle">{subHeader}</p>}
+		      	{subHeader && <p className="modal-subtitle text-center">{subHeader}</p>}
 		      	{body()}
 		      </div>
 		      <div className="modal-footer">
 		      	{
-		      		save && 
+		      		save && buttonSave === "Save" &&
 			      	<small className="text-danger text-center">
 			      	*Make sure you entered everything correctly. You cannot edit once you save.
 			      	</small>
@@ -48,7 +48,7 @@ const ModalComponent = ({
 		        }
 		        {
 		        	save &&
-			        <button type="button" className="btn btn-sm btn-success" onClick={e => saveModal(e)} disabled={btnSave !== 'Save'}>{btnSave}</button>
+			        <button type="button" className="btn btn-sm btn-success" onClick={e => saveModal(e)} disabled={buttonSave !== btnSave}>{buttonSave}</button>
 		        }
 		      </div>
 		    </div>

@@ -76,7 +76,6 @@ const CheckSimilarityComponent = ({
 	const onClose = () => {
 		// surveyId = "";
 		window.jQuery("#modal").modal("hide");
-		setOpenModal(false);
 		history.push("/app/"+redirectTo);
 	}
 	return (

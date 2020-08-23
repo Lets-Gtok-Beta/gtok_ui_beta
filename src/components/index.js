@@ -36,6 +36,8 @@ import SupportComponent from "components/support/SupportComponent";
 import PermissionsComponent from "components/permissions/PermissionsComponent";
 import LoadingComponent from "components/common/LoadingComponent";
 import DisplayPostComponent from "components/home/DisplayPostComponent";
+import GeneratePostComponent from "components/home/GeneratePostComponent";
+import TodayTrendsComponent from "components/home/TodayTrendsComponent";
 
 export {
 	LoginComponent,
@@ -75,5 +77,7 @@ export {
 	SupportComponent,
 	PermissionsComponent,
 	LoadingComponent,
-	DisplayPostComponent
+	DisplayPostComponent,
+	GeneratePostComponent,
+	TodayTrendsComponent
 }

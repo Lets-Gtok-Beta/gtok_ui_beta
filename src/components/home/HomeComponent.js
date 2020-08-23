@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
-import { add, get } from "firebase_config";
-import { DisplayPostComponent } from "components";
+import { add, get, timestamp } from "firebase_config";
+import { DisplayPostComponent, GeneratePostComponent } from "components";
+import { PostCategories } from "constants/categories";
 
 const HomeComponent = ({currentUser}) => {
 	const [ charCount, setCharCount ] = useState(143);
@@ -10,7 +10,7 @@ const HomeComponent = ({currentUser}) => {
 	const [ postText, setPostText ] = useState("");
 	const [ category, setCategory ] = useState("");
 	const [ postBtn, setPostBtn ] = useState("Post");
-	let categories = ["Food habits", "Pet lovers", "Random"];
+	const [ generatePost, setGeneratePost ] = useState(false);
 
 	const [ posts, setPosts ] = useState([]);
 
@@ -46,7 +46,10 @@ const HomeComponent = ({currentUser}) => {
 		let result = await add("posts", {
 			text: postText.trim(),
 			userId: currentUser.id,
-			followers: []
+			followers: [],
+			followersCount: 0,
+			category: PostCategories.find(c => c.title === category),
+			timestamp
 		});
 		if (result.status === 200) {
 			setPostText("");
@@ -66,11 +69,11 @@ const HomeComponent = ({currentUser}) => {
       	{
       		postType === "bot" ?
       		<div className="">
-      			<p className="p-3 px-md-5 text-center">
-      			Our <b>Gtok Bot</b> automatically generates a post, if you answer few questions. <br/>
-      			<Link to="/app/similarities" className="text-center">
+      			<p className="p-3 px-md-5 text-center text-secondary">
+      			Answer few questions and our Gtok Bot generates a post for you.<br/>
+      			<button className="btn btn-link text-center" onClick={e => setGeneratePost(true)}>
       			Generate Post
-      			</Link>
+      			</button>
       			</p>
       		</div>
       		:
@@ -85,8 +88,10 @@ const HomeComponent = ({currentUser}) => {
 						  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange("category", e.target.value)} value={category}>
 						    <option defaultValue value="">Choose...</option>
 						    {
-						    	categories.map(category => (
-						    		<option value={category} key={category}>{category}</option>
+						    	PostCategories.map(category => (
+						    		<option value={category.title} key={category.key}>
+						    		{category.title}
+						    		</option>
 						    	))
 						    }
 						  </select>
@@ -103,13 +108,15 @@ const HomeComponent = ({currentUser}) => {
 			    </div>
 			  }
 	    </div>
-
 	    {
 	    	posts[0] && posts.map((post, idx) => (
 		    	<DisplayPostComponent currentUser={currentUser} post={post} key={idx} />
 	    	))
 	    }
-    </div>
+			{
+				generatePost && <GeneratePostComponent setOpenModal={setGeneratePost} currentUser={currentUser} />
+			}
+		</div>
   );
 };
 

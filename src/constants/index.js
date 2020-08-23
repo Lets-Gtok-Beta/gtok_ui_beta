@@ -1,39 +1,48 @@
 export const Metadata = {
 	"/app/home": {
 		title: "Lets Gtok",
-		description: "GTOK profile is a place where you can edit profile page."
+		description: "GTOK profile is a place where you can edit profile page.",
+		path: "home"
 	},
 	"/app/profile": {
 		title: "Profile | Lets Gtok",
-		description: "GTOK profile is a place where you can edit profile page."
+		description: "GTOK profile is a place where you can edit profile page.",
+		path: "profile"
 	},
 	"/app/search": {
 		title: "Search | Lets Gtok",
-		description: "GTOK search is a place where you can find similaraties between people."
+		description: "GTOK search is a place where you can find similaraties between people.",
+		path: "search"
 	},
 	"/app/similarities": {
 		title: "Similarities | Lets Gtok",
-		description: "GTOK similarities is a place where you can fill details."
+		description: "GTOK similarities is a place where you can fill details.",
+		path: "similarities"
 	},
 	"/app/graphs": {
 		title: "Graphs | Lets Gtok",
-		description: "GTOK graphs is an analytics page."
+		description: "GTOK graphs is an analytics page.",
+		path: "graphs"
 	},
 	"/app/alerts": {
 		title: "Alerts | Lets Gtok",
-		description: "GTOK alerts"
+		description: "GTOK alerts",
+		path: "alerts"
 	},
 	"/app/chats": {
 		title: "Messages | Lets Gtok",
-		description: "GTOK Messages is a places where you can chat each other"
+		description: "GTOK Messages is a places where you can chat each other",
+		path: "chats"
 	},
 	"/app/payments": {
 		title: "Payments | Lets Gtok",
-		description: "GTOK payments"
+		description: "GTOK payments",
+		path: "payments"
 	},
 	"/app/support": {
 		title: "Support | Lets Gtok",
-		description: "GTOK support has Faq's"
+		description: "GTOK support has Faq's",
+		path: "support"
 	},
 	"/login": {
 		title: "Login | Lets Gtok",

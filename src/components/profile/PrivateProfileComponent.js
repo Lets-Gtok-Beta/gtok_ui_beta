@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import { 
 	NotificationComponent,
-	SurveysComponent,
 	PermissionsComponent
 } from "components";
 import { update, uploadImage, removeImage, signout } from "firebase_config";
@@ -24,10 +23,10 @@ function PrivateProfileComponent({
 	const [btnSignout, setBtnSignout] = useState('Logout');
 	const [result, setResult] = useState({});
   const history = useHistory();
-  const pathDetails = {
-  	path: "/app/profile",
-  	isNewPath: true
-  }
+  // const pathDetails = {
+  // 	path: "/app/profile",
+  // 	isNewPath: true
+  // }
 
   // Window handlers
 	window.jQuery('[data-toggle="popover"]').popover();
@@ -187,12 +186,6 @@ function PrivateProfileComponent({
 				      <input type="file" className="form-control-plaintext d-none" id="staticImage" onChange={e => uploadFile(e.target.files[0])} accept="image/*" />
 				    </div>
 				  </div>
-					{ !dbUser.admin &&
-					<div>
-						<hr/>
-						<h5 className="text-center">Categories</h5>
-						<SurveysComponent currentUser={dbUser} redirectTo={pathDetails} />
-					</div> }
 					<hr/>
 					<h5 className="text-center">Permissions</h5>
 					<PermissionsComponent currentUser={dbUser} />

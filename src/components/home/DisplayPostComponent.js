@@ -32,10 +32,10 @@ const DisplayPostComponent = ({currentUser, post}) => {
 			return null;
 		}
   	if (!follower) {
-	  	await update("posts", post.id, { followers: arrayAdd(currentUser.id) });
+	  	await update("posts", post.id, { followers: arrayAdd(currentUser.id), followersCount: post.followers.length+1 });
 	  	setFollower(true);
   	} else {
-	  	await update("posts", post.id, { followers: arrayRemove(currentUser.id) });
+	  	await update("posts", post.id, { followers: arrayRemove(currentUser.id), followersCount: post.followers.length-1 });
 	  	setFollower(false);
   	}
 	}
@@ -57,7 +57,7 @@ const DisplayPostComponent = ({currentUser, post}) => {
 		  </div>
 		  <div className="card-body text-center pb-2">
 		  	<p className="white-space-preline">{post.text}</p>
-	  		<div className="font-small">This post has {post.followers.length} same pinch{post.followers.length !== 1 && "es"}</div>
+	  		<div className="font-small">This post has {post.followersCount} same pinch{post.followersCount !== 1 && "es"}</div>
 	  		<p>
 		  	{
 		  		currentUser.id !== post.userId &&

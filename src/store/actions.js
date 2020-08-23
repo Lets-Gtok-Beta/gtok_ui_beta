@@ -8,12 +8,14 @@ import {
 	SET_CONVOS,
 	SET_SURVEYS_LIST,
 	SET_NEW_MESSAGES_COUNT,
-	SET_NEW_ALERTS_COUNT
+	SET_NEW_ALERTS_COUNT,
+	SET_TRENDING_POSTS
 } from "./types.js";
 import { 
 	getNewMessagesCount,
 	getNewAlertsCount,
-	getSurveysList
+	getSurveysList,
+	getTrendingPosts
 } from "lib/api";
 
 export const SetDbUser = (content) => {
@@ -112,6 +114,19 @@ export const SetNewAlertsCount = (currentUser) => {
 				type: SET_NEW_ALERTS_COUNT,
 				payload: {
 					newAlertsCount: res
+				}
+			});
+		});
+	}
+}
+
+export const SetTrendingPosts = (currentUser) => {
+	return (dispatch) => {
+		getTrendingPosts(currentUser).then(res => {
+			dispatch({
+				type: SET_TRENDING_POSTS,
+				payload: {
+					trendingPosts: res
 				}
 			});
 		});

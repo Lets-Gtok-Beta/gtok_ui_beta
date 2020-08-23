@@ -1,3 +1,18 @@
+export const PostCategories = [
+	{
+		title: "Food habits",
+		key: "food_habits"
+	},
+	{
+		title: "General",
+		key: "general"
+	},
+	{
+		title: "Pet lovers",
+		key: "pet_lovers"
+	}
+]
+
 export const SimilarityCategories = [
 	{
 		"id": "food_habits",
