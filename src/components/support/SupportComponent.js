@@ -9,12 +9,12 @@ const SupportComponent = ({currentUser}) => {
 			  <div className="card">
 			    <div className="card-header" id="headingOne">
 		        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-		          Step 1 : Categories page
+		          Step 1 : Home page
 		        </button>
 			    </div>
 			    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 			      <div className="card-body p-4 text-justify text-secondary">
-			      	Various categories will be displayed in <Link to="/app/similarities"> categories </Link> page. In each category, you need to answer few questions. Fill as many categories as possible, to get better similarity result.
+			      	Write and share about yourself in <Link to="/app/home"> home </Link> page. Can, even, generate a post by answering questions.
 			      </div>
 			    </div>
 			  </div>

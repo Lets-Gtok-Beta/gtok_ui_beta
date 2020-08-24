@@ -9,14 +9,33 @@ import {
 	SET_SURVEYS_LIST,
 	SET_NEW_MESSAGES_COUNT,
 	SET_NEW_ALERTS_COUNT,
-	SET_TRENDING_POSTS
+	SET_TRENDING_POSTS,
+	SET_POSTS
 } from "./types.js";
 import { 
 	getNewMessagesCount,
 	getNewAlertsCount,
 	getSurveysList,
-	getTrendingPosts
+	getTrendingPosts,
+	getPosts
 } from "lib/api";
+
+export const SetUserLocation = (currentUser) => {
+	return (dispatch) => {
+		if (!navigator.geolocation) {
+			console.log("Geolocation is not supported by your browser");
+			return;
+		}
+		fetch('https://extreme-ip-lookup.com/json/')
+			.then( res => res.json())
+			.then(response => {
+			    console.log("Country: ", response);
+			 })
+			 .catch((data, status) => {
+			    console.log('Request failed');
+			 })
+	}
+}
 
 export const SetDbUser = (content) => {
 	return {
@@ -127,6 +146,19 @@ export const SetTrendingPosts = (currentUser) => {
 				type: SET_TRENDING_POSTS,
 				payload: {
 					trendingPosts: res
+				}
+			});
+		});
+	}
+}
+
+export const SetPosts = (currentUser) => {
+	return (dispatch) => {
+		getPosts(currentUser).then(res => {
+			dispatch({
+				type: SET_POSTS,
+				payload: {
+					posts: res
 				}
 			});
 		});

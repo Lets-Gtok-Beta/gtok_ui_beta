@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 import moment from "moment";
 
-import { arrayAdd, arrayRemove, getId, update } from "firebase_config";
+import { arrayAdd, arrayRemove, getId, update, remove } from "firebase_config";
 import { gtokFavicon } from "images";
 import { CheckSimilarityComponent } from "components";
 import { capitalizeFirstLetter } from "helpers";
+import { SetPosts } from "store/actions";
 
-const DisplayPostComponent = ({currentUser, post}) => {
+const DisplayPostComponent = ({currentUser, post, setResult, bindPosts}) => {
 	const [ postedUser, setPostedUser ] = useState("");
 	const [ follower, setFollower ] = useState(false);
 	const [ openSimilarities, setOpenSimilarities ] = useState(false);
@@ -40,6 +42,14 @@ const DisplayPostComponent = ({currentUser, post}) => {
   	}
 	}
 
+	const deletePost = async (id) => {
+		if (window.confirm("Are you sure to delete this post?")) {
+			let result = await remove("posts", id);
+			setResult(result);
+			await bindPosts(currentUser);
+		}
+	}
+
   return postedUser && (
     <div className="card card-br-0 mt-2">
 			<div className="media post-card-image p-2">
@@ -49,6 +59,12 @@ const DisplayPostComponent = ({currentUser, post}) => {
 			  <div className="media-body">
 			    <h6 className="my-0 text-camelcase font-small">
 			    	{capitalizeFirstLetter(postedUser.displayName)}
+			    	{
+			    		(post.userId === currentUser.id) && 
+				    	<button className="btn btn-sm btn-danger pull-right" onClick={e => deletePost(post.id)}>
+				    		<i className="fa fa-trash"></i>
+				    	</button>
+			    	}
 			    </h6>
 			    <span className="font-small">
 			    <i className="fa fa-clock-o"></i>&nbsp;{moment(post.createdAt).fromNow()}
@@ -79,4 +95,13 @@ const DisplayPostComponent = ({currentUser, post}) => {
   );
 };
 
-export default DisplayPostComponent;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindPosts: (content) => dispatch(SetPosts(content))
+	}
+}
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(DisplayPostComponent);

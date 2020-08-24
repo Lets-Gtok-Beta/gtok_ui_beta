@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
-import { add, get, timestamp } from "firebase_config";
-import { DisplayPostComponent, GeneratePostComponent } from "components";
+import { add, timestamp } from "firebase_config";
+import { 
+	DisplayPostComponent,
+	GeneratePostComponent,
+	NotificationComponent
+} from "components";
 import { PostCategories } from "constants/categories";
+import { SetPosts } from "store/actions";
 
-const HomeComponent = ({currentUser}) => {
+const HomeComponent = ({currentUser, posts, bindPosts}) => {
 	const [ charCount, setCharCount ] = useState(143);
 	const [ postType, setPostType ] = useState("human");
 	const [ postText, setPostText ] = useState("");
 	const [ category, setCategory ] = useState("");
 	const [ postBtn, setPostBtn ] = useState("Post");
 	const [ generatePost, setGeneratePost ] = useState(false);
-
-	const [ posts, setPosts ] = useState([]);
+	const [ result, setResult ] = useState({});
 
 	useEffect(() => {
-		async function getPosts() {
-			let result = await get("posts");
-			setPosts(result);
-		}
-		getPosts();
-	}, []);
+		bindPosts(currentUser);
+	}, [bindPosts, currentUser]);
 
 	const handleChange = (key, val) => {
 		if (key === "post") {
@@ -56,11 +57,16 @@ const HomeComponent = ({currentUser}) => {
 			setCategory("");
 			setCharCount(143);
 		}
+		setResult(result);
 		setPostBtn("Post");
+		bindPosts(currentUser);
 	}
 
   return (
     <div className="container">
+	  	{
+	  		result.status && <NotificationComponent result={result} setResult={setResult} />
+	  	}
       <div className="card create-post-card">
       	<div className="d-flex">
       		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "bot" ? "#eee" : "white")}} onClick={e => setPostType("human")}>Type a post</div>
@@ -110,7 +116,7 @@ const HomeComponent = ({currentUser}) => {
 	    </div>
 	    {
 	    	posts[0] && posts.map((post, idx) => (
-		    	<DisplayPostComponent currentUser={currentUser} post={post} key={idx} />
+		    	<DisplayPostComponent currentUser={currentUser} post={post} key={idx} setResult={setResult}/>
 	    	))
 	    }
 			{
@@ -120,4 +126,18 @@ const HomeComponent = ({currentUser}) => {
   );
 };
 
-export default HomeComponent;
+const mapStateToProps = (state) => {
+	const { posts } = state.posts;
+	return { posts };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindPosts: (content) => dispatch(SetPosts(content))
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(HomeComponent);

@@ -1,10 +1,14 @@
-import { SET_TRENDING_POSTS } from "../types";
+import {
+	SET_TRENDING_POSTS,
+	SET_POSTS
+} from "../types";
 
 const INITIAL_STATE = {
-	trendingPosts: []
+	trendingPosts: [],
+	posts: []
 }
 
-const TrendingPosts = (state=INITIAL_STATE, action) => {
+const Posts = (state=INITIAL_STATE, action) => {
 	const { payload } = action;
 	switch (action.type) {
 		case SET_TRENDING_POSTS: {
@@ -13,9 +17,15 @@ const TrendingPosts = (state=INITIAL_STATE, action) => {
 				trendingPosts: payload.trendingPosts
 			}
 		}
+		case SET_POSTS: {
+			return {
+				...state,
+				posts: payload.posts
+			}
+		}
 		default:
 			return state;
 	}
 }
 
-export default TrendingPosts;
+export default Posts;
