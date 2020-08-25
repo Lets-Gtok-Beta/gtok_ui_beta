@@ -38,7 +38,7 @@ class App extends Component {
 					/* Get user details */
 					let currentUser = user.toJSON();
 					let orgUser = await getQuery(
-						firestore.collection('users').where("uid", "==", currentUser.email).get()
+						firestore.collection('users').where("email", "==", currentUser.email).get()
 					);
 					bindDbUser(orgUser[0]);
 					this.setState({
