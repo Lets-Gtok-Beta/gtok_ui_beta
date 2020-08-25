@@ -8,7 +8,6 @@ import {
 } from "components";
 import { add, update, uploadImage, removeImage, signout, timestamp } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
-import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon } from "images";
 
 function PrivateProfileComponent({
