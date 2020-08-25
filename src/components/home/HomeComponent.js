@@ -11,7 +11,7 @@ import { PostCategories } from "constants/categories";
 import { SetPosts } from "store/actions";
 
 const HomeComponent = ({currentUser, posts, bindPosts}) => {
-	const [ charCount, setCharCount ] = useState(143);
+	const [ charCount, setCharCount ] = useState(500);
 	const [ postType, setPostType ] = useState("human");
 	const [ postText, setPostText ] = useState("");
 	const [ category, setCategory ] = useState("");
@@ -25,7 +25,7 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 
 	const handleChange = (key, val) => {
 		if (key === "post") {
-			let chars = 143;
+			let chars = 500;
 			setCharCount(chars - val.length);
 			setPostText(val);
 		}
@@ -52,10 +52,20 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 			category: PostCategories.find(c => c.title === category),
 			timestamp
 		});
+  	/* Log the activity */
+  	await add("logs", {
+  		text: `${currentUser.displayName} created a post`,
+  		photoURL: currentUser.photoURL,
+  		receiverId: "",
+  		userId: currentUser.id,
+  		actionType: "create",
+  		collection: "posts",
+  		timestamp
+  	});
 		if (result.status === 200) {
 			setPostText("");
 			setCategory("");
-			setCharCount(143);
+			setCharCount(500);
 		}
 		setResult(result);
 		setPostBtn("Post");
@@ -84,7 +94,7 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
       		</div>
       		:
 	      	<div className="">
-			    	<textarea className="survey-textbox font-xs-small" rows={3} placeholder="Write something about yourself and find how many similar people around you. Ex: Love BBQ, Needs a job..." maxLength="143" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
+			    	<textarea className="survey-textbox font-xs-small" rows={3} placeholder="Write something about yourself and find how many similar people around you. Ex: Love BBQ, Needs a job..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
 						<div className="input-group px-1">
 						  <div className="input-group-prepend">
 						    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
@@ -107,7 +117,7 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 			    		{postBtn}
 			    		</button>
 			    		{
-			    			(charCount !== 143) &&
+			    			(charCount !== 500) &&
 				    		<small className="pull-right pr-2 pt-1">{charCount} chars left</small>
 			    		}
 			    	</div>

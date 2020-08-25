@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { add } from "firebase_config";
+import { add, timestamp } from "firebase_config";
 import { NotificationComponent, ModalComponent, FormFieldsComponent } from "components";
 
 const GeneratePostComponent = (props) => {
@@ -65,6 +65,18 @@ const GeneratePostComponent = (props) => {
 			response
 		}
 		let result = await add("survey_responses", data)
+		/* Log the activity */
+  	await add("logs", {
+  		text: `${currentUser.displayName} generated a post`,
+  		photoURL: currentUser.photoURL,
+  		receiverId: "",
+  		userId: currentUser.id,
+  		actionType: "create",
+  		collection: "survey_responses",
+  		actionKey: "surveyId",
+  		actionId: survey.id,
+  		timestamp
+  	});
 		setResult(result);
 		onClose();
 	}

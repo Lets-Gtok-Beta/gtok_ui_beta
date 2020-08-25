@@ -9,6 +9,7 @@ import HomeComponent from "components/home/HomeComponent";
 import DisplayComponent from "components/display_question/DisplayComponent";
 import PrivateProfileComponent from "components/profile/PrivateProfileComponent";
 import PublicProfileComponent from "components/profile/PublicProfileComponent";
+import SimilarityComponent from "components/profile/SimilarityComponent";
 import GraphsComponent from "components/graphs/GraphsComponent";
 import LineGraphComponent from "components/graphs/LineGraphComponent";
 import LineChartComponent from "components/graphs/LineChartComponent";
@@ -49,6 +50,7 @@ export {
 	DisplayComponent,
 	PrivateProfileComponent,
 	PublicProfileComponent,
+	SimilarityComponent,
 	GraphsComponent,
 	LineGraphComponent,
 	LineChartComponent,

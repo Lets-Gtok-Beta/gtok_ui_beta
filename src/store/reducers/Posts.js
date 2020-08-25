@@ -1,11 +1,13 @@
 import {
 	SET_TRENDING_POSTS,
-	SET_POSTS
+	SET_POSTS,
+	SET_SELECTED_USER_POSTS
 } from "../types";
 
 const INITIAL_STATE = {
 	trendingPosts: [],
-	posts: []
+	posts: [],
+	selectedUserPosts: []
 }
 
 const Posts = (state=INITIAL_STATE, action) => {
@@ -21,6 +23,12 @@ const Posts = (state=INITIAL_STATE, action) => {
 			return {
 				...state,
 				posts: payload.posts
+			}
+		}
+		case SET_SELECTED_USER_POSTS: {
+			return {
+				...state,
+				selectedUserPosts: payload.selectedUserPosts
 			}
 		}
 		default:

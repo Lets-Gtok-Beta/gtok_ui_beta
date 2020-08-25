@@ -10,6 +10,10 @@ export const PostCategories = [
 	{
 		title: "Pet lovers",
 		key: "pet_lovers"
+	},
+	{
+		title: "Favorite songs",
+		key: "favorite_songs"
 	}
 ]
 

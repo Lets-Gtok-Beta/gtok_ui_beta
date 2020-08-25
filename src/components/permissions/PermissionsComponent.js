@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { update, getQuery, firestore } from "firebase_config";
+import { add, update, getQuery, firestore, timestamp } from "firebase_config";
 
 function PublicProfileComponent({currentUser}) {
 	const [ loading, setLoading ] = useState(true);
@@ -22,6 +22,19 @@ function PublicProfileComponent({currentUser}) {
 		setLoading(true);
 		userPms[key] = !userPms[key];
 		await update("users", currentUser.id, {permissions: userPms});
+		/* Log the activity */
+  	await add("logs", {
+  		text: `${currentUser.displayName} updated permissions`,
+  		photoURL: currentUser.photoURL,
+  		receiverId: "",
+  		userId: currentUser.id,
+  		actionType: "update",
+  		collection: "users",
+  		actionId: currentUser.id,
+  		actionKey: "permissions",
+  		description: userPms,
+  		timestamp
+  	});
 		setUserPms((prevState) =>({...prevState, ...userPms}));
 		setLoading(false);
 	}

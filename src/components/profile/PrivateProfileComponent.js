@@ -6,7 +6,7 @@ import {
 	NotificationComponent,
 	PermissionsComponent
 } from "components";
-import { update, uploadImage, removeImage, signout } from "firebase_config";
+import { add, update, uploadImage, removeImage, signout, timestamp } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon } from "images";
@@ -52,6 +52,18 @@ function PrivateProfileComponent({
     	setBtnUpload("Upload");
     }
     await updateDbUser(data);
+		/* Log the activity */
+  	await add("logs", {
+  		text: `${dbUser.displayName} updated profile`,
+  		photoURL: dbUser.photoURL,
+  		receiverId: "",
+  		userId: dbUser.id,
+  		actionType: "update",
+  		collection: "users",
+  		actionId: dbUser.id,
+  		actionKey: "displayName",
+  		timestamp
+  	});
     setBtnSave("");
   };
 
@@ -98,11 +110,35 @@ function PrivateProfileComponent({
   	await uploadImage({
   		file, setBtnUpload, setResult, setProfileUrl
   	});
+		/* Log the activity */
+  	await add("logs", {
+  		text: `${dbUser.displayName} added profile image`,
+  		photoURL: dbUser.photoURL,
+  		receiverId: "",
+  		userId: dbUser.id,
+  		actionType: "update",
+  		collection: "users",
+  		actionId: dbUser.id,
+  		actionKey: "photoURL",
+  		timestamp
+  	});
   }
 
   const deleteFile = async () => {
   	if (window.confirm("Are you sure you want to remove profile image?")) {		
 	  	await removeImage(profileUrl);
+			/* Log the activity */
+	  	await add("logs", {
+	  		text: `${dbUser.displayName} removed profile image`,
+	  		photoURL: dbUser.photoURL,
+	  		receiverId: "",
+	  		userId: dbUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: dbUser.id,
+	  		actionKey: "photoURL",
+	  		timestamp
+	  	});
 	  	setProfileUrl(defaultImage);
 	    await updateDbUser({ photoURL: defaultImage });
   	}

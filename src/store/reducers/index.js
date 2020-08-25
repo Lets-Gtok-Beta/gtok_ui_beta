@@ -5,7 +5,7 @@ import conversations from "./Conversations";
 import chatMessages from "./ChatMessages";
 import surveys from "./SurveysList";
 import alerts from "./Alerts";
-import posts from "./TrendingPosts";
+import posts from "./Posts";
 
 export default combineReducers({
 	subscriptionPlans,

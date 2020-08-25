@@ -13,7 +13,7 @@ const AlertsComponent = ({currentUser}) => {
 
 	useEffect(() => {
 		async function getAlerts() {
-			let responses = await getQuery(firestore.collection('logs').where("receiverId", "==", currentUser.id).get());
+			let responses = await getQuery(firestore.collection('logs').where("receiverId", "==", currentUser.id).where("collection", "==", "users").where("actionKey", "==", "followers").get());
 			setAlerts(responses.sort((a,b) => b.timestamp - a.timestamp));
 			setLoading(false);
 		}

@@ -10,13 +10,13 @@ import {
 	SET_NEW_MESSAGES_COUNT,
 	SET_NEW_ALERTS_COUNT,
 	SET_TRENDING_POSTS,
-	SET_POSTS
+	SET_POSTS,
+	SET_SELECTED_USER_POSTS
 } from "./types.js";
 import { 
 	getNewMessagesCount,
 	getNewAlertsCount,
 	getSurveysList,
-	getTrendingPosts,
 	getPosts
 } from "lib/api";
 
@@ -141,7 +141,7 @@ export const SetNewAlertsCount = (currentUser) => {
 
 export const SetTrendingPosts = (currentUser) => {
 	return (dispatch) => {
-		getTrendingPosts(currentUser).then(res => {
+		getPosts(currentUser, "trending").then(res => {
 			dispatch({
 				type: SET_TRENDING_POSTS,
 				payload: {
@@ -154,11 +154,24 @@ export const SetTrendingPosts = (currentUser) => {
 
 export const SetPosts = (currentUser) => {
 	return (dispatch) => {
-		getPosts(currentUser).then(res => {
+		getPosts(currentUser, "all").then(res => {
 			dispatch({
 				type: SET_POSTS,
 				payload: {
 					posts: res
+				}
+			});
+		});
+	}
+}
+
+export const SetSelectedUserPosts = (currentUser) => {
+	return (dispatch) => {
+		getPosts(currentUser, "selectedUser").then(res => {
+			dispatch({
+				type: SET_SELECTED_USER_POSTS,
+				payload: {
+					selectedUserPosts: res
 				}
 			});
 		});

@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, Link } from 'react-router-dom';
 
 import { add, update, arrayAdd, arrayRemove, timestamp } from "firebase_config";
-import { 
-	NotificationComponent, 
-	CheckSimilarityComponent
-} from "components";
+import { NotificationComponent } from "components";
 import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon } from "images";
 
@@ -14,8 +11,6 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	const [ follower, setFollower ] = useState(false);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
 	const [ result, setResult ] = useState({});
-	const [ openSimilarities, setOpenSimilarities ] = useState(false);
-	const [ selectedUser, setSelectedUser ] = useState({});
 	const [ bigImg, setBigImg ] = useState('');
 
 	useEffect(() => {
@@ -41,21 +36,31 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	  		photoURL: currentUser.photoURL,
 	  		receiverId: displayUser.id,
 	  		userId: currentUser.id,
-	  		actionType: "follow",
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: displayUser.id,
+	  		actionKey: "followers",
 	  		timestamp
 	  	});
 	  	setFollower(true);
   	} else {
 	  	res = await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
+	  	/* Alert display user about current user */
+	  	await add("logs", {
+	  		text: `${currentUser.displayName} unfollowed you`,
+	  		photoURL: currentUser.photoURL,
+	  		receiverId: "",
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: displayUser.id,
+	  		actionKey: "followers",
+	  		timestamp
+	  	});
 	  	setFollower(false);
   	}
   	setIsFollowerLoading(false);
   	setResult(res);
-  }
-
-  const openModal = (selectedUser) => {
-  	setSelectedUser(selectedUser);
-  	setOpenSimilarities(true);
   }
 
   const msgUser = async () => {
@@ -86,7 +91,7 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 					   	</Link>
 				    </h6>
 				    <p>
-				  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"} btn_follow`}>
+				  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"}`}>
 					    {
 					    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
 						    	<small className="pull-right" onClick={e => followUser()}>{
@@ -95,19 +100,18 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 						    )
 					    }
 					    </button>
-					    <button className="btn btn-sm btn-outline-secondary ml-2 btn_send_text" onClick={e => msgUser()} title="Send text">
+					    <Link to={"/app/profile/"+displayUser.id} className="btn btn-outline-secondary btn-sm pull-right ml-2" title="Show similarities">
+					    	<i className="fa fa-bar-chart"></i>
+					    </Link>
+					    <button className="btn btn-sm btn-outline-secondary pull-right" onClick={e => msgUser()} title="Start chat">
 					    	<i className="fa fa-comment"></i>
 						  </button>
 				    </p>
 				  </div>
 			  </div>
 			  <div className="pull-right pt-0">
-			    <button className="btn btn-link btn-sm pt-0 pl-0 pull-right" onClick={e => openModal(displayUser)}>
-				    Compare with {displayUser.displayName.split(" ")[0]}
-			    </button>
 			  </div>
 			</div>
-			{openSimilarities && selectedUser && <CheckSimilarityComponent setOpenModal={setOpenSimilarities} currentUser={currentUser} selectedUser={selectedUser} />}
 		</div>
   );
 };
