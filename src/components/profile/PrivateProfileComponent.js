@@ -46,7 +46,7 @@ function PrivateProfileComponent({
     	return null;
     }
     let data = {}
-    if (name) { data = Object.assign(data, { displayName: name.toLowerCase() })}
+    if (name) { data = Object.assign(data, { displayName: name.toLowerCase().trim() })}
     if (profileUrl) {
     	data = Object.assign(data, { photoURL: profileUrl })
     	setBtnUpload("Upload");
@@ -192,7 +192,7 @@ function PrivateProfileComponent({
 					<div className="form-group row">
 				    <label htmlFor="userName" className="col-sm-2 col-form-label">Name</label>
 				    <div className="col-sm-10">
-				      <input type="text" className="form-input" id="userName" value={capitalizeFirstLetter(name) || ''} placeholder="Display name" onChange={e => handleChange("name", e.target.value)} />
+				      <input type="text" className="form-input" id="userName" value={name} placeholder="Display name" onChange={e => handleChange("name", e.target.value)} />
 				      {btnSave==="name" && updateElements()}
 				    </div>
 				  </div>
