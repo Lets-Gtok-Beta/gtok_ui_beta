@@ -190,11 +190,11 @@ function PrivateProfileComponent({
 					</span>
 					{btnSave==="image" && updateElements()}
 					<br/>
-					<h5>
+					<h5 className="mb-0 mt-2">
 						{dbUser.displayName && capitalizeFirstLetter(dbUser.displayName)}
 					</h5>
-					<button className="btn btn-sm btn-secondary" onClick={e => displayFollowers(e)}>
-						Followers <span className="badge badge-light">{dbUser && dbUser.followers && dbUser.followers.length}</span>
+					<button className="btn btn-link text-secondary btn-sm py-0" onClick={e => alert("Followers will not display at the moment. Come back later.")}>
+						{dbUser.followers && dbUser.followers.length} follower{dbUser.followers && dbUser.followers.length !== 1 && "s"}
 					</button>
 			  </div>
 	      <div className="card create-post-card">

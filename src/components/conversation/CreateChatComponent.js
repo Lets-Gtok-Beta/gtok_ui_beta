@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { withRouter } from 'react-router-dom';
+
 import { add, getId, getQuery, firestore } from "firebase_config";
+import { LoadingComponent } from "components";
 
 const CreateChatComponent = (props) => {
 	const chatUserId = props.match.params.id;
@@ -60,7 +62,7 @@ const CreateChatComponent = (props) => {
 
   return (
     <div className="container-fluid text-center">
-    	<i className="fa fa-spinner"></i>
+    	<LoadingComponent />
     </div>
   );
 };

@@ -49,6 +49,9 @@ const SearchComponent = (props) => {
 		if (val.includes("search")) {
 			val = val.replace("search", "").trim().toLowerCase();
 		}
+		if (!!val) {
+			val = val.trim().toLowerCase();
+		}
 		if (val.includes("clear search") ||
 			val.includes("clear all") ||
 			val.includes("show all") ||
@@ -62,7 +65,8 @@ const SearchComponent = (props) => {
 		if (users[0]) {
 			users = users.filter(u => u.id !== currentUser.id);
 			setUsers(users);			
-		} else {
+		} else if (!!val && !users[0]) {
+			setUsers([]);
 			// readoutLoud("No search results found");
 		}
 	}
@@ -169,8 +173,9 @@ const SearchComponent = (props) => {
     	</div>
     	{microphoneText}
     	{
-    		users && users.map((user, idx) => 
-  				<SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />)
+    		users[0] ? users.map((user, idx) => 
+  				<SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
+  			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
     	}
     </div>
   );

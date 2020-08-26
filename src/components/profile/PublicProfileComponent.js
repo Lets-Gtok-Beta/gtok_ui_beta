@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, withRouter, Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { getId } from "firebase_config";
+import { add, getId, update, arrayAdd, arrayRemove, timestamp } from "firebase_config";
 import { capitalizeFirstLetter } from "helpers";
 import { DisplayPostComponent, SimilarityComponent } from "components";
 // import { CalendarChartData } from "constants/calendar"; CalendarComponent
@@ -15,6 +15,8 @@ function PublicProfileComponent(props) {
 	const [ displayUser, setDisplayUser ] = useState();
 	const [ loading, setLoading ] = useState(true);
 	const [ tabContent, setTabContent ] = useState("");
+	const [ follower, setFollower ] = useState(false);
+	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
 
 	const history = useHistory();
 	if (userId === currentUser.id ) history.push("/app/profile");
@@ -32,26 +34,62 @@ function PublicProfileComponent(props) {
 				user["id"] = userId;
 				setDisplayUser(user)
 				bindPosts(user);
+				let isfollow = user.followers.find(id => id === currentUser.id);
+				if (!!isfollow) setFollower(true);
 			};
 			setLoading(false);
+			setIsFollowerLoading(false);
 		}
 		getUser();
-	}, [userId, bindPosts]);
+	}, [userId, bindPosts, currentUser]);
 
-  const displayFollowers = async () => {
-  	if (!currentUser.premium) {
-	  	alert("You cannot see followers.");
-	  	return;
-  	}
-  }
+  // const displayFollowers = async () => {
+  // 	if (!currentUser.premium) {
+	 //  	alert("You cannot see followers.");
+	 //  	return;
+  // 	}
+  // }
 
   const msgUser = async () => {
-  	if (!currentUser.premium) {
-  		alert("Upgrade to premium to message others");
-  		return null;
-  	}
   	history.push("/app/chats/new/"+displayUser.id);
   }
+
+  const followUser = async () => {
+  	setIsFollowerLoading(true);
+  	if (!follower) {
+	  	await update("users", displayUser.id, { followers: arrayAdd(currentUser.id) });
+	  	/* Alert display user about current user */
+	  	await add("logs", {
+	  		text: `${currentUser.displayName} followed you`,
+	  		photoURL: currentUser.photoURL,
+	  		receiverId: displayUser.id,
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: displayUser.id,
+	  		actionKey: "followers",
+	  		timestamp
+	  	});
+	  	setFollower(true);
+  	} else {
+	  	await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
+	  	/* Alert display user about current user */
+	  	await add("logs", {
+	  		text: `${currentUser.displayName} unfollowed you`,
+	  		photoURL: currentUser.photoURL,
+	  		receiverId: "",
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: displayUser.id,
+	  		actionKey: "followers",
+	  		timestamp
+	  	});
+	  	setFollower(false);
+  	}
+  	setIsFollowerLoading(false);
+  }
+
 
 	return (
 	  <div className="container">
@@ -70,13 +108,22 @@ function PublicProfileComponent(props) {
 							alt="dp" 
 							className="profilePic"
 						/>
-						<h5>
-							{displayUser && displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)}
+						<h5 className="mb-0 mt-2">
+							{displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)}
 						</h5>
+						<button className="btn btn-link text-secondary btn-sm py-0" onClick={e => alert("Followers will not display at the moment. Come back later.")}>
+							{displayUser.followers && displayUser.followers.length} follower{displayUser.followers && displayUser.followers.length !== 1 && "s"}
+						</button>
 						<div className="d-flex justify-content-center mt-2">
-							<button className="btn btn-sm btn-secondary" onClick={e => displayFollowers(e)}>
-								Followers <span className="badge badge-light">{displayUser && displayUser.followers && displayUser.followers.length}</span>
-							</button>
+				  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"}`}>
+					    {
+					    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
+						    	<small className="pull-right" onClick={e => followUser()}>{
+						    		follower ? "Unfollow"	: "Follow"
+						    	}</small>
+						    )
+					    }
+					    </button>
 					    <button className="btn btn-sm btn-outline-secondary ml-2 btn_send_text" onClick={e => msgUser()} title="Send text">
 					    	<i className="fa fa-comment"></i>
 						  </button>
