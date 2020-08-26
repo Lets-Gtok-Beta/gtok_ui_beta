@@ -282,6 +282,22 @@ button:active {
 }
 
 /* Home */
+.post-textbox,
+.post-textbox:focus,
+.post-textbox:active {
+	width: 100%;
+	border: 3px solid #fff;
+	border-radius: .4em;
+	outline: none;
+	resize: none;
+	padding: 10px;
+}
+
+.create-post > .input-group > .input-group-prepend > .input-group-text {
+	background-color: #fff !important;
+	border-radius: 0px;
+}
+
 .create-post-card {
 	border-radius: 0px !important;	
 }
@@ -593,6 +609,54 @@ button:active {
 	
 	.login-page-clipart .login-page-caption {
 		font-size: large;
+	}
+
+	/* Mobile navbar */
+	.bottom-sm-padding {
+		padding-top: 25px;
+		padding-bottom: 25px;
+	}
+
+	.navbar-bottom {
+		position: fixed;
+		bottom: 0px;
+		width: 100%;
+		background-color: #DC3545;
+		z-index: 99;
+		font-size: 12px;
+	}
+
+	.navbar-bottom .nav-item {
+		border-bottom: 3px solid transparent;
+	}
+
+	.navbar-bottom .nav-item-active {
+		border-bottom: 3px solid #fff;
+	}
+
+	.navbar-bottom .nav-link a {
+		color: #fff;
+		text-decoration: none;
+		/*font-size: 11px;*/
+	}
+
+	.navbar-bottom .nav-link a:hover {
+		text-decoration: none;
+	}
+	
+	.navbar-bottom .nav-link a .fa {
+		font-size: 14px;
+	}
+
+	.navbar-bottom .bell-icon {
+		position: relative;
+		left: 7px;
+	}
+
+	.navbar-bottom .count-badge {
+		position: relative;
+		top: -6px;
+		right: -10px;
 	}
 }
 

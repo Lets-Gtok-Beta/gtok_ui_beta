@@ -73,8 +73,8 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
   }
 
   return (
-		<div className="container col-xs-12 my-xs-2 my-md-3">
-			<div className="card p-2">
+		<div className="col-xs-12 my-xs-2 my-md-3">
+			<div className="card p-2 card-br-0">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
 				{
 					bigImg &&

@@ -98,8 +98,8 @@ const DisplayPostComponent = ({
 	}
 
   return postedUser && (
-    <div className="card card-br-0 mt-2">
-			<div className="media post-card-image p-2">
+    <div className="card card-br-0 mt-4">
+			<div className="media post-card-image p-2 text-secondary">
 		  	<Link to={"/app/profile/"+post.userId}>
 			  	<img className="mr-2" src={postedUser.photoURL || gtokFavicon} alt="Card img cap" />
 				</Link>
@@ -107,14 +107,17 @@ const DisplayPostComponent = ({
 			    <h6 className="my-0 text-camelcase font-small">
 			    	{capitalizeFirstLetter(postedUser.displayName)}
 			    	{
-			    		(post.userId === currentUser.id) && 
+			    		(post.userId === currentUser.id) &&
 				    	<button className="btn btn-sm btn-danger pull-right" onClick={e => deletePost(post.id)}>
 				    		<i className="fa fa-trash"></i>
 				    	</button>
 			    	}
 			    </h6>
-			    <span className="font-small">
+			    <span className="font-small" title="Posted time">
 			    <i className="fa fa-clock-o"></i>&nbsp;{moment(post.createdAt).fromNow()}
+			    </span>
+			    <span className="font-small ml-2" title="Post category">
+			    <i className="fa fa-tag"></i>&nbsp;{!!post.category ? post.category.title : "General"}
 			    </span>
 			  </div>
 		  </div>

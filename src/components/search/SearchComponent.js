@@ -142,7 +142,7 @@ const SearchComponent = (props) => {
 	}
 */
   return (
-    <div className="container-fluid">
+    <div className="container">
     	<div className="d-flex">
 				<div className="input-group my-3">
 				  <input type="text" className="form-control" aria-label="Search" placeholder="Search on names..." onChange={e => searchValue(e.target.value)}/>

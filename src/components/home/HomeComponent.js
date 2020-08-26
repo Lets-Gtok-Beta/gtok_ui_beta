@@ -93,8 +93,8 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
       			</p>
       		</div>
       		:
-	      	<div className="">
-			    	<textarea className="survey-textbox font-xs-small" rows={3} placeholder="Write something about yourself and find how many similar people around you. Ex: Love BBQ, Needs a job..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
+	      	<div className="create-post">
+			    	<textarea className="post-textbox font-xs-small" rows={3} placeholder="Write something about yourself and find how many similar people around you. Ex: Love BBQ, Needs a job..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
 						<div className="input-group px-1">
 						  <div className="input-group-prepend">
 						    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">

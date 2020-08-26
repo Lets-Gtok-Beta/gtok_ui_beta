@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { HeaderComponent } from "components";
+import { HeaderComponent, BottomHeaderComponent } from "components";
 
 const DefaultLayout = ({children, dbUser}) => {
   return (
     <div>
-    	<HeaderComponent currentUser={dbUser} />
-    	<div className="mt-5 mb-5 pt-3">
+    	{ (window.innerWidth < 576) ? <BottomHeaderComponent currentUser={dbUser} /> : <HeaderComponent currentUser={dbUser} />}
+    	<div className="mt-5 mb-5 pt-3 bottom-sm-padding">
 		  	{children}
     	</div>
     </div>

@@ -82,6 +82,7 @@ const GeneratePostComponent = (props) => {
 	}
 
 	const onClose = () => {
+		props.setOpenModal(false);
 		window.jQuery("#modal").modal("hide");
 		history.push("/app/home");
 	}
