@@ -150,12 +150,12 @@ function PrivateProfileComponent({
   	}
   }
 
-  const displayFollowers = async () => {
-  	if (!currentUser.premium) {
-	  	alert("You cannot see followers at this time.");
-	  	return;
-  	}
-  }
+  // const displayFollowers = async () => {
+  // 	if (!currentUser.premium) {
+	 //  	alert("You cannot see followers at this time.");
+	 //  	return;
+  // 	}
+  // }
 
   const updateElements = () => (
 		btnSave && <div className="mt-2">
