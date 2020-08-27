@@ -1,3 +1,4 @@
+import EmailVerifyComponent from "components/auth/EmailVerifyComponent";
 import LoginComponent from "components/auth/LoginComponent";
 import LogoutComponent from "components/auth/LogoutComponent";
 import SignupComponent from "components/auth/SignupComponent";
@@ -42,6 +43,7 @@ import GeneratePostComponent from "components/home/GeneratePostComponent";
 import TodayTrendsComponent from "components/home/TodayTrendsComponent";
 
 export {
+	EmailVerifyComponent,
 	LoginComponent,
 	SignupComponent,
 	SignupSuccessComponent,

@@ -112,7 +112,7 @@ const HeaderComponent = ({
 						<li className="nav-item" title="Profile">
 							<div className="nav-link">
 				        <Link to="/app/profile">
-				        	<img src={(currentUser && currentUser.photoURL) || "../logo192.png"} className="navbar-image" alt="Profile pic"/>
+				        	<img src={(currentUser && currentUser.photoURL) || gtokFavicon} className="navbar-image" alt="Profile pic"/>
 				        </Link>
 				      </div>
 			      </li>

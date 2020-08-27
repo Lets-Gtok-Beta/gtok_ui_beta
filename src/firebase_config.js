@@ -64,6 +64,15 @@ export const googleSignin = () => {
 };
 */
 
+/* Send verification email */
+export const verifyEmail = () => {
+	return auth.onAuthStateChanged(async (user) => {
+		if (!user.emailVerified) {
+			await user.sendEmailVerification();
+		}
+	});
+}
+
 /* Signup Code */
 export const signup = ({email, password, data}) => {
   return auth.createUserWithEmailAndPassword(email, password)
@@ -98,7 +107,7 @@ export const signin = ({email, password}) => {
   return auth.signInWithEmailAndPassword(email, password)
     .then(res => {
       if (res.user) {
-	    	return formatResult(200, 'Successfully loggedIn');
+	    	return formatResult(200, 'Successfully loggedIn', res.user);
       }
     })
     .catch(e => formatResult(422, e.message));

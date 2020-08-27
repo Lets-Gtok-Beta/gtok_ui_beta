@@ -3,7 +3,8 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {
 	DefaultLayout,
-	ErrorComponent
+	ErrorComponent,
+	EmailVerifyComponent
 } from "components";
 import { SetReload } from "store/actions";
 
@@ -15,6 +16,7 @@ const AuthSwitchWrapper = (props) => {
 		falsyComponent: FalsyComponent,
 		loggedIn,
 		dbUser,
+		user,
 		reload,
 		bindReload,
 		...rest
@@ -42,7 +44,7 @@ const AuthSwitchWrapper = (props) => {
 			render={props => (
 					loggedIn ? (
 						<DefaultLayout>
-							<TruthyComponent currentUser={dbUser} {...rest} />
+							{(user.emailVerified || dbUser.admin) ? <TruthyComponent currentUser={dbUser} {...rest} /> : <EmailVerifyComponent currentUser={dbUser} />}
 						</DefaultLayout>
 					) : (
 						<FalsyComponent />
@@ -54,8 +56,8 @@ const AuthSwitchWrapper = (props) => {
 };
 
 const mapStateToProps = (state) => {
-	const { loggedIn, dbUser, reload } = state.authUsers;
-	return { loggedIn, dbUser, reload };
+	const { loggedIn, dbUser, reload, user } = state.authUsers;
+	return { loggedIn, dbUser, reload, user };
 }
 
 const mapDispatchToProps = (dispatch) => {

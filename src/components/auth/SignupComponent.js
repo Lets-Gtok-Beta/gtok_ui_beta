@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
+import moment from "moment";
 
 import { signup, add } from "firebase_config";
 import { StaticHeaderComponent } from "components";
+import { validateEmail } from "helpers";
 
 const SignupComponent = () => {
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [cpassword, setCpassword] = useState("");
+  const [ name, setName ] = useState("");
+  const [ dob, setDob ] = useState("");
+  const [ dateType, setDateType ] = useState("text");
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ cpassword, setCpassword ] = useState("");
   // const [tnc, setTnc] = useState(false);
-  const [emailUpdates, setEmailUpdates] = useState(true);
-	const [btnSave, setBtnSave] = useState("Submit");
-  const [error, setErrors] = useState("");
+  const [ emailUpdates, setEmailUpdates ] = useState(true);
+	const [ btnSave, setBtnSave ] = useState("Submit");
+  const [ error, setErrors ] = useState("");
   const history = useHistory();
 
   const handleForm = async (e) => {
@@ -26,8 +29,16 @@ const SignupComponent = () => {
     	setErrors("Please enter your Date of birth");
     	return;
     }
+    if (dob && (moment().diff(dob, 'years', false) < 18)) {
+    	setErrors("You must be 18 years old to proceed");
+    	return;
+    }
     if (!email || !email.trim()) {
     	setErrors("Please enter your email");
+    	return;
+    }
+    if (email && !validateEmail(email)) {
+    	setErrors("Please enter a valid email");
     	return;
     }
     if (!password || !password.trim()) {
@@ -62,7 +73,8 @@ const SignupComponent = () => {
   			tnc: true,
   			emailUpdates
   		},
-  		photoURL: null
+  		photoURL: null,
+  		verifyEmailSentTime: new Date()
     }
     let createDbUser = await add("users", userData);
     setBtnSave("Submit");
@@ -70,7 +82,7 @@ const SignupComponent = () => {
     	setErrors(createDbUser.message);
     	return;
     }
-  	history.push("/signup_success");
+  	history.push("/");
   };
 
 	/*
@@ -102,9 +114,11 @@ const SignupComponent = () => {
 	        />
 	        <input
 	          onChange={e => setDob(e.target.value)}
+	          onFocus={e => setDateType("date")}
+	          onBlur={e => setDateType("text")}
 	          name="dob"
 	          value={dob}
-	          type="date"
+	          type={dateType}
 	          className="form-input"
 	          placeholder="Date of birth"
 	          max="2003-01-01"
