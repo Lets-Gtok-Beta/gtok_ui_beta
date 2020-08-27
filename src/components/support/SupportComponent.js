@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const SupportComponent = ({currentUser}) => {
 	return (
-		<div className="container-fluid">
+		<div className="container-fluid font-xs-small">
 			<h4 className="text-center text-secondary py-2">How our app works?</h4>
 			<div id="accordion">
 			  <div className="card">

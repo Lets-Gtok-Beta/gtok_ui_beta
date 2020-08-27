@@ -31,9 +31,9 @@ const AlertsComponent = ({currentUser}) => {
 	    			alerts[0] ? alerts.map(alert => (
 							<div className="media p-3" key={alert.id} style={{boxShadow: "1px 1px 2px gainsboro"}}>
 						  	<Link to={"/app/profile/"+alert.userId}>
-							  	<img className="mr-2" src={alert.photoURL || gtokFavicon} alt="Card img cap" style={{width: "37px", borderRadius: "50%"}} />
+							  	<img className="mr-2" src={alert.photoURL || gtokFavicon} alt="Card img cap" style={{width: "37px", height: "37px", objectFit: "cover", borderRadius: "50%"}} />
 						  	</Link>
-							  <div className="media-body">
+							  <div className="media-body font-xs-small">
 							  	{capitalizeFirstLetter(alert.text)}<br/>
 							  	<small className="pull-right text-secondary">
 							  		{moment(alert.createdAt).fromNow()}

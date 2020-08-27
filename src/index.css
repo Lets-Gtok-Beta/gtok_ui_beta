@@ -310,8 +310,9 @@ button:active {
 }
 
 .post-card-image img {
-	object-fit: contain;
-	width: 39px;
+	object-fit: cover;
+	width: 45px;
+	height: 45px;
 	border-radius: 50%;
 }
 
@@ -569,6 +570,7 @@ button:active {
 	height: 40px;
 	width: 40px;
 	border-radius: 50%;
+	object-fit: contain;
 }
 .chat-window .sender {
 	max-width: 350px;
