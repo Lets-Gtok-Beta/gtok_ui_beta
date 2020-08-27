@@ -64,11 +64,6 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
   }
 
   const msgUser = async () => {
-  	let premium = currentUser.badges.find(b => b.title === "Premium");
-  	if (!premium) {
-  		alert("Upgrade to premium to message others");
-  		return null;
-  	}
   	history.push("/app/chats/new/"+displayUser.id);
   }
 
