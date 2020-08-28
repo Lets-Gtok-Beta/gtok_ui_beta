@@ -149,8 +149,8 @@ const SearchComponent = (props) => {
     <div className="container">
     	<div className="d-flex">
 				<div className="input-group my-3">
-				  <input type="text" className="form-control" aria-label="Search" placeholder="Search on names..." onChange={e => searchValue(e.target.value)}/>
-				  <div className="input-group-append">
+				  <input type="text" className="form-control br-0" aria-label="Search" placeholder="Search on names..." onChange={e => searchValue(e.target.value)}/>
+				  <div className="input-group-append d-none">
 				  	{
 				  		voiceIcon !== "microphone" ?
 					    <span className="input-group-text" onClick={e =>initiateSpeech("stop")}>
@@ -166,7 +166,7 @@ const SearchComponent = (props) => {
 				    </span>
 				  */}
 				    <span className="input-group-text">
-			      	<i className="fa fa-question-circle" data-container="body" data-toggle="popover" data-placement="right" data-content="Try to speack 'search <YOUR_NAME>' For example - search Naga, search Prabha"></i> <br/>
+			      	<i className="fa fa-search" data-container="body" data-toggle="popover" data-placement="right" data-content="Try to speack 'search <YOUR_NAME>' For example - search Naga, search Prabha"></i> <br/>
 				    </span>
 				  </div>
 				</div>

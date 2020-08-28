@@ -12,7 +12,7 @@ import { SetPosts } from "store/actions";
 
 const HomeComponent = ({currentUser, posts, bindPosts}) => {
 	const [ charCount, setCharCount ] = useState(500);
-	const [ postType, setPostType ] = useState("human");
+	const [ postType, setPostType ] = useState(false);
 	const [ postText, setPostText ] = useState("");
 	const [ category, setCategory ] = useState("");
 	const [ postBtn, setPostBtn ] = useState("Post");
@@ -77,13 +77,24 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
-      <div className="card create-post-card">
+      <div className="card create-post-card mt-2">
+      {/*
       	<div className="d-flex">
-      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "bot" ? "#eee" : "white")}} onClick={e => setPostType("human")}>Type a post</div>
+      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "bot" ? "#eee" : "white")}} onClick={e => setPostType("human")}><i className="fa fa-pencil"></i>&nbsp;Type a post</div>
       		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType === "bot" ? "#eee" : "white")}} onClick={e => setPostType("bot")}>Automate a post</div>
       	</div>
+      */}
+      	<div className="d-flex">
+      		<div className="col-12 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType ? "#eee" : "white")}} onClick={e => setPostType(!postType)}>
+      			<div className="d-flex align-self-center">
+      				<i className="fa fa-pencil pr-1 mt-1"></i> &nbsp;
+      				<span>Share an experience / Pinch a feeling{!postType && ". Click here"}
+      				</span>
+      			</div>
+      		</div>
+      	</div>
       	{
-      		postType === "bot" ?
+      		postType === "bot" &&
       		<div className="">
       			<p className="p-3 px-md-5 text-center text-secondary">
       			Answer few questions and our Gtok Bot generates a post for you.<br/>
@@ -92,9 +103,11 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
       			</button>
       			</p>
       		</div>
-      		:
+      	}
+      	{
+      		postType &&
 	      	<div className="create-post">
-			    	<textarea className="post-textbox font-xs-small" rows={3} placeholder="Write something about yourself and find how many similar people around you. Ex: Love BBQ, Needs a job..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
+			    	<textarea className="post-textbox font-xs-small" rows={3} placeholder="Start typing here.. Ex: Love BBQ, BMW is my favorite car..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
 						<div className="input-group px-1">
 						  <div className="input-group-prepend">
 						    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">

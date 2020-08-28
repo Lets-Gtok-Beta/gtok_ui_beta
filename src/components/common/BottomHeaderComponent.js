@@ -76,7 +76,7 @@ const BottomHeaderComponent = ({
 	      </div>
 				<div className={`nav-item ${(metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
 					<div className="nav-link text-center">
-						<Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G">
+						<Link to="/app/chats">
 		        	<i className={`fa fa-comment ${newMessagesCount>0 && "bell-icon"}`}></i>{newMessagesCount>0 && <span className="badge count-badge">{newMessagesCount}</span>}
 		        	<br/>
 							Messages

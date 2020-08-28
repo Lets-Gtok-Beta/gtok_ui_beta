@@ -66,7 +66,7 @@ const HeaderComponent = ({
 			      </li>
 						<li className={`nav-item ${(metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
 							<div className="nav-link">
-								<Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G" className="text-secondary">
+								<Link to="/app/chats" className="text-secondary">
 								Messages{newMessagesCount > 0 && <span className="badge badge-danger count-badge">{newMessagesCount}</span>}
 								</Link>
 				      </div>

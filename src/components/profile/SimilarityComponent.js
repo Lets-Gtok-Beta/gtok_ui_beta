@@ -3,18 +3,27 @@ import { connect } from "react-redux";
 
 import { getQuery, firestore } from "firebase_config";
 import { SimilarityChecker } from "lib/api/SimilarityChecker";
+import { GeneratePostComponent } from "components";
 
 const SimilarityComponent = ({
 	currentUser, selectedUser, surveysList
 }) => {
 	const [ similarityResult, setSimilarityResult ] = useState();
 	const [ similarityDescription, setSimilarityDescription ] = useState();
+	const [ generatePost, setGeneratePost ] = useState(false);
 
-	const handleChange = async (val) => {
+	const handleChange = async (val, key) => {
 		let result = "";
-
-		if (val === "last_2_days") {
-			setSimilarityResult("No similarities found in last 2 days");
+		if (key === "timeline") {
+			if (val === "last_2_days") {
+				setSimilarityResult("No similarities found in last 2 days");
+			} else if (val === "last_7_days") {
+				setSimilarityResult("No similarities found in last week");
+			} else if (val === "last_30_days") {
+				setSimilarityResult("No similarities found in last month");
+			} else if (val === "last_365_days") {
+				setSimilarityResult("No similarities found in last year");
+			}
 		} else {
 			let responses = [];
 			responses = await getQuery(
@@ -29,10 +38,15 @@ const SimilarityComponent = ({
 				result = await SimilarityChecker(responses);
 				setSimilarityResult(result.common);
 			} else {
-				setSimilarityResult("No similarities found");
+				setSimilarityResult("");
 			}
 			setSimilarityDescription(result.description);
 		}
+	}
+
+	const clearInfo = () => {
+		setSimilarityResult("");
+		setSimilarityDescription("");
 	}
 
 	return (
@@ -42,12 +56,24 @@ const SimilarityComponent = ({
 				<div className="input-group px-1">
 				  <div className="input-group-prepend">
 				    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
-				    Show similarities in
+				    Timeline
 				    </label>
 				  </div>
-				  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange(e.target.value)}>
+				  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange(e.target.value, "timeline")}>
 				    <option defaultValue value="">Choose...</option>
 				    <option value="last_2_days">Last 2 days</option>
+				    <option value="last_7_days">Last week</option>
+				    <option value="last_30_days">Last month</option>
+				  </select>
+				</div>				
+				<div className="input-group px-1">
+				  <div className="input-group-prepend">
+				    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
+				    Category
+				    </label>
+				  </div>
+				  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange(e.target.value, "category")}>
+				    <option defaultValue value="">Choose...</option>
 				    {
 				    	surveysList.map(survey => (
 				    		<option value={survey.id} key={survey.title}>{survey.title}</option>
@@ -71,12 +97,28 @@ const SimilarityComponent = ({
 						similarityResult.map(sim => (
 							<div key={sim.key}>{sim.key} - {sim.value}</div>
 						))}
+						<button className="btn btn-link btn-sm" onClick={e => clearInfo()}>Clear Info</button>
 					</div>
 				) : (
 					<div className="card text-center p-2 mt-2 text-secondary">
-						{similarityResult || "Select a similarity"}
+						{!similarityResult ? 
+							<div>
+								A place to check similarity with {selectedUser.displayName} . Start comparing by answering simple questions. <br/>
+		      			<button className="btn btn-link text-center" onClick={e => setGeneratePost(true)}>
+		      			Answer now
+		      			</button>
+	      			</div>
+	      			: 
+	      			<div>
+	      				{similarityResult} <br/>
+								<button className="btn btn-link btn-sm" onClick={e => clearInfo()}>Clear</button>
+	      			</div>
+	      		}
 					</div>
 				)
+			}
+			{
+				generatePost && <GeneratePostComponent setOpenModal={setGeneratePost} currentUser={currentUser} />
 			}
 		</div>
 	)

@@ -35,6 +35,8 @@ import FormFieldsComponent from "components/common/FormFieldsComponent";
 import ChatsComponent from "components/conversation/ChatsComponent";
 import SingleChatComponent from "components/conversation/SingleChatComponent";
 import CreateChatComponent from "components/conversation/CreateChatComponent";
+import MobileChatsComponent from "components/conversation/mobile/ChatsComponent";
+import MobileSingleChatComponent from "components/conversation/mobile/SingleChatComponent";
 import SupportComponent from "components/support/SupportComponent";
 import PermissionsComponent from "components/permissions/PermissionsComponent";
 import LoadingComponent from "components/common/LoadingComponent";
@@ -80,6 +82,8 @@ export {
 	ChatsComponent,
 	SingleChatComponent,
 	CreateChatComponent,
+	MobileChatsComponent,
+	MobileSingleChatComponent,
 	SupportComponent,
 	PermissionsComponent,
 	LoadingComponent,

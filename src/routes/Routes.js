@@ -21,10 +21,11 @@ import {
 	DeleteProfileComponent,
 	DisplaySurveyComponent,
 	ErrorComponent,
-	ChatsComponent,
 	CreateChatComponent,
 	CheckSimilarityComponent,
-	SupportComponent
+	SupportComponent,
+	MobileChatsComponent,
+	MobileSingleChatComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -46,7 +47,6 @@ export const Routes = (props) => (
 		<Route exact path="/profile_deleted" component={DeleteProfileComponent} />
 		<Route exact path="/error" component={ErrorComponent} />
 		<AuthRoute exact path="/app" component={LandingComponent} />
-		<AuthRoute exact path="/app/chats" component={LandingComponent} />
 		<AuthRoute exact path="/app/alerts" component={AlertsComponent} />
 		<AuthRoute exact path="/app/home" component={HomeComponent} />
 		<AuthRoute exact path="/app/profile" component={PrivateProfileComponent} />
@@ -58,7 +58,8 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/search" component={SearchComponent} />
 		<AuthRoute exact path="/app/search/:id" component={CheckSimilarityComponent} />
 		<AuthRoute exact path="/app/question/:id" component={DisplayComponent} />
-		<AuthRoute exact path="/app/chats/:id" component={ChatsComponent} />
+		<AuthRoute exact path="/app/chats" component={MobileChatsComponent} />
+		<AuthRoute exact path="/app/chats/:id" component={MobileSingleChatComponent} />
 		<AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />
 		<AuthRoute exact path="/app/support" component={SupportComponent} />
 	</Switch>

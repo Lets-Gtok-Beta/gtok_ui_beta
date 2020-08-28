@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { add, timestamp } from "firebase_config";
@@ -11,7 +11,6 @@ const GeneratePostComponent = (props) => {
 	const [ response, setResponse ] = useState({});
 	const [ result, setResult ] = useState({});
 	const [ subHeader, setSubHeader ] = useState("");
-	const history = useHistory();
 
 	useEffect(() => {
 		window.jQuery("#modal").modal("show");
@@ -20,7 +19,7 @@ const GeneratePostComponent = (props) => {
 	const handleChange = (val) => {
 		let sur = surveysList.find(s => s.id === val);
 		setSurvey(sur);
-		setSubHeader("Answer following questions to generate a post about "+sur.title);
+		setSubHeader("Answer following questions in "+sur.title+" category");
 	}
 
 	const modalBody = () => {
@@ -31,7 +30,7 @@ const GeneratePostComponent = (props) => {
 			<div className="input-group px-1">
 			  <div className="input-group-prepend">
 			    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
-			    This post is about your
+			    Select a category
 			    </label>
 			  </div>
 			  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange(e.target.value)} value={survey.title}>
@@ -84,7 +83,7 @@ const GeneratePostComponent = (props) => {
 	const onClose = () => {
 		props.setOpenModal(false);
 		window.jQuery("#modal").modal("hide");
-		history.push("/app/home");
+		// history.push("/app/home");
 	}
 
 	return (
@@ -92,7 +91,7 @@ const GeneratePostComponent = (props) => {
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
-			<ModalComponent body={modalBody} header="Generate automated post" subHeader={subHeader} save={onSave} close={onClose} beforeSave={checkBeforeSave}/>
+			<ModalComponent body={modalBody} header="Find similarities" subHeader={subHeader} save={onSave} close={onClose} beforeSave={checkBeforeSave}/>
 		</div>
 	)
 }
