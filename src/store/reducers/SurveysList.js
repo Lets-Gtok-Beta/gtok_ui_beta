@@ -1,7 +1,8 @@
-import { SET_SURVEYS_LIST } from "../types";
+import { SET_SURVEYS_LIST, SET_SURVEYS_AFTER_RESPONSES } from "../types";
 
 const INITIAL_STATE = {
-	surveysList: []
+	surveysList: [],
+	surveysAfterResponses: []
 }
 
 const surveysList = (state=INITIAL_STATE, action) => {
@@ -11,6 +12,12 @@ const surveysList = (state=INITIAL_STATE, action) => {
 			return {
 				...state,
 				surveysList: payload.surveys
+			}
+		}
+		case SET_SURVEYS_AFTER_RESPONSES: {
+			return {
+				...state,
+				surveysAfterResponses: payload.surveysAfterResponses
 			}
 		}
 		default:

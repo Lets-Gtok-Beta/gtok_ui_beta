@@ -7,17 +7,20 @@ import {
 	SET_CHAT_MESSAGES,
 	SET_CONVOS,
 	SET_SURVEYS_LIST,
+	SET_SURVEYS_AFTER_RESPONSES,
 	SET_NEW_MESSAGES_COUNT,
 	SET_NEW_ALERTS_COUNT,
 	SET_TRENDING_POSTS,
 	SET_POSTS,
-	SET_SELECTED_USER_POSTS
+	SET_SELECTED_USER_POSTS,
+	SET_ALL_USERS
 } from "./types.js";
 import { 
 	getNewMessagesCount,
 	getNewAlertsCount,
 	getSurveysList,
-	getPosts
+	getPosts,
+	getUsers
 } from "lib/api";
 
 export const SetUserLocation = (currentUser) => {
@@ -113,6 +116,19 @@ export const SetSurveysList = (currentUser) => {
 	}
 }
 
+export const SetSurveysAfterResponses = (currentUser, type="all") => {
+	return (dispatch) => {
+		getSurveysList(currentUser, type).then(res => {
+			dispatch({
+				type: SET_SURVEYS_AFTER_RESPONSES,
+				payload: {
+					surveysAfterResponses: res
+				}				
+			});
+		});
+	}
+}
+
 export const SetNewMessagesCount = (currentUser) => {
 	return (dispatch) => {
 		getNewMessagesCount(currentUser).then(res => {
@@ -172,6 +188,19 @@ export const SetSelectedUserPosts = (currentUser) => {
 				type: SET_SELECTED_USER_POSTS,
 				payload: {
 					selectedUserPosts: res
+				}
+			});
+		});
+	}
+}
+
+export const SetAllUsers = (currentUser, type="all", searchVal="") => {
+	return (dispatch) => {
+		getUsers(currentUser, type, searchVal).then(res => {
+			dispatch({
+				type: SET_ALL_USERS,
+				payload: {
+					allUsers: res
 				}
 			});
 		});

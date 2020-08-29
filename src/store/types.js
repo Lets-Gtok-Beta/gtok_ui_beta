@@ -1,5 +1,10 @@
 export const SET_SUBSCRIPTION_PLANS = "SET_SUBSCRIPTION_PLANS";
-export const SEARCH_USERS = "SEARCH_USERS";
+
+export const SET_SEARCH_USERS = "SET_SEARCH_USERS";
+export const SET_ALL_USERS = "ALL_USERS";
+export const SET_ADMIN_USERS = "ADMIN_USERS";
+export const SET_SINGLE_USER = "SINGLE_USER";
+
 export const SET_USER = "SET_USER";
 export const SET_DB_USER = "SET_DB_USER";
 export const SET_LOGGED_IN = "SET_LOGGED_IN";
@@ -9,6 +14,7 @@ export const SET_CHAT_MESSAGES = "SET_CHAT_MESSAGES";
 export const SET_CONVOS = "SET_CONVOS";
 
 export const SET_SURVEYS_LIST = "SET_SURVEYS_LIST";
+export const SET_SURVEYS_AFTER_RESPONSES = "SET_SURVEYS_AFTER_RESPONSES";
 
 export const GET_ALERTS = "GET_ALERTS";
 export const SET_ALERTS = "SET_ALERTS";

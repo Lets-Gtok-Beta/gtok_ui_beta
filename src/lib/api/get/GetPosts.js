@@ -4,7 +4,7 @@ export const getPosts = async (currentUser, type="all") => {
 	let posts = [];
 	if (type==="selectedUser") {
 		posts = await getQuery(
-		firestore.collection("posts").where("userId", "==", currentUser.id).orderBy("createdAt", "desc").get()
+		firestore.collection("posts").where("userId", "==", currentUser.id).get()
 		);
 	} else if (type==="trending") {
 		posts = await getQuery(
@@ -17,5 +17,6 @@ export const getPosts = async (currentUser, type="all") => {
 		// 	return post;
 		// });
 	}
+	posts = posts.sort((a,b) => b.createdAt - a.createdAt);
 	return posts;
 }

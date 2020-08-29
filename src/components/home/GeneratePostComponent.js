@@ -3,10 +3,15 @@ import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { add, timestamp } from "firebase_config";
-import { NotificationComponent, ModalComponent, FormFieldsComponent } from "components";
+import {
+	NotificationComponent,
+	ModalComponent,
+	FormFieldsComponent
+} from "components";
+import { SetSurveysAfterResponses } from "store/actions";
 
 const GeneratePostComponent = (props) => {
-	const { currentUser, surveysList } = props;
+	const { currentUser, surveysAfterResponses, bindSurveysAfterResponses } = props;
 	const [ survey, setSurvey ] = useState({});
 	const [ response, setResponse ] = useState({});
 	const [ result, setResult ] = useState({});
@@ -14,34 +19,40 @@ const GeneratePostComponent = (props) => {
 
 	useEffect(() => {
 		window.jQuery("#modal").modal("show");
-	}, []);
+		bindSurveysAfterResponses(currentUser, "unansweredSurveysList");
+	}, [bindSurveysAfterResponses, currentUser]);
 
 	const handleChange = (val) => {
-		let sur = surveysList.find(s => s.id === val);
+		let sur = surveysAfterResponses.find(s => s.id === val);
 		setSurvey(sur);
 		setSubHeader("Answer following questions in "+sur.title+" category");
 	}
 
 	const modalBody = () => {
-		return survey.title ?
-			survey && survey.values && survey.values.map((val, idx) => (
-				<FormFieldsComponent ques={val} key={idx} response={response} setResponse={setResponse}/>
-			)) :
-			<div className="input-group px-1">
-			  <div className="input-group-prepend">
-			    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
-			    Select a category
-			    </label>
-			  </div>
-			  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange(e.target.value)} value={survey.title}>
-			    <option defaultValue value="">Choose...</option>
-			    {
-			    	surveysList.map(survey => (
-			    		<option value={survey.id} key={survey.title}>{survey.title}</option>
-			    	))
-			    }
-			  </select>
+		return !surveysAfterResponses[0] ? 
+			<div className="text-center text-secondary p-2">
+				Perfect! You completed all categories. Come back later to find more interesting categories.
 			</div>
+			:
+			survey.id ?
+				survey && survey.values && survey.values.map((val, idx) => (
+					<FormFieldsComponent ques={val} key={idx} response={response} setResponse={setResponse}/>
+				)) :
+				<div className="input-group px-1">
+				  <div className="input-group-prepend">
+				    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
+				    Select a category
+				    </label>
+				  </div>
+				  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange(e.target.value)} value={survey.title}>
+				    <option defaultValue value="">Choose...</option>
+				    {
+				    	surveysAfterResponses.map(survey => (
+				    		<option value={survey.id} key={survey.title}>{survey.title}</option>
+				    	))
+				    }
+				  </select>
+				</div>
 	};
 
 	const checkBeforeSave = () => {
@@ -77,7 +88,8 @@ const GeneratePostComponent = (props) => {
   		timestamp
   	});
 		setResult(result);
-		onClose();
+		window.location.reload();
+		// onClose();
 	}
 
 	const onClose = () => {
@@ -91,17 +103,23 @@ const GeneratePostComponent = (props) => {
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
-			<ModalComponent body={modalBody} header="Find similarities" subHeader={subHeader} save={onSave} close={onClose} beforeSave={checkBeforeSave}/>
+			<ModalComponent body={modalBody} header="Find similarities" subHeader={subHeader} save={onSave} close={onClose} beforeSave={checkBeforeSave} hideSaveBtn={!surveysAfterResponses[0]}/>
 		</div>
 	)
 }
 
 const mapStateToProps = (state) => {
-	const { surveysList } = state.surveys;
-	return { surveysList };
+	const { surveysAfterResponses } = state.surveys;
+	return { surveysAfterResponses };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindSurveysAfterResponses: (content, type) => dispatch(SetSurveysAfterResponses(content, type))
+	}
 }
 
 export default connect(
 	mapStateToProps,
-	null
+	mapDispatchToProps
 )(withRouter(GeneratePostComponent));

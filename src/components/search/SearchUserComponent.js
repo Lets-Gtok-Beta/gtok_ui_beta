@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory, Link } from 'react-router-dom';
 
 import { add, update, arrayAdd, arrayRemove, timestamp } from "firebase_config";
@@ -8,21 +8,10 @@ import { gtokFavicon } from "images";
 
 const SearchUserComponent = ({displayUser, currentUser}) => {
 	const history = useHistory();
-	const [ follower, setFollower ] = useState(false);
-	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
+	const [ follower, setFollower ] = useState(displayUser["isFollower"]);
+	const [ isFollowerLoading, setIsFollowerLoading ] = useState(false);
 	const [ result, setResult ] = useState({});
 	const [ bigImg, setBigImg ] = useState('');
-
-	useEffect(() => {
-	  const isFollower = async () => {
-	  	let f = await displayUser.followers.find(f => f === currentUser.id);
-	  	setIsFollowerLoading(false);
-	  	if (!!f) {
-	  		setFollower(true);
-	  	}
-	  }
-		isFollower();
-	}, [currentUser.id, displayUser.followers]);
 
   const followUser = async () => {
   	setResult({status: 100, message: "Processing..."});
@@ -42,6 +31,18 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	  		actionKey: "followers",
 	  		timestamp
 	  	});
+	  	res = await update("users", currentUser.id, { following: arrayAdd(displayUser.id) });
+	  	await add("logs", {
+	  		text: `You followed ${currentUser.displayName}`,
+	  		photoURL: displayUser.photoURL,
+	  		receiverId: "",
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: currentUser.id,
+	  		actionKey: "following",
+	  		timestamp
+	  	});
 	  	setFollower(true);
   	} else {
 	  	res = await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
@@ -55,6 +56,19 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	  		collection: "users",
 	  		actionId: displayUser.id,
 	  		actionKey: "followers",
+	  		timestamp
+	  	});
+	  	res = await update("users", currentUser.id, { following: arrayRemove(displayUser.id) });
+	  	/* Alert display user about current user */
+	  	await add("logs", {
+	  		text: `You unfollowed ${currentUser.displayName}`,
+	  		photoURL: displayUser.photoURL,
+	  		receiverId: "",
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: currentUser.id,
+	  		actionKey: "following",
 	  		timestamp
 	  	});
 	  	setFollower(false);

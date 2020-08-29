@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const ModalComponent = ({
-	header, subHeader="", body, save, close, beforeSave, modalWidth="lg", btnSave="Save"
+	header, subHeader="", body, save, close, beforeSave, modalWidth="lg", btnSave="Save", hideSaveBtn=false
 }) => {
 	const [ buttonSave, setButtonSave ] = useState(btnSave);
 
@@ -36,7 +36,7 @@ const ModalComponent = ({
 		      </div>
 		      <div className="modal-footer">
 		      	{
-		      		save && buttonSave === "Save" &&
+		      		save && buttonSave === "Save" && !hideSaveBtn &&
 			      	<small className="text-danger text-center">
 			      	*Make sure you entered everything correctly. You cannot edit once you save.
 			      	</small>
@@ -47,7 +47,7 @@ const ModalComponent = ({
   		        <button type="button" className="btn btn-sm btn-outline-secondary" data-dismiss="modal">Close</button>
 		        }
 		        {
-		        	save &&
+		        	save && !hideSaveBtn &&
 			        <button type="button" className="btn btn-sm btn-success" onClick={e => saveModal(e)} disabled={buttonSave !== btnSave}>{buttonSave}</button>
 		        }
 		      </div>

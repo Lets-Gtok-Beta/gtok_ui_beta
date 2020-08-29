@@ -49,6 +49,12 @@ code {
 	border-radius: 0px !important;
 }
 
+.text-between-line:before,
+.text-between-line:after {
+	content: "\00a0\00a0\00a0\00a0\00a0";
+	text-decoration: line-through;
+}
+
 .badge {
 	vertical-align: middle !important;
 	font-size: x-small !important;

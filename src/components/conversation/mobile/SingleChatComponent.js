@@ -97,7 +97,7 @@ class SingleChatComponent extends Component {
 						messagesList.push(msg);
 					}
 				})
-				messagesList = _.uniqBy(messagesList, "id").sort((a,b) => (a.timestamp - b.timestamp));
+				messagesList = _.uniqBy(messagesList, "id");
 				this.setState({
 					loading: false,
 					messagesList
@@ -132,8 +132,7 @@ class SingleChatComponent extends Component {
   		newMessage: true
   	});
   	this.setState({
-  		message: "",
-  		messagesList: [...this.state.messagesList, data]
+  		message: ""
   	});
   }
 
@@ -166,7 +165,9 @@ class SingleChatComponent extends Component {
 	    		this.state.conversation && this.state.chatUser ? (
 	    			<div>
 			    		<div className="chat-window-header media p-2">
-			    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
+			    			<Link to={"/app/profile/"+this.state.chatUser.id}>
+				    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
+				    		</Link>
 			    			<div className="media-body">
 			    				<div className="d-flex">
 			    					<div className="flex-grow-1">

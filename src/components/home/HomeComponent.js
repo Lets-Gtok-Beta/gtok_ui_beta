@@ -20,8 +20,8 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 	const [ result, setResult ] = useState({});
 
 	useEffect(() => {
-		bindPosts(currentUser);
-	}, [bindPosts, currentUser]);
+		if (!posts[0]) bindPosts(currentUser);
+	}, [bindPosts, currentUser, posts]);
 
 	const handleChange = (key, val) => {
 		if (key === "post") {

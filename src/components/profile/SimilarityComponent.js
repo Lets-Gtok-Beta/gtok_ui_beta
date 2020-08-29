@@ -30,10 +30,11 @@ const SimilarityComponent = ({
 				firestore.collection("survey_responses").where("surveyId", "==", val).where("userId", "in", [currentUser.id, selectedUser.id]).get()
 			);
 			let userResponses = [];
+			console.log("responses", responses)
 			let res1 = responses.find(res => res.userId === currentUser.id);
 			if (!!res1) userResponses.push(res1);
-			res1 = responses.find(res => res.userId === selectedUser.id);
-			if (!!res1) userResponses.push(res1);
+			let res2 = responses.find(res => res.userId === selectedUser.id);
+			if (!!res2) userResponses.push(res2);
 			if (userResponses.length === 2) {
 				result = await SimilarityChecker(responses);
 				setSimilarityResult(result.common);
@@ -102,8 +103,11 @@ const SimilarityComponent = ({
 				) : (
 					<div className="card text-center p-2 mt-2 text-secondary">
 						{!similarityResult ? 
-							<div>
-								A place to check similarity with {selectedUser.displayName} . Start comparing by answering simple questions. <br/>
+							<div className="p-2">
+								Do you want to check similarity with {selectedUser.displayName}? <br/>
+								Choose a category from the above dropdown<br/>
+								<span className="text-between-line">OR</span><br/>
+								Start finding similarities by answering simple questions <br/>
 		      			<button className="btn btn-link text-center" onClick={e => setGeneratePost(true)}>
 		      			Answer now
 		      			</button>

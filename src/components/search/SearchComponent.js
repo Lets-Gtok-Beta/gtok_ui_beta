@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { get, getQuery, firestore } from "firebase_config";
-import { SearchUserComponent } from "components";
+import { connect } from "react-redux";
 
-const SearchComponent = (props) => {
-	const { currentUser } = props;
-	const [ users, setUsers ] = useState("");
+import { SearchUserComponent } from "components";
+import { SetAllUsers } from "store/actions";
+
+const SearchComponent = ({currentUser, allUsers, bindAllUsers}) => {
+	const [ searchVal, setSearchVal ] = useState("");
 	const [ voiceIcon, setVoiceIcon ] = useState("microphone");
 	const [ microphoneText, setMicrophoneText ] = useState("");
 
   useEffect(() => {
 		window.jQuery('[data-toggle="popover"]').popover();
-  	async function getUsersList() {
-  		let users = await get("users");
-  		users = users.filter(u => u.id !== currentUser.id);
-  		setUsers(users);
+  	if (!allUsers[0] && !searchVal) {
+			if (currentUser.admin) bindAllUsers(currentUser, "adminUsers");
+			else bindAllUsers(currentUser, "all");
   	}
-  	async function getAdminUsers() {
-			let users = await getQuery(
-				firestore.collection("users").where("admin", "==", true).get()
-			);
-  		users = users.filter(u => u.id !== currentUser.id);
-  		setUsers(users);
-  	}
-		if (currentUser.admin) { getAdminUsers(); }
-		else { getUsersList(); }
-  }, [currentUser]);
+  }, [currentUser, allUsers, bindAllUsers, searchVal]);
 
 /*
   const isFollower = async (user) => {
@@ -59,14 +50,9 @@ const SearchComponent = (props) => {
 		) {
 			val = "";
 		}
-		let users = await getQuery(
-			firestore.collection("users").where("displayName", ">=", val).where("displayName", "<=", val+"~").get()
-		);
-		if (users[0]) {
-			users = users.filter(u => u.id !== currentUser.id);
-			setUsers(users);			
-		} else if (!!val && !users[0]) {
-			setUsers([]);
+		await bindAllUsers(currentUser, "search", val);
+		setSearchVal(val);
+		if (!!val && !allUsers[0]) {
 			// readoutLoud("No search results found");
 		}
 	}
@@ -173,7 +159,7 @@ const SearchComponent = (props) => {
     	</div>
     	{microphoneText}
     	{
-    		users[0] ? users.map((user, idx) => 
+    		allUsers[0] ? allUsers.map((user, idx) => 
   				<SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
   			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
     	}
@@ -181,4 +167,18 @@ const SearchComponent = (props) => {
   );
 };
 
-export default SearchComponent;
+const mapStateToProps = (state) => {
+	const { allUsers } = state.users;
+	return { allUsers };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindAllUsers: (content, type, searchVal) => dispatch(SetAllUsers(content, type, searchVal))
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SearchComponent);

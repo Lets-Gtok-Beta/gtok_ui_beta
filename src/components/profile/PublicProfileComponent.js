@@ -10,7 +10,7 @@ import { gtokFavicon } from "images";
 import { SetSelectedUserPosts } from "store/actions";
 
 function PublicProfileComponent(props) {
-	const { currentUser, selectedUserPosts, bindPosts } = props;
+	const { currentUser, selectedUserPosts, bindPosts, allUsers } = props;
 	const userId = props.match.params.name;
 	const [ displayUser, setDisplayUser ] = useState();
 	const [ loading, setLoading ] = useState(true);
@@ -28,7 +28,10 @@ function PublicProfileComponent(props) {
 			return;
 		}
 		async function getUser() {
-			let user = await getId("users", userId);
+			let user = allUsers.find(user => user.id === userId);
+			if (!user) {
+				user = await getId("users", userId);
+			}
 			if (user && user.status === 404) setDisplayUser(null);
 			else {
 				user["id"] = userId;
@@ -41,7 +44,7 @@ function PublicProfileComponent(props) {
 			setIsFollowerLoading(false);
 		}
 		getUser();
-	}, [userId, bindPosts, currentUser]);
+	}, [userId, bindPosts, currentUser, allUsers]);
 
   // const displayFollowers = async () => {
   // 	if (!currentUser.premium) {
@@ -70,6 +73,18 @@ function PublicProfileComponent(props) {
 	  		actionKey: "followers",
 	  		timestamp
 	  	});
+	  	await update("users", currentUser.id, { following: arrayAdd(displayUser.id) });
+	  	await add("logs", {
+	  		text: `You followed ${currentUser.displayName}`,
+	  		photoURL: displayUser.photoURL,
+	  		receiverId: "",
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: currentUser.id,
+	  		actionKey: "following",
+	  		timestamp
+	  	});
 	  	setFollower(true);
   	} else {
 	  	await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
@@ -85,11 +100,23 @@ function PublicProfileComponent(props) {
 	  		actionKey: "followers",
 	  		timestamp
 	  	});
+	  	await update("users", currentUser.id, { following: arrayRemove(displayUser.id) });
+	  	/* Alert display user about current user */
+	  	await add("logs", {
+	  		text: `You unfollowed ${currentUser.displayName}`,
+	  		photoURL: displayUser.photoURL,
+	  		receiverId: "",
+	  		userId: currentUser.id,
+	  		actionType: "update",
+	  		collection: "users",
+	  		actionId: currentUser.id,
+	  		actionKey: "following",
+	  		timestamp
+	  	});
 	  	setFollower(false);
   	}
   	setIsFollowerLoading(false);
   }
-
 
 	return (
 	  <div className="container">
@@ -167,7 +194,8 @@ function PublicProfileComponent(props) {
 
 const mapStateToProps = (state) => {
 	const { selectedUserPosts } = state.posts;
-	return { selectedUserPosts };
+	const { allUsers } = state.users;
+	return { selectedUserPosts, allUsers };
 }
 
 const mapDispatchToProps = (dispatch) => {
