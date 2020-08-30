@@ -4,6 +4,7 @@ import { getSurveysList } from "./get/GetSurveysList";
 import { getPosts } from "./get/GetPosts";
 import { getUsers } from "./get/GetUsers";
 import { getAlerts } from "./get/GetAlerts";
+import { getPermissions } from "./get/GetPermissions";
 import { createPageVisits } from "./create/CreatePageVisits";
 
 export {
@@ -13,5 +14,6 @@ export {
 	getPosts,
 	getUsers,
 	getAlerts,
+	getPermissions,
 	createPageVisits
 }

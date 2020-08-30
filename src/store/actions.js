@@ -14,15 +14,17 @@ import {
 	SET_POSTS,
 	SET_SELECTED_USER_POSTS,
 	SET_ALL_USERS,
-	SET_ALERTS
+	SET_ALERTS,
+	SET_PERMISSIONS
 } from "./types.js";
-import { 
+import {
 	getNewMessagesCount,
 	getNewAlertsCount,
 	getSurveysList,
 	getPosts,
 	getUsers,
 	getAlerts,
+	getPermissions,
 	createPageVisits
 } from "lib/api";
 
@@ -200,6 +202,19 @@ export const SetAlerts = (currentUser, type="all") => {
 				type: SET_ALERTS,
 				payload: {
 					alerts: res
+				}
+			});
+		});
+	}
+}
+
+export const SetPermissions = (currentUser) => {
+	return (dispatch) => {
+		getPermissions(currentUser).then(res => {
+			dispatch({
+				type: SET_PERMISSIONS,
+				payload: {
+					pms: res
 				}
 			});
 		});

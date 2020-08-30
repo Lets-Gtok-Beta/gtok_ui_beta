@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
-import { add, update, getQuery, firestore, timestamp } from "firebase_config";
+import { add, update, timestamp } from "firebase_config";
+import { SetPermissions } from "store/actions";
 
-function PublicProfileComponent({currentUser}) {
+function PublicProfileComponent({currentUser, pms, bindPermissions}) {
 	const [ loading, setLoading ] = useState(true);
-	const [ permissions, setPermissions ] = useState([]);
 	const [ userPms, setUserPms ] = useState(currentUser.permissions || {});
 
 	useEffect(() => {
-		async function getPermissions() {
-			let pms = await getQuery(
-				firestore.collection("permissions").where("active", "==", true).get()
-			);
-			setPermissions(pms.sort((a,b) => a.id - b.id));
-			setLoading(false);
-		}
-		getPermissions();
-	}, [currentUser]);
+		if (!pms[0]) bindPermissions(currentUser);
+		setLoading(false);
+	}, [currentUser, pms, bindPermissions]);
 
 	const handleChange = async (key, value) => {
 		setLoading(true);
@@ -42,7 +37,7 @@ function PublicProfileComponent({currentUser}) {
 	return (
 	  <div className="container">
 			{
-	  		permissions.map((pm, idx) => (
+	  		pms.map((pm, idx) => (
 					<div className="d-flex align-content-center" key={idx}>
 						<div className="custom-switch mb-2">
 						  <input type="checkbox" className="custom-control-input" id={pm.name} name={pm.name} onChange={e => handleChange(pm.name, e.target.value)} checked={userPms[pm.name]} />
@@ -60,4 +55,18 @@ function PublicProfileComponent({currentUser}) {
 	);
 }
 
-export default PublicProfileComponent;
+const mapStateToProps = (state) => {
+	const { pms } = state.permissions;
+	return { pms };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindPermissions: (content) => dispatch(SetPermissions(content))
+	}
+}
+
+export default connect(
+	mapStateToProps, 
+	mapDispatchToProps
+)(PublicProfileComponent);

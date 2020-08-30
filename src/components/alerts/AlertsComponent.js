@@ -8,19 +8,18 @@ import { capitalizeFirstLetter } from "helpers";
 import { LoadingComponent } from "components";
 import { SetAlerts, CreatePageVisits } from "store/actions";
 
-const AlertsComponent = ({currentUser, alerts, bindAlerts, createPageVisits}) => {
+const AlertsComponent = ({
+	currentUser, alerts, bindAlerts, createPageVisits, newAlertsCount
+}) => {
 	const [ loading, setLoading ] = useState(false);
 
 	useEffect(() => {
-		if (!alerts[0]) {
-			setLoading(true);
-			bindAlerts(currentUser, "all");
-			setLoading(false);
-		}
+		if (!alerts[0] || newAlertsCount>0) bindAlerts(currentUser, "all");
+		setLoading(false);
 		setTimeout(() => {
 			createPageVisits(currentUser);
 		}, 2000);
-	}, [bindAlerts, currentUser, alerts, createPageVisits]);
+	}, [bindAlerts, currentUser, alerts, createPageVisits, newAlertsCount]);
 
   return (
     <div className="container">
@@ -52,8 +51,8 @@ const AlertsComponent = ({currentUser, alerts, bindAlerts, createPageVisits}) =>
 };
 
 const mapStateToProps = (state) => {
-	const { alerts } = state.alerts;
-	return { alerts };
+	const { alerts, newAlertsCount } = state.alerts;
+	return { alerts, newAlertsCount };
 }
 
 const mapDispatchToProps = (dispatch) => {
