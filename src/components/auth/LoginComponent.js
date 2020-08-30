@@ -31,7 +31,7 @@ const LoginComponent = ({bindReload}) => {
     	return;
     } 
     bindReload(true);
-  	history.push("/app/profile");
+  	history.push("/");
   };
 
 /*
