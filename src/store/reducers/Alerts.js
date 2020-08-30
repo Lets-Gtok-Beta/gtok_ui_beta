@@ -1,7 +1,8 @@
-import { SET_NEW_ALERTS_COUNT } from "../types";
+import { SET_NEW_ALERTS_COUNT, SET_ALERTS } from "../types";
 
 const INITIAL_STATE = {
-	newAlertsCount: []
+	newAlertsCount: [],
+	alerts: []
 }
 
 const Alerts = (state=INITIAL_STATE, action) => {
@@ -11,6 +12,12 @@ const Alerts = (state=INITIAL_STATE, action) => {
 			return {
 				...state,
 				newAlertsCount: payload.newAlertsCount
+			}
+		}
+		case SET_ALERTS: {
+			return {
+				...state,
+				alerts: payload.alerts
 			}
 		}
 		default:

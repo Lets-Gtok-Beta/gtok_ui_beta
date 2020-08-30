@@ -33,7 +33,7 @@ const LandingComponent = () => {
 	if (!token) {
 		return (<Redirect to="/login" />)
 	}
-	return (<Redirect to="/app/profile" />);
+	return (<Redirect to="/app/home" />);
 };
 
 export const Routes = (props) => (

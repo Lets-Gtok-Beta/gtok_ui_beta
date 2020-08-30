@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 import moment from "moment";
 
-import { getQuery, firestore } from "firebase_config";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
 import { LoadingComponent } from "components";
+import { SetAlerts, CreatePageVisits } from "store/actions";
 
-const AlertsComponent = ({currentUser}) => {
-	const [ alerts, setAlerts ] = useState([]);
-	const [ loading, setLoading ] = useState(true);
+const AlertsComponent = ({currentUser, alerts, bindAlerts, createPageVisits}) => {
+	const [ loading, setLoading ] = useState(false);
 
 	useEffect(() => {
-		async function getAlerts() {
-			let responses = await getQuery(firestore.collection('logs').where("receiverId", "==", currentUser.id).where("collection", "==", "users").where("actionKey", "==", "followers").get());
-			setAlerts(responses.sort((a,b) => b.timestamp - a.timestamp));
+		if (!alerts[0]) {
+			setLoading(true);
+			bindAlerts(currentUser, "all");
 			setLoading(false);
 		}
-		getAlerts();
-	}, [currentUser]);
+		setTimeout(() => {
+			createPageVisits(currentUser);
+		}, 2000);
+	}, [bindAlerts, currentUser, alerts, createPageVisits]);
 
   return (
     <div className="container">
@@ -49,4 +51,19 @@ const AlertsComponent = ({currentUser}) => {
   );
 };
 
-export default AlertsComponent;
+const mapStateToProps = (state) => {
+	const { alerts } = state.alerts;
+	return { alerts };
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindAlerts: (content, type) => dispatch(SetAlerts(content, type)),
+		createPageVisits: (content, type) => dispatch(CreatePageVisits(content))
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(AlertsComponent);

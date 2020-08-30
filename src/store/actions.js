@@ -13,32 +13,18 @@ import {
 	SET_TRENDING_POSTS,
 	SET_POSTS,
 	SET_SELECTED_USER_POSTS,
-	SET_ALL_USERS
+	SET_ALL_USERS,
+	SET_ALERTS
 } from "./types.js";
 import { 
 	getNewMessagesCount,
 	getNewAlertsCount,
 	getSurveysList,
 	getPosts,
-	getUsers
+	getUsers,
+	getAlerts,
+	createPageVisits
 } from "lib/api";
-
-export const SetUserLocation = (currentUser) => {
-	return (dispatch) => {
-		if (!navigator.geolocation) {
-			console.log("Geolocation is not supported by your browser");
-			return;
-		}
-		fetch('https://extreme-ip-lookup.com/json/')
-			.then( res => res.json())
-			.then(response => {
-			    console.log("Country: ", response);
-			 })
-			 .catch((data, status) => {
-			    console.log('Request failed');
-			 })
-	}
-}
 
 export const SetDbUser = (content) => {
 	return {
@@ -203,6 +189,32 @@ export const SetAllUsers = (currentUser, type="all", searchVal="") => {
 					allUsers: res
 				}
 			});
+		});
+	}
+}
+
+export const SetAlerts = (currentUser, type="all") => {
+	return (dispatch) => {
+		getAlerts(currentUser, type).then(res => {
+			dispatch({
+				type: SET_ALERTS,
+				payload: {
+					alerts: res
+				}
+			});
+		});
+	}
+}
+
+export const CreatePageVisits = (currentUser) => {
+	return (dispatch) => {
+		createPageVisits(currentUser).then(res => {
+			// dispatch({
+			// 	type: SET_ALERTS,
+			// 	payload: {
+			// 		pageVisits: res
+			// 	}
+			// });
 		});
 	}
 }

@@ -50,8 +50,13 @@ const BottomHeaderComponent = ({
 		  	<ul className="navbar-nav ml-auto">
 					<li className="nav-item" title="Profile">
 						<div className="nav-link p-0">
-			        <Link to="/app/profile">
-			        	<img src={(currentUser && currentUser.photoURL) || "../logo192.png"} className="navbar-image" alt="Profile pic"/>
+							{/*
+				        <Link to="/app/profile">
+				        	<img src={(currentUser && currentUser.photoURL) || gtokFavicon} className="navbar-image" alt="Profile pic"/>
+				        </Link>
+							*/}
+			        <Link to="/app/support" className="text-secondary">
+			        	Help
 			        </Link>
 			      </div>
 		      </li>
@@ -92,11 +97,11 @@ const BottomHeaderComponent = ({
 		        </Link>
       		</div>
       	</div>
-				<div className={`nav-item ${(metaDetails.path === "support") && "nav-item-active"}`} title="Support">
+				<div className={`nav-item ${(metaDetails.path === "profile") && "nav-item-active"}`} title="Profile">
 					<div className="nav-link text-center">
-		        <Link to="/app/support">
-		        	<i className="fa fa-question-circle"></i><br/>
-		        	Support
+		        <Link to="/app/profile">
+		        	<i className="fa fa-user"></i><br/>
+		        	Profile
 		        </Link>
       		</div>
       	</div>

@@ -299,6 +299,27 @@ export const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 // export const timestamp = firebase.firestore.Timestamp.fromDate(new Date());
 
+export const getGeoLocation = () => {
+	/*
+	let stringFor = "";
+	stringFor += position.coords.latitude.toString()
+	stringFor += ","
+	stringFor += position.coords.longitude.toString()
+	$.ajax({
+		url: "http://api.positionstack.com/v1/forward",
+		data: {
+			access_key: "931e043728e67eab25337ce8deea033d",
+			query: '51.507822,-0.076702',
+			output: "json",
+			limit: 10
+		}
+	}).done((data) => {
+		console.log("DDD", data)
+	})
+	*/
+	// Ref: https://positionstack.com/dashboard
+}
+
 /* Common code */
 function formatResult(status, message, data={}) {
 	return { status, message, data };

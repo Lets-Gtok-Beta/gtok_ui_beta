@@ -102,7 +102,7 @@ class SingleChatComponent extends Component {
 					loading: false,
 					messagesList
 				});
-				// await this.updateConvo();
+				await this.updateConvo();
 				// this.bindMessages(this.messagesList.sort((a,b) => a.createdAt - b.createdAt));
 			})
 		return this.unsubscribe;
@@ -187,7 +187,7 @@ class SingleChatComponent extends Component {
 				    		</div>
 			    		</div>
 			    		{this.renderMessageWindow()}
-				      <div className="d-flex px-3 align-self-center align-items-center">
+				      <div className="d-flex px-3 align-self-center align-items-center chat-window-footer">
 				    		<div className="flex-grow-1">
 					      	<textarea className="reply-box" rows="2" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
 					      	</textarea>
