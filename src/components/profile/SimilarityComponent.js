@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getQuery, firestore } from "firebase_config";
 import { SimilarityChecker } from "lib/api/SimilarityChecker";
 import { GeneratePostComponent } from "components";
+import { capitalizeFirstLetter } from "helpers";
 
 const SimilarityComponent = ({
 	currentUser, selectedUser, surveysList
@@ -30,7 +31,6 @@ const SimilarityComponent = ({
 				firestore.collection("survey_responses").where("surveyId", "==", val).where("userId", "in", [currentUser.id, selectedUser.id]).get()
 			);
 			let userResponses = [];
-			console.log("responses", responses)
 			let res1 = responses.find(res => res.userId === currentUser.id);
 			if (!!res1) userResponses.push(res1);
 			let res2 = responses.find(res => res.userId === selectedUser.id);
@@ -38,6 +38,8 @@ const SimilarityComponent = ({
 			if (userResponses.length === 2) {
 				result = await SimilarityChecker(responses);
 				setSimilarityResult(result.common);
+			} else if (userResponses.length === 1){
+				setSimilarityResult(capitalizeFirstLetter(selectedUser.displayName)+" has not yet completed this category");
 			} else {
 				setSimilarityResult("");
 			}

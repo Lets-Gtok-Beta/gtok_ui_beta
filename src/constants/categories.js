@@ -1,5 +1,41 @@
 export const PostCategories = [
 	{
+		title: "Arts & Design",
+		key: "arts_design"
+	},
+	{
+		title: "Business",
+		key: "business"
+	},
+	{
+		title: "Craziness",
+		key: "craziness"
+	},
+	{
+		title: "Current activity (What you're doing right now)",
+		key: "current_activity"
+	},
+	{
+		title: "Dance",
+		key: "dance"
+	},
+	{
+		title: "Dreams/Goals",
+		key: "dreams"
+	},
+	{
+		title: "Facts",
+		key: "facts"
+	},
+	{
+		title: "Fashion & Lifestyle",
+		key: "fashion_lifestyle"
+	},
+	{
+		title: "Favorite songs",
+		key: "favorite_songs"
+	},
+	{
 		title: "Food habits",
 		key: "food_habits"
 	},
@@ -8,12 +44,32 @@ export const PostCategories = [
 		key: "general"
 	},
 	{
+		title: "Innovative ideas",
+		key: "innovative_ideas"
+	},
+	{
+		title: "Music",
+		key: "music"
+	},
+	{
+		title: "Motivation",
+		key: "motivation"
+	},
+	{
 		title: "Pet lovers",
 		key: "pet_lovers"
 	},
 	{
-		title: "Favorite songs",
-		key: "favorite_songs"
+		title: "Random thoughts",
+		key: "random_thoughts"
+	},
+	{
+		title: "Sports",
+		key: "sports"
+	},
+	{
+		title: "Writings/Poetry",
+		key: "writings"
 	}
 ]
 
