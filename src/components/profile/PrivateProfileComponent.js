@@ -215,9 +215,13 @@ function PrivateProfileComponent({
 	      </div>
       	{
       		tabContent === "posts" ?
-      		!!selectedUserPosts[0] ? selectedUserPosts.map((post, idx) => (
-      			<DisplayPostComponent currentUser={currentUser} post={post} key={idx} />
-      		)) : <div className="card text-center mt-2 p-2 text-secondary">No posts found</div>
+      		<div className="mt-3">
+      			{
+	      		!!selectedUserPosts[0] ? selectedUserPosts.map((post, idx) => (
+	      			<DisplayPostComponent currentUser={currentUser} post={post} key={idx} />
+	      		)) : <div className="card text-center mt-2 p-2 text-secondary">No posts found</div>
+	      		}
+	      	</div>
       		:
 		      <div className="card card-br-0 p-2 mt-2 font-xs-small">
 						<div className="form-group row">

@@ -181,9 +181,13 @@ function PublicProfileComponent(props) {
 		      </div>
 	      	{
 	      		tabContent === "posts" ?
-	      		!!selectedUserPosts[0] ? selectedUserPosts.map((post, idx) => (
-	      			<DisplayPostComponent currentUser={currentUser} post={post} key={idx} hideSimilarityBtn={true} />
-	      		)) : <div className="card text-center mt-2 p-2 text-secondary">No posts found</div>
+	      		<div className="mt-3">
+	      			{
+		      		!!selectedUserPosts[0] ? selectedUserPosts.map((post, idx) => (
+		      			<DisplayPostComponent currentUser={currentUser} post={post} key={idx} hideSimilarityBtn={true} />
+		      		)) : <div className="card text-center mt-2 p-2 text-secondary">No posts found</div>
+		      		}
+		      	</div>
 	      		:
 	      		displayUser.id && <SimilarityComponent currentUser={currentUser} selectedUser={displayUser} />
 	      	}
