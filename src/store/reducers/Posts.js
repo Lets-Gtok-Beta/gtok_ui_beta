@@ -1,13 +1,15 @@
 import {
 	SET_TRENDING_POSTS,
 	SET_POSTS,
-	SET_SELECTED_USER_POSTS
+	SET_SELECTED_USER_POSTS,
+	SET_SHARE_POST
 } from "../types";
 
 const INITIAL_STATE = {
 	trendingPosts: [],
 	posts: [],
-	selectedUserPosts: []
+	selectedUserPosts: [],
+	sharePost: {}
 }
 
 const Posts = (state=INITIAL_STATE, action) => {
@@ -29,6 +31,12 @@ const Posts = (state=INITIAL_STATE, action) => {
 			return {
 				...state,
 				selectedUserPosts: payload.selectedUserPosts
+			}
+		}
+		case SET_SHARE_POST: {
+			return {
+				...state,
+				sharePost: payload.sharePost
 			}
 		}
 		default:

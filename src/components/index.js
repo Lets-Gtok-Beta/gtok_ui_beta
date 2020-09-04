@@ -43,6 +43,8 @@ import LoadingComponent from "components/common/LoadingComponent";
 import DisplayPostComponent from "components/home/DisplayPostComponent";
 import GeneratePostComponent from "components/home/GeneratePostComponent";
 import TodayTrendsComponent from "components/home/TodayTrendsComponent";
+import SharePostComponent from "components/home/SharePostComponent";
+import HelmetMetaDataComponent from "components/common/HelmetMetaDataComponent";
 
 export {
 	EmailVerifyComponent,
@@ -89,5 +91,7 @@ export {
 	LoadingComponent,
 	DisplayPostComponent,
 	GeneratePostComponent,
-	TodayTrendsComponent
+	TodayTrendsComponent,
+	SharePostComponent,
+	HelmetMetaDataComponent
 }

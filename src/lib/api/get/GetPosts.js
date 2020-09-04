@@ -1,7 +1,14 @@
-import { get, getQuery, firestore } from "firebase_config";
+import { get, getId, getQuery, firestore } from "firebase_config";
 
-export const getPosts = async (currentUser, type="all") => {
+export const getPosts = async (currentUser, type="all", data) => {
 	let posts = [];
+	if (type==="id") {
+		if (data.post) return data.post;
+		posts = await getId("posts", data.id);
+		posts["id"] = data.id;
+		return posts;
+	}
+
 	if (type==="selectedUser") {
 		posts = await getQuery(
 		firestore.collection("posts").where("userId", "==", currentUser.id).get()

@@ -77,7 +77,7 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
 	  	}
-      <div className="card create-post-card mt-2">
+      <div className="card create-post-card mt-2 mb-4">
       {/*
       	<div className="d-flex">
       		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "bot" ? "#eee" : "white")}} onClick={e => setPostType("human")}><i className="fa fa-pencil"></i>&nbsp;Type a post</div>

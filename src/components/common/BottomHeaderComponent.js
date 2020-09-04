@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { Helmet } from "react-helmet";
 import { Metadata } from "constants/index";
 import { gtokFavicon } from "images";
 import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList } from "store/actions";
+import { HelmetMetaDataComponent } from "components";
 
 const BottomHeaderComponent = ({
 	currentUser,
@@ -34,12 +34,10 @@ const BottomHeaderComponent = ({
 
   return (
     <div>
-    	<Helmet> 
-    		<title>{metaDetails.title}</title>
-				<meta name="description" content= {metaDetails.description}/>
-        <meta name="keywords" content= {metaDetails.keywords} />
-        <link rel="icon" type="image/png" href={gtokFavicon} sizes="16x16"/>
-      </Helmet>
+    	{
+    		metaDetails && metaDetails.title && 
+    		<HelmetMetaDataComponent title={metaDetails.title} keywords={metaDetails.keywords} description={metaDetails.description}/>
+    	}
     	<nav className="navbar fixed-top navbar-expand-sm py-md-0">
     		<div className="navbar-brand mr-auto">
 	        <Link to="/app/home">
@@ -63,7 +61,7 @@ const BottomHeaderComponent = ({
 	      </ul>
     	</nav>
     	<div className="d-flex flex-row navbar-bottom align-items-center align-self-center justify-content-around">
-				<div className={`nav-item ml-1 ${(metaDetails.path === "home") && "nav-item-active"}`} title="Home">
+				<div className={`nav-item ml-1 ${(metaDetails && metaDetails.path === "home") && "nav-item-active"}`} title="Home">
 					<div className="nav-link text-center">
 		        <Link to="/app/home">
 		        	<i className="fa fa-home"></i><br/>
@@ -71,7 +69,7 @@ const BottomHeaderComponent = ({
 		        </Link>
 		      </div>
 	      </div>
-				<div className={`nav-item ${(metaDetails.path === "search") && "nav-item-active"}`} title="Search">
+				<div className={`nav-item ${(metaDetails && metaDetails.path === "search") && "nav-item-active"}`} title="Search">
 					<div className="nav-link text-center">
 		        <Link to="/app/search">
 		        	<i className="fa fa-search"></i><br/>
@@ -79,7 +77,7 @@ const BottomHeaderComponent = ({
 		        </Link>
 		      </div>
 	      </div>
-				<div className={`nav-item ${(metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
+				<div className={`nav-item ${(metaDetails && metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
 					<div className="nav-link text-center">
 						<Link to="/app/chats">
 		        	<i className={`fa fa-comment ${newMessagesCount>0 && "bell-icon"}`}></i>{newMessagesCount>0 && <span className="badge count-badge">{newMessagesCount}</span>}
@@ -88,7 +86,7 @@ const BottomHeaderComponent = ({
 						</Link>
 		      </div>
 	      </div>
-				<div className={`nav-item ${(metaDetails.path === "alerts") && "nav-item-active"}`} title="Alerts">
+				<div className={`nav-item ${(metaDetails && metaDetails.path === "alerts") && "nav-item-active"}`} title="Alerts">
 					<div className="nav-link text-center">
 		        <Link to="/app/alerts">
 		        	<i className={`fa fa-bell ${newAlertsCount>0 && "bell-icon"}`}></i>{newAlertsCount>0 && <span className="badge count-badge">{newAlertsCount}</span>}
@@ -97,7 +95,7 @@ const BottomHeaderComponent = ({
 		        </Link>
       		</div>
       	</div>
-				<div className={`nav-item ${(metaDetails.path === "profile") && "nav-item-active"}`} title="Profile">
+				<div className={`nav-item ${(metaDetails && metaDetails.path === "profile") && "nav-item-active"}`} title="Profile">
 					<div className="nav-link text-center">
 		        <Link to="/app/profile">
 		        	<i className="fa fa-user"></i><br/>

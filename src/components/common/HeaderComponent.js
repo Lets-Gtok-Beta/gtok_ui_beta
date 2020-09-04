@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { Helmet } from "react-helmet";
 import { Metadata } from "constants/index";
 import { gtokFavicon } from "images";
 import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList } from "store/actions";
+import { HelmetMetaDataComponent } from "components";
 
 const HeaderComponent = ({
 	currentUser,
@@ -34,12 +34,10 @@ const HeaderComponent = ({
 
   return (
     <div>
-    	<Helmet> 
-    		<title>{metaDetails.title}</title>
-				<meta name="description" content= {metaDetails.description}/>
-        <meta name="keywords" content= {metaDetails.keywords} />
-        <link rel="icon" type="image/png" href={gtokFavicon} sizes="16x16"/>
-      </Helmet>
+    	{
+    		metaDetails && metaDetails.title && 
+    		<HelmetMetaDataComponent title={metaDetails.title} keywords={metaDetails.keywords} description={metaDetails.description}/>
+    	}
     	<nav className="navbar fixed-top navbar-expand-sm py-md-0">
     		<div className="navbar-brand mr-auto">
 	        <Link to="/app/home">
@@ -54,24 +52,24 @@ const HeaderComponent = ({
 			  </button>
 			  <div className="collapse navbar-collapse">
 			  	<ul className="navbar-nav mx-auto">
-						<li className={`nav-item ${(metaDetails.path === "home") && "nav-item-active"}`} title="Home">
+						<li className={`nav-item ${(metaDetails && metaDetails.path === "home") && "nav-item-active"}`} title="Home">
 							<div className="nav-link">
 				        <Link to="/app/home" className="text-secondary">Home</Link>
 				      </div>
 			      </li>
-						<li className={`nav-item ${(metaDetails.path === "search") && "nav-item-active"}`} title="Search">
+						<li className={`nav-item ${(metaDetails && metaDetails.path === "search") && "nav-item-active"}`} title="Search">
 							<div className="nav-link">
 				        <Link to="/app/search" className="text-secondary">Search</Link>
 				      </div>
 			      </li>
-						<li className={`nav-item ${(metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
+						<li className={`nav-item ${(metaDetails && metaDetails.path === "chats") && "nav-item-active"}`} title="Messages">
 							<div className="nav-link">
 								<Link to="/app/chats" className="text-secondary">
 								Messages{newMessagesCount > 0 && <span className="badge badge-danger count-badge">{newMessagesCount}</span>}
 								</Link>
 				      </div>
 			      </li>
-						<li className={`nav-item ${(metaDetails.path === "alerts") && "nav-item-active"}`} title="Alerts">
+						<li className={`nav-item ${(metaDetails && metaDetails.path === "alerts") && "nav-item-active"}`} title="Alerts">
 							<div className="nav-link">
 				        <Link to="/app/alerts" className="text-secondary">
 				        	Alerts{newAlertsCount > 0 && <span className="badge badge-danger count-badge">{newAlertsCount}</span>}
@@ -79,7 +77,7 @@ const HeaderComponent = ({
 		      		</div>
 		      	</li>
 					  { currentUser.admin && (
-							<li className={`nav-item ${(metaDetails.path === "similarities") && "nav-item-active"}`} title="Similarities">
+							<li className={`nav-item ${(metaDetails && metaDetails.path === "similarities") && "nav-item-active"}`} title="Similarities">
 								<div className="nav-link">
 									<Link to="/app/similarities" className="text-secondary">Similarities</Link>
 					      </div>
@@ -87,7 +85,7 @@ const HeaderComponent = ({
 				      )
 				    }
 					  { currentUser.admin && (
-								<li className={`nav-item ${(metaDetails.path === "graphs") && "nav-item-active"}`} title="Graphs">
+								<li className={`nav-item ${(metaDetails && metaDetails.path === "graphs") && "nav-item-active"}`} title="Graphs">
 									<div className="nav-link">
 										<Link to="/app/graphs" className="text-secondary">Graphs</Link>
 						      </div>

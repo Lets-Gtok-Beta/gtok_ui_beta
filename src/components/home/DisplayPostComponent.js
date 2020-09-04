@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 import moment from "moment";
 
@@ -9,18 +9,20 @@ import {
 	arrayRemove,
 	getId,
 	update,
-	remove,timestamp
+	remove,
+	timestamp
 } from "firebase_config";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
-import { SetPosts } from "store/actions";
+import { SetPosts, SetSharePost } from "store/actions";
 
 const DisplayPostComponent = ({
-	currentUser, post, setResult, bindPosts, hideSimilarityBtn=false
+	currentUser, post, setResult, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false
 }) => {
 	const [ postedUser, setPostedUser ] = useState("");
 	const [ follower, setFollower ] = useState(false);
 	const [ followerLoading, setFollowerLoading ] = useState(true);
+	const history = useHistory();
 
 	useEffect(() => {
 	  const isFollower = async () => {
@@ -55,6 +57,7 @@ const DisplayPostComponent = ({
 	  		collection: "posts",
 	  		actionId: post.id,
 	  		actionKey: "followers",
+	  		actionLink: "/app/posts/"+post.id,
 	  		timestamp
 	  	});
 	  	setFollower(true);
@@ -70,6 +73,7 @@ const DisplayPostComponent = ({
 	  		collection: "posts",
 	  		actionId: post.id,
 	  		actionKey: "followers",
+				actionLink: "/app/posts/"+post.id,
 	  		timestamp
 	  	});
 	  	setFollower(false);
@@ -90,6 +94,7 @@ const DisplayPostComponent = ({
 	  		collection: "posts",
 	  		actionId: post.id,
 	  		actionKey: "id",
+				actionLink: "/app/profile/"+currentUser.id,
 	  		timestamp
 	  	});
 			setResult(result);
@@ -97,12 +102,21 @@ const DisplayPostComponent = ({
 		}
 	}
 
+	const sharePost = async () => {
+		await bindSharePost(currentUser, "id", {post});
+		history.push("/app/posts/"+post.id);
+	}
+
+	const redirectToProfile = async () => {
+		if (!hideRedirects) {
+			history.push("/app/profile/"+post.userId);			
+		}
+	}
+
   return postedUser && (
-    <div className="card card-br-0 mt-4">
+    <div className="card card-br-0 mb-4 pb-2">
 			<div className="media post-card-image p-2 text-secondary">
-		  	<Link to={"/app/profile/"+post.userId}>
-			  	<img className="mr-2" src={postedUser.photoURL || gtokFavicon} alt="Card img cap" />
-				</Link>
+		  	<img className="mr-2" src={postedUser.photoURL || gtokFavicon} alt="Card img cap" onClick={e => redirectToProfile()}/>
 			  <div className="media-body">
 			    <h6 className="my-0 text-camelcase font-small">
 			    	{capitalizeFirstLetter(postedUser.displayName)}
@@ -121,7 +135,7 @@ const DisplayPostComponent = ({
 			    </span>
 			  </div>
 		  </div>
-		  <div className="card-body text-center pb-2">
+		  <div className="card-body text-center">
 		  	<p className="white-space-preline">{post.text}</p>
 	  		<div className="font-small">This post has {post.followersCount} same pinch{post.followersCount !== 1 && "es"}</div>
 	  		<div className="mt-2">
@@ -143,6 +157,12 @@ const DisplayPostComponent = ({
 				    Show similarities
 			    </Link>
 			  }
+			  {
+			  	!hideShareBtn && 
+				  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={e => sharePost()}>
+				  	<i className="fa fa-share-alt"></i>
+				  </button>
+			  }
 			  </div>
 		  </div>
     </div>
@@ -151,7 +171,8 @@ const DisplayPostComponent = ({
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindPosts: (content) => dispatch(SetPosts(content))
+		bindPosts: (content) => dispatch(SetPosts(content)),
+		bindSharePost: (content, type, data) => dispatch(SetSharePost(content, type, data))
 	}
 }
 

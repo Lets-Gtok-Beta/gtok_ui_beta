@@ -17,6 +17,7 @@ function PublicProfileComponent(props) {
 	const [ tabContent, setTabContent ] = useState("");
 	const [ follower, setFollower ] = useState(false);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
+	const [ bigImg, setBigImg ] = useState('');
 
 	const history = useHistory();
 	if (userId === currentUser.id ) history.push("/app/profile");
@@ -129,6 +130,12 @@ function PublicProfileComponent(props) {
 	  			<Link to="/app/search">Goto Search</Link>
 	  		</div> :
 	  		<div>
+					{
+						bigImg &&
+						<div className="profile_card_big_img" onClick={e => setBigImg("")}>
+					  	<img className="mr-2" src={bigImg} alt="Card img cap" />
+						</div>
+					}
 					<div className="text-center mb-3">
 						<img 
 							src={ displayUser.photoURL || gtokFavicon}

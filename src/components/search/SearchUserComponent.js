@@ -11,7 +11,6 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 	const [ follower, setFollower ] = useState(displayUser["isFollower"]);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(false);
 	const [ result, setResult ] = useState({});
-	const [ bigImg, setBigImg ] = useState('');
 
   const followUser = async () => {
   	setResult({status: 100, message: "Processing..."});
@@ -85,14 +84,10 @@ const SearchUserComponent = ({displayUser, currentUser}) => {
 		<div className="col-xs-12 my-xs-2 my-md-3">
 			<div className="card p-2 card-br-0">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
-				{
-					bigImg &&
-					<div className="profile_card_big_img" onClick={e => setBigImg("")}>
-				  	<img className="mr-2" src={bigImg} alt="Card img cap" />
-					</div>
-				}
 				<div className="media profile_card_img">
-			  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" onClick={e => setBigImg(displayUser.photoURL)} />
+			  	<Link to={"/app/profile/"+displayUser.id}>
+				  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" />
+			  	</Link>
 				  <div className="media-body">
 				    <h6 className="mt-0 text-camelcase">
 					  	<Link to={"/app/profile/"+displayUser.id}>

@@ -15,7 +15,8 @@ import {
 	SET_SELECTED_USER_POSTS,
 	SET_ALL_USERS,
 	SET_ALERTS,
-	SET_PERMISSIONS
+	SET_PERMISSIONS,
+	SET_SHARE_POST
 } from "./types.js";
 import {
 	getNewMessagesCount,
@@ -163,6 +164,19 @@ export const SetPosts = (currentUser) => {
 				type: SET_POSTS,
 				payload: {
 					posts: res
+				}
+			});
+		});
+	}
+}
+
+export const SetSharePost = (currentUser, type="id", data) => {
+	return (dispatch) => {
+		getPosts(currentUser, type, data).then(res => {
+			dispatch({
+				type: SET_SHARE_POST,
+				payload: {
+					sharePost: res
 				}
 			});
 		});

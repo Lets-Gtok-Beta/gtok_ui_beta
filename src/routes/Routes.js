@@ -25,7 +25,8 @@ import {
 	CheckSimilarityComponent,
 	SupportComponent,
 	MobileChatsComponent,
-	MobileSingleChatComponent
+	MobileSingleChatComponent,
+	SharePostComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -49,6 +50,8 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app" component={LandingComponent} />
 		<AuthRoute exact path="/app/alerts" component={AlertsComponent} />
 		<AuthRoute exact path="/app/home" component={HomeComponent} />
+		<AuthRoute exact path="/app/posts" component={HomeComponent} />
+		<AuthRoute exact path="/app/posts/:id" component={SharePostComponent} />
 		<AuthRoute exact path="/app/profile" component={PrivateProfileComponent} />
 		<AuthRoute exact path="/app/profile/:name" component={PublicProfileComponent} />
 		<AuthRoute exact path="/app/graphs" component={GraphsComponent} />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { getId, firestore } from "firebase_config";
 import { connect } from "react-redux";
 
@@ -144,13 +144,22 @@ class ChatsComponent extends Component {
 	  return (
 	    <div className="container">
 				{ this.state.loading ? <LoadingComponent /> : 
-					<ul className="conversation-list p-0">
-						{ this.state.convos && this.state.convos.map((con, idx) => (
-							<li onClick={e => this.selectConvo(con)} key={idx} className={`${con.id === this.state.convoId ? "active" : ""}`}>
-								{this.renderConvo(con)}
-							</li>
-						))}
-					</ul>
+						this.state.convos[0] ?
+							<ul className="conversation-list p-0">
+								{ this.state.convos.map((con, idx) => (
+									<li onClick={e => this.selectConvo(con)} key={idx} className={`${con.id === this.state.convoId ? "active" : ""}`}>
+										{this.renderConvo(con)}
+									</li>
+								))}
+							</ul> : 
+							<div className="card p-2 text-center text-secondary">
+								No chats found. <br/>
+								<Link to="/app/search">
+									<button className="btn btn-sm btn-link">
+										Start a chat now
+									</button>
+								</Link>
+							</div>
 				}
 	    </div>
 	  );
