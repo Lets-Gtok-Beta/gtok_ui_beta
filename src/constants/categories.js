@@ -60,7 +60,7 @@ export const PostCategories = [
 		key: "pet_lovers"
 	},
 	{
-		title: "Random thoughts",
+		title: "Thoughts",
 		key: "random_thoughts"
 	},
 	{
