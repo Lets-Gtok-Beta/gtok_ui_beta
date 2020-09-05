@@ -14,7 +14,6 @@ export default function HelmetMetaDataComponent(props) {
 		"So, join us on this voyage, and explore the beauty and miracle of being yourself!";
 	let hashtag = props.hashtag || "#LetsGtok";
 	let keywords = props.keywords || "Lets Gtok, Lets Get to know each other";
-	console.log("IIII", props)
 	return (
 		<Helmet>
 			<title>{title}</title>
