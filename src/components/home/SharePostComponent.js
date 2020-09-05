@@ -22,7 +22,9 @@ const SharePostComponent = (props) => {
 		if (!sharePost || !sharePost.id) {
 			bindSharePost(currentUser, "id", {id: postId})
 		}
-		window.jQuery("#modal").modal("show");
+		if (sharePost && sharePost.id) {
+			window.jQuery("#modal").modal("show");			
+		}
 	}, [bindSharePost, sharePost, currentUser, postId]);
 
 	const modalBody = () => {

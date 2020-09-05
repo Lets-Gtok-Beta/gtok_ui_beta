@@ -65,6 +65,7 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app/chats/:id" component={MobileSingleChatComponent} />
 		<AuthRoute exact path="/app/chats/new/:id" component={CreateChatComponent} />
 		<AuthRoute exact path="/app/support" component={SupportComponent} />
+		<Redirect to="/" />
 	</Switch>
 );
 
