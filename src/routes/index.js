@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {
 	DefaultLayout,
-	ErrorComponent,
+	LoginComponent,
 	EmailVerifyComponent
 } from "components";
 import { SetReload } from "store/actions";
@@ -29,7 +29,7 @@ const AuthSwitchWrapper = (props) => {
 	}, [reload, bindReload]);
 
 	if (!navigator.onLine) {
-		return (<Redirect to="/error" />)
+		return (<Redirect to="/login" />)
 	}
 
 	if (localReload) {
@@ -77,7 +77,7 @@ const AuthSwitch = connect(
 // )(AuthSwitchWrapper);
 
 const AuthRoute = ({ component, ...rest }) => (
-	<AuthSwitch {...rest} truthyComponent={component} falsyComponent={ErrorComponent} />
+	<AuthSwitch {...rest} truthyComponent={component} falsyComponent={LoginComponent} />
 );
 
 export default AuthRoute;
