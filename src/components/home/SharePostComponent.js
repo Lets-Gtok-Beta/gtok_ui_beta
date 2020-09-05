@@ -38,7 +38,7 @@ const SharePostComponent = (props) => {
 					<TwitterShareButton url={sharePostUrl} title={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
 			     <TwitterIcon size={36} />
 			   </TwitterShareButton>
-			   <WhatsappShareButton url={sharePostUrl} title={sharePost.category.text} separator=":" className="socialMediaButton">
+			   <WhatsappShareButton url={sharePostUrl} title={sharePost.text} separator=":: " className="socialMediaButton">
 			     <WhatsappIcon size={36} />
 			   </WhatsappShareButton>
 			  </div>
