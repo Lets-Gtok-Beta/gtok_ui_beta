@@ -17,7 +17,8 @@ import {
 	SET_ALERTS,
 	SET_PERMISSIONS,
 	SET_SHARE_POST,
-	SET_RELATIONSHIPS
+	SET_RELATIONSHIPS,
+	SET_USER_RELATION
 } from "./types.js";
 import {
 	getNewMessagesCount,
@@ -243,6 +244,19 @@ export const SetRelationships = (currentUser) => {
 		getRelationships(currentUser).then(res => {
 			dispatch({
 				type: SET_RELATIONSHIPS,
+				payload: {
+					rls: res
+				}
+			});
+		});
+	}
+}
+
+export const SetUserRelation = (currentUser, displayUser) => {
+	return (dispatch) => {
+		getRelationships(currentUser, displayUser).then(res => {
+			dispatch({
+				type: SET_USER_RELATION,
 				payload: {
 					rls: res
 				}
