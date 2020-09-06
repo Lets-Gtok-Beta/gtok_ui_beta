@@ -2,20 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useHistory, withRouter, Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { add, getId, update, arrayAdd, arrayRemove, timestamp } from "firebase_config";
+import { getId, getQuery, firestore } from "firebase_config";
 import { capitalizeFirstLetter } from "helpers";
 import { DisplayPostComponent, SimilarityComponent } from "components";
 // import { CalendarChartData } from "constants/calendar"; CalendarComponent
 import { gtokFavicon } from "images";
-import { SetSelectedUserPosts } from "store/actions";
+import { SetSelectedUserPosts, SetRelationships } from "store/actions";
+import { createRelationships } from "lib/api";
 
 function PublicProfileComponent(props) {
-	const { currentUser, selectedUserPosts, bindPosts, allUsers } = props;
+	const { currentUser, selectedUserPosts, bindPosts, allUsers, bindRelationships } = props;
 	const userId = props.match.params.name;
-	const [ displayUser, setDisplayUser ] = useState();
+	const [ displayUser, setDisplayUser ] = useState({});
 	const [ loading, setLoading ] = useState(true);
 	const [ tabContent, setTabContent ] = useState("");
-	const [ follower, setFollower ] = useState(false);
+	const [ follower, setFollower ] = useState(null);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
 	const [ bigImg, setBigImg ] = useState('');
 
@@ -28,6 +29,12 @@ function PublicProfileComponent(props) {
 			alert("No user found")
 			return;
 		}
+		async function isFollower(user) {
+			let rlns = await getQuery(
+				firestore.collection("userRelationships").where("userIdOne", "==", currentUser.id).where("userIdTwo", "==", user.id).get()
+			);
+			if (rlns[0]) setFollower(rlns[0].status);
+		}
 		async function getUser() {
 			let user = allUsers.find(user => user.id === userId);
 			if (!user) {
@@ -38,85 +45,27 @@ function PublicProfileComponent(props) {
 				user["id"] = userId;
 				setDisplayUser(user)
 				bindPosts(user);
-				let isfollow = user.followers.find(id => id === currentUser.id);
-				if (!!isfollow) setFollower(true);
 			};
+			isFollower(user);
 			setLoading(false);
 			setIsFollowerLoading(false);
 		}
 		getUser();
 	}, [userId, bindPosts, currentUser, allUsers]);
 
-  // const displayFollowers = async () => {
-  // 	if (!currentUser.premium) {
-	 //  	alert("You cannot see followers.");
-	 //  	return;
-  // 	}
-  // }
+	const relationStatus = async (status) => {
+		setIsFollowerLoading(true);
+		await createRelationships(currentUser, displayUser, status);
+		await bindRelationships(currentUser);
+		let rlns = await getQuery(
+			firestore.collection("userRelationships").where("userIdOne", "==", currentUser.id).where("userIdTwo", "==", displayUser.id).get()
+		);
+		if (rlns[0]) setFollower(rlns[0].status);
+		setIsFollowerLoading(false);
+	}
 
   const msgUser = async () => {
   	history.push("/app/chats/new/"+displayUser.id);
-  }
-
-  const followUser = async () => {
-  	setIsFollowerLoading(true);
-  	if (!follower) {
-	  	await update("users", displayUser.id, { followers: arrayAdd(currentUser.id) });
-	  	/* Alert display user about current user */
-	  	await add("logs", {
-	  		text: `${currentUser.displayName} followed you`,
-	  		photoURL: currentUser.photoURL,
-	  		receiverId: displayUser.id,
-	  		userId: currentUser.id,
-	  		actionType: "update",
-	  		collection: "users",
-	  		actionId: displayUser.id,
-	  		actionKey: "followers",
-	  		timestamp
-	  	});
-	  	await update("users", currentUser.id, { following: arrayAdd(displayUser.id) });
-	  	await add("logs", {
-	  		text: `You followed ${currentUser.displayName}`,
-	  		photoURL: displayUser.photoURL,
-	  		receiverId: "",
-	  		userId: currentUser.id,
-	  		actionType: "update",
-	  		collection: "users",
-	  		actionId: currentUser.id,
-	  		actionKey: "following",
-	  		timestamp
-	  	});
-	  	setFollower(true);
-  	} else {
-	  	await update("users", displayUser.id, { followers: arrayRemove(currentUser.id) });
-	  	/* Alert display user about current user */
-	  	await add("logs", {
-	  		text: `${currentUser.displayName} unfollowed you`,
-	  		photoURL: currentUser.photoURL,
-	  		receiverId: "",
-	  		userId: currentUser.id,
-	  		actionType: "update",
-	  		collection: "users",
-	  		actionId: displayUser.id,
-	  		actionKey: "followers",
-	  		timestamp
-	  	});
-	  	await update("users", currentUser.id, { following: arrayRemove(displayUser.id) });
-	  	/* Alert display user about current user */
-	  	await add("logs", {
-	  		text: `You unfollowed ${currentUser.displayName}`,
-	  		photoURL: displayUser.photoURL,
-	  		receiverId: "",
-	  		userId: currentUser.id,
-	  		actionType: "update",
-	  		collection: "users",
-	  		actionId: currentUser.id,
-	  		actionKey: "following",
-	  		timestamp
-	  	});
-	  	setFollower(false);
-  	}
-  	setIsFollowerLoading(false);
   }
 
 	return (
@@ -149,15 +98,42 @@ function PublicProfileComponent(props) {
 							{displayUser.followers && displayUser.followers.length} follower{displayUser.followers && displayUser.followers.length !== 1 && "s"}
 						</button>
 						<div className="d-flex justify-content-center mt-2">
-				  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"}`}>
-					    {
-					    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
-						    	<small className="pull-right" onClick={e => followUser()}>{
-						    		follower ? "Unfollow"	: "Follow"
-						    	}</small>
-						    )
-					    }
-					    </button>
+							<div className="btn-group">
+					  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"}`} onClick={e => relationStatus("follow")}>
+						    {
+						    	isFollowerLoading ? <i className="fa fa-spinner fa-spin"></i> : (
+							    	<small className="pull-right">{
+							    		follower === 0 ? "Pending" : (
+							    		follower === 1 ? "Following" : (
+							    			follower === 3 ? "Blocked" : "Follow"
+							    		)
+							    		)
+							    	}</small>
+							    )
+						    }
+						    </button>
+							  <button type="button" className="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split pt-0 pb-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <span className="sr-only">Toggle Dropdown</span>
+							  </button>
+							  <div className="dropdown-menu">
+							  	{ follower === 0 &&
+								    <button className="dropdown-item" onClick={e => relationStatus("cancel_request")}>
+								    	Cancel Request
+								    </button>}
+							    { follower === 1 &&
+							    	<button className="dropdown-item" onClick={e => relationStatus("unfollow")}>
+							    		<i className="fa fa-times"></i>&nbsp;Unfollow
+							    	</button>}
+							    { follower !== 3 &&
+							    	<button className="dropdown-item" onClick={e => relationStatus("block")}>
+							    		<i className="fa fa-ban"></i>&nbsp; Block
+							    	</button>}
+							    { follower === 3 &&
+							    	<button className="dropdown-item" onClick={e => relationStatus("unblock")}>
+							    		<i className="fa fa-ban"></i>&nbsp; Unblock
+							    	</button>}
+							  </div>
+							</div>
 					    <button className="btn btn-sm btn-outline-secondary ml-2 btn_send_text" onClick={e => msgUser()} title="Send text">
 					    	<i className="fa fa-comment"></i>
 						  </button>
@@ -211,7 +187,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindPosts: (content) => dispatch(SetSelectedUserPosts(content))
+		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
+		bindRelationships: (content) => dispatch(SetRelationships(content))
 	}
 }
 

@@ -5,7 +5,9 @@ import { getPosts } from "./get/GetPosts";
 import { getUsers } from "./get/GetUsers";
 import { getAlerts } from "./get/GetAlerts";
 import { getPermissions } from "./get/GetPermissions";
+import { getRelationships } from "./get/GetRelationships";
 import { createPageVisits } from "./create/CreatePageVisits";
+import { createRelationships } from "./create/CreateRelationships";
 
 export {
 	getNewMessagesCount,
@@ -15,5 +17,7 @@ export {
 	getUsers,
 	getAlerts,
 	getPermissions,
-	createPageVisits
+	getRelationships,
+	createPageVisits,
+	createRelationships
 }

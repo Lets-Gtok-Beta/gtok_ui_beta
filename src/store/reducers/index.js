@@ -8,6 +8,7 @@ import surveys from "./SurveysList";
 import alerts from "./Alerts";
 import posts from "./Posts";
 import users from "./SearchUsers";
+import relationships from "./Relationships";
 
 export default combineReducers({
 	subscriptionPlans,
@@ -18,5 +19,6 @@ export default combineReducers({
 	surveys,
 	alerts,
 	posts,
-	users
+	users,
+	relationships
 });

@@ -16,7 +16,8 @@ import {
 	SET_ALL_USERS,
 	SET_ALERTS,
 	SET_PERMISSIONS,
-	SET_SHARE_POST
+	SET_SHARE_POST,
+	SET_RELATIONSHIPS
 } from "./types.js";
 import {
 	getNewMessagesCount,
@@ -26,7 +27,9 @@ import {
 	getUsers,
 	getAlerts,
 	getPermissions,
-	createPageVisits
+	getRelationships,
+	createPageVisits,
+	createRelationships
 } from "lib/api";
 
 export const SetDbUser = (content) => {
@@ -235,9 +238,35 @@ export const SetPermissions = (currentUser) => {
 	}
 }
 
+export const SetRelationships = (currentUser) => {
+	return (dispatch) => {
+		getRelationships(currentUser).then(res => {
+			dispatch({
+				type: SET_RELATIONSHIPS,
+				payload: {
+					rls: res
+				}
+			});
+		});
+	}
+}
+
 export const CreatePageVisits = (currentUser) => {
 	return (dispatch) => {
 		createPageVisits(currentUser).then(res => {
+			// dispatch({
+			// 	type: SET_ALERTS,
+			// 	payload: {
+			// 		pageVisits: res
+			// 	}
+			// });
+		});
+	}
+}
+
+export const CreateRelationships = (currentUser, displayUser, status) => {
+	return (dispatch) => {
+		createRelationships(currentUser, displayUser, status).then(res => {
 			// dispatch({
 			// 	type: SET_ALERTS,
 			// 	payload: {

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { SearchUserComponent } from "components";
-import { SetAllUsers } from "store/actions";
+import { SetAllUsers, SetRelationships } from "store/actions";
 
-const SearchComponent = ({currentUser, allUsers, bindAllUsers}) => {
+const SearchComponent = ({
+	currentUser, allUsers, bindAllUsers, relations, bindRelationships
+}) => {
 	const [ searchVal, setSearchVal ] = useState("");
 	const [ voiceIcon, setVoiceIcon ] = useState("microphone");
 	const [ microphoneText, setMicrophoneText ] = useState("");
@@ -15,7 +17,8 @@ const SearchComponent = ({currentUser, allUsers, bindAllUsers}) => {
 			if (currentUser.admin) bindAllUsers(currentUser, "adminUsers");
 			else bindAllUsers(currentUser, "all");
   	}
-  }, [currentUser, allUsers, bindAllUsers, searchVal]);
+  	if (!relations[0]) bindRelationships(currentUser);
+  }, [currentUser, allUsers, bindAllUsers, searchVal, bindRelationships, relations]);
 
 /*
   const isFollower = async (user) => {
@@ -169,12 +172,14 @@ const SearchComponent = ({currentUser, allUsers, bindAllUsers}) => {
 
 const mapStateToProps = (state) => {
 	const { allUsers } = state.users;
-	return { allUsers };
+	const { relations } = state.relationships;
+	return { allUsers, relations };
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindAllUsers: (content, type, searchVal) => dispatch(SetAllUsers(content, type, searchVal))
+		bindAllUsers: (content, type, searchVal) => dispatch(SetAllUsers(content, type, searchVal)),
+		bindRelationships: (content, type) => dispatch(SetRelationships(content, type))
 	}
 }
 
