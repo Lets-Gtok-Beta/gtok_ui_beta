@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useHistory, Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
-import { getQuery, firestore } from "firebase_config";
+import { getId, getQuery, firestore } from "firebase_config";
 import { NotificationComponent } from "components";
 import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon } from "images";
 import { createRelationships } from "lib/api";
 import { SetRelationships } from "store/actions";
 
-const SearchUserComponent = ({displayUser, currentUser, relations, bindRelationships}) => {
+const DisplaySearchUserComponent = ({
+	currentUser, displayUserId, status, allUsers, bindRelationships
+}) => {
 	const history = useHistory();
-	const [ follower, setFollower ] = useState(null);
+	const [ follower, setFollower ] = useState(status);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(false);
 	const [ result, setResult ] = useState({});
+	const [ displayUser, setDisplayUser ] = useState("");
 	/*
 	const StatusCodes = {
 		0: "Pending",
@@ -23,13 +26,15 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 	}*/
 
 	useEffect(() => {
-		if (relations[0]) {
-			let relation = relations.find(rln => rln["userIdOne"] === currentUser.id && rln["userIdTwo"] === displayUser.id);
-			if (relation && relation.status) {
-				setFollower(relation.status);
-			};
+		async function getUser() {
+			let user = allUsers.find(u => u.id === displayUserId);
+			if (!user) {
+				user = await getId("users", displayUserId);
+			}
+			setDisplayUser(user);
 		}
-	}, [relations, currentUser, displayUser])
+		getUser();
+	}, [displayUserId, allUsers])
 
 	const relationStatus = async (status) => {
 		setIsFollowerLoading(true);
@@ -52,13 +57,9 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 			<div className="card p-2 card-br-0">
 				{result.status && <NotificationComponent result={result} setResult={setResult} />}
 				<div className="media profile_card_img">
-					{
-						follower !== 3 ?
-				  	<Link to={"/app/profile/"+displayUser.id}>
-					  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" />
-				  	</Link> :
+			  	<Link to={"/app/profile/"+displayUser.id}>
 				  	<img className="mr-2" src={displayUser.photoURL || gtokFavicon} alt="Card img cap" />
-					}
+			  	</Link>
 				  <div className="media-body">
 				    <h6 className="mt-0 text-camelcase">
 					  	<Link to={"/app/profile/"+displayUser.id}>
@@ -85,8 +86,12 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 							  </button>
 							  <div className="dropdown-menu">
 							  	{ follower === 0 &&
-								    <button className="dropdown-item" onClick={e => relationStatus("cancel_request")}>
-								    	Cancel Request
+								    <button className="dropdown-item" onClick={e => relationStatus("accept_request")}>
+								    	<i className="fa fa-tick"></i> Accept Request
+								    </button>}
+							  	{ follower === 0 &&
+								    <button className="dropdown-item" onClick={e => relationStatus("decline_request")}>
+								    	<i className="fa fa-times"></i> Decline Request
 								    </button>}
 							    { follower === 1 &&
 							    	<button className="dropdown-item" onClick={e => relationStatus("unfollow")}>
@@ -102,18 +107,12 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 							    	</button>}
 							  </div>
 							</div>
-							{
-								follower !== 3 &&
-						    <Link to={"/app/profile/"+displayUser.id} className="btn btn-outline-secondary btn-sm pull-right ml-2" title="Show similarities">
-						    	<i className="fa fa-bar-chart"></i>
-						    </Link>
-							}
-							{
-								follower !== 3 &&
-						    <button className="btn btn-sm btn-outline-secondary pull-right" onClick={e => msgUser()} title="Start chat">
-						    	<i className="fa fa-comment"></i>
-							  </button>
-							}
+					    <Link to={"/app/profile/"+displayUser.id} className="btn btn-outline-secondary btn-sm pull-right ml-2" title="Show similarities">
+					    	<i className="fa fa-bar-chart"></i>
+					    </Link>
+					    <button className="btn btn-sm btn-outline-secondary pull-right" onClick={e => msgUser()} title="Start chat">
+					    	<i className="fa fa-comment"></i>
+						  </button>
 						{/*
 					    <button className="btn btn-sm btn-outline-secondary pull-right" onClick={e => createRelationships(displayUser)} title="Start chat">
 					    	Add relations
@@ -130,8 +129,8 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 };
 
 const mapStateToProps = (state) => {
-	const { relations } = state.relationships;
-	return { relations };
+	const { allUsers } = state.users;
+	return { allUsers };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -143,4 +142,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(SearchUserComponent);
+)(DisplaySearchUserComponent);

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Metadata } from "constants/index";
 import { gtokFavicon } from "images";
-import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList } from "store/actions";
+import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList, SetRelationships } from "store/actions";
 import { HelmetMetaDataComponent } from "components";
 
 const HeaderComponent = ({
@@ -13,7 +13,8 @@ const HeaderComponent = ({
 	bindNewMessagesCount,
 	newAlertsCount,
 	bindNewAlertsCount,
-	bindSurveysList
+	bindSurveysList,
+	bindRelationships
 }) => {
 	const [metaDetails, setMetaDetails] = useState({});
 	useEffect(() => {
@@ -30,7 +31,8 @@ const HeaderComponent = ({
 		bindNewMessagesCount(currentUser);
 		bindNewAlertsCount(currentUser);
 		bindSurveysList(currentUser);
-	}, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, bindSurveysList, currentUser]);
+  	bindRelationships(currentUser);
+	}, [metaDetails, bindNewMessagesCount, bindNewAlertsCount, bindSurveysList, currentUser, bindRelationships]);
 
   return (
     <div>
@@ -131,7 +133,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		bindNewMessagesCount: (content) => dispatch(SetNewMessagesCount(content)),
 		bindNewAlertsCount: (content) => dispatch(SetNewAlertsCount(content)),
-		bindSurveysList: (content) => dispatch(SetSurveysList(content))
+		bindSurveysList: (content) => dispatch(SetSurveysList(content)),
+		bindRelationships: (content) => dispatch(SetRelationships(content))
 	}
 }
 

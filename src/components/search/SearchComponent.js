@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { SearchUserComponent } from "components";
+import { SearchUserComponent, DisplaySearchUserComponent, PendingUserComponent } from "components";
 import { SetAllUsers, SetRelationships } from "store/actions";
 
 const SearchComponent = ({
@@ -10,6 +10,9 @@ const SearchComponent = ({
 	const [ searchVal, setSearchVal ] = useState("");
 	const [ voiceIcon, setVoiceIcon ] = useState("microphone");
 	const [ microphoneText, setMicrophoneText ] = useState("");
+	const [ pendingRelations, setPendingRelations ] = useState([]);
+	const [ followerRelations, setFollowerRelations ] = useState([]);
+	const [ followingRelations, setFollowingRelations ] = useState([]);
 
   useEffect(() => {
 		window.jQuery('[data-toggle="popover"]').popover();
@@ -17,28 +20,16 @@ const SearchComponent = ({
 			if (currentUser.admin) bindAllUsers(currentUser, "adminUsers");
 			else bindAllUsers(currentUser, "all");
   	}
-  	if (!relations[0]) bindRelationships(currentUser);
+  	if (relations[0]) {
+  		let rlns = relations.filter(rln => rln["userIdTwo"] === currentUser.id && rln["status"] === 0);
+  		setPendingRelations(rlns);
+  		rlns = relations.filter(rln => rln["userIdTwo"] === currentUser.id && rln["status"] === 1);
+  		setFollowerRelations(rlns);
+  		rlns = relations.filter(rln => rln["userIdOne"] === currentUser.id && rln["status"] === 1);
+  		setFollowingRelations(rlns);
+  	}
   }, [currentUser, allUsers, bindAllUsers, searchVal, bindRelationships, relations]);
 
-/*
-  const isFollower = async (user) => {
-  	return user.followers && user.followers.find(u => u.id === currentUser.id);
-  }
-
-  const followUser = async (user) => {
-  	let followers = user.followers || [];
-  	followers.push(currentUser.id);
-  	await update("users", user.id, { followers });
-  	alert("Successfully followed!");
-  }
-
-  const unFollowUser = async (user) => {
-  	let followers = user.followers || [];
-  	followers = followers.filter(u => u.id != currentUser.id);
-  	await update("users", user.id, { followers });
-  	alert("Unfollowed successfully!");
-  }
-*/
 	const searchValue = async (val) => {
 		if (val.includes("search")) {
 			val = val.replace("search", "").trim().toLowerCase();
@@ -66,7 +57,7 @@ const SearchComponent = ({
 			var recognition = new SpeechRecognition();
 		}
 		catch(e) {
-			console.log("e", e);
+			console.log("e", e, microphoneText);
 		}
 
 		recognition.continuous = true;
@@ -160,12 +151,50 @@ const SearchComponent = ({
 				  </div>
 				</div>
     	</div>
-    	{microphoneText}
-    	{
-    		allUsers[0] ? allUsers.map((user, idx) => 
-  				<SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
-  			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
-    	}
+			<ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+			  <li className="nav-item p-0">
+			    <a className="nav-link p-0 active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
+			  </li>
+			  <li className="nav-item p-0">
+			    <a className="nav-link p-0" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Pending ({pendingRelations.length})</a>
+			  </li>
+			  <li className="nav-item p-0">
+			    <a className="nav-link p-0" id="pills-followers-tab" data-toggle="pill" href="#pills-followers" role="tab" aria-controls="pills-followers" aria-selected="false">Followers ({followerRelations.length})</a>
+			  </li>
+			  <li className="nav-item p-0">
+			    <a className="nav-link p-0" id="pills-following-tab" data-toggle="pill" href="#pills-following" role="tab" aria-controls="pills-following" aria-selected="false">Following ({followingRelations.length})</a>
+			  </li>
+			</ul>
+			<div className="tab-content" id="pills-tabContent">
+			  <div className="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+		    	{
+		    		allUsers[0] ? allUsers.map((user, idx) => 
+		  				<SearchUserComponent displayUser={user} currentUser={currentUser} key={idx} />
+		  			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
+		    	}
+			  </div>
+			  <div className="tab-pane fade" id="pills-requests" role="tabpanel" aria-labelledby="pills-requests-tab">
+		    	{
+		    		pendingRelations[0] ? pendingRelations.map((rln, idx) => 
+		  				<PendingUserComponent displayUserId={rln.userIdOne} currentUser={currentUser} status={rln.status} key={idx} />
+		  			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
+		    	}
+			  </div>
+			  <div className="tab-pane fade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab">
+		    	{
+		    		followerRelations[0] ? followerRelations.map((rln, idx) => 
+		  				<DisplaySearchUserComponent displayUserId={rln.userIdOne} currentUser={currentUser} status={rln.status} key={idx} />
+		  			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
+		    	}
+			  </div>
+			  <div className="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">
+		    	{
+		    		followingRelations[0] ? followingRelations.map((rln, idx) => 
+		  				<DisplaySearchUserComponent displayUserId={rln.userIdTwo} currentUser={currentUser} status={rln.status} key={idx} />
+		  			) : <div className="card text-center mt-2 p-2 text-secondary">No users found</div>
+		    	}
+			  </div>
+			</div>
     </div>
   );
 };
@@ -179,7 +208,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		bindAllUsers: (content, type, searchVal) => dispatch(SetAllUsers(content, type, searchVal)),
-		bindRelationships: (content, type) => dispatch(SetRelationships(content, type))
+		bindRelationships: (currentUser, displayUser, status) => dispatch(SetRelationships(currentUser, displayUser, status))
 	}
 }
 

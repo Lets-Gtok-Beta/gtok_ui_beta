@@ -239,9 +239,9 @@ export const SetPermissions = (currentUser) => {
 	}
 }
 
-export const SetRelationships = (currentUser) => {
+export const SetRelationships = (currentUser, displayUser, status) => {
 	return (dispatch) => {
-		getRelationships(currentUser).then(res => {
+		getRelationships(currentUser, displayUser, status).then(res => {
 			dispatch({
 				type: SET_RELATIONSHIPS,
 				payload: {
@@ -252,9 +252,9 @@ export const SetRelationships = (currentUser) => {
 	}
 }
 
-export const SetUserRelation = (currentUser, displayUser) => {
+export const SetUserRelation = (currentUser, displayUser, status) => {
 	return (dispatch) => {
-		getRelationships(currentUser, displayUser).then(res => {
+		getRelationships(currentUser, displayUser, status).then(res => {
 			dispatch({
 				type: SET_USER_RELATION,
 				payload: {

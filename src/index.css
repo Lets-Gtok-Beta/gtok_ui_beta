@@ -61,6 +61,10 @@ code {
 	border-radius: 50% !important;
 }
 
+.blur-image {
+	filter: blur(4px) !important;
+}
+
 input.form-input {
   /*max-width: 450px;*/
   width: auto;
@@ -453,6 +457,18 @@ button:active {
 .btn_send_text {
 	font-size: medium;
 	padding: 2.5px 7px !important;
+}
+
+.nav-pills .nav-link {
+	color: #6c757d !important;
+	font-size: small;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+	color: #6c757d !important;
+	border-bottom: 2px solid !important;
+	border-radius: 0px !important;
+	background-color: transparent !important;
 }
 
 /* Payments Component */

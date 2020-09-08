@@ -21,6 +21,8 @@ import DisplaySurveyComponent from "components/surveys/DisplaySurveyComponent";
 import PaymentsComponent from "components/payments/PaymentsComponent";
 import SearchComponent from "components/search/SearchComponent";
 import SearchUserComponent from "components/search/SearchUserComponent";
+import DisplaySearchUserComponent from "components/search/DisplaySearchUserComponent";
+import PendingUserComponent from "components/search/PendingUserComponent";
 import CheckSimilarityComponent from "components/search/CheckSimilarityComponent";
 import DefaultLayout from "components/common/DefaultLayout";
 import HeaderComponent from "components/common/HeaderComponent";
@@ -67,6 +69,8 @@ export {
 	PaymentsComponent,
 	SearchComponent,
 	SearchUserComponent,
+	DisplaySearchUserComponent,
+	PendingUserComponent,
 	CheckSimilarityComponent,
 	DefaultLayout,
 	HeaderComponent,

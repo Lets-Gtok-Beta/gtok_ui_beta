@@ -18,7 +18,7 @@ class SingleChatComponent extends Component {
 			message: "",
 			messagesList: [],
 			convoId: props.match.params.id,
-			currentUser: props.currentUser,
+			currentUser: props.currentUser
 		}
 		this.unsubscribe = "";
 		// this.messagesList = [];
@@ -43,10 +43,17 @@ class SingleChatComponent extends Component {
 		if (!id) { id = this.state.convoId }
 		let result = await getId("conversations", id);
 		result["id"] = id;
+		let chatUser = result.usersRef.find(u => u.id !== this.state.currentUser.id);
+		let status = null;
+		if (this.props.relations[0]) {
+			let rln = this.props.relations.find(rln => rln["userIdOne"] === this.state.currentUser.id && rln["userIdTwo"] === chatUser.id);
+			if (rln && rln["status"]) { status = rln["status"]; }
+		}
 		this.setState({
 			convoId: id,
 			conversation: result,
-			chatUser: result.usersRef.find(u => u.id !== this.state.currentUser.id)
+			chatUser,
+			status
 		});
 		this.getMessagesSnapshot();
 	}
@@ -187,15 +194,18 @@ class SingleChatComponent extends Component {
 				    		</div>
 			    		</div>
 			    		{this.renderMessageWindow()}
-				      <div className="d-flex px-3 align-self-center align-items-center chat-window-footer">
-				    		<div className="flex-grow-1">
-					      	<textarea className="reply-box" rows="2" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
-					      	</textarea>
+			    		{
+						  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary">You must follow this user to chat.</div> :
+					      <div className="d-flex px-3 align-self-center align-items-center chat-window-footer">
+					    		<div className="flex-grow-1">
+						      	<textarea className="reply-box" rows="2" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
+						      	</textarea>
+						      </div>
+					      	<div className="flex-shrink-1 pl-2">
+						      	<i className="fa fa-paper-plane reply-box-icon" onClick={e => this.sendMessage()}></i>
+						      </div>
 					      </div>
-				      	<div className="flex-shrink-1 pl-2">
-					      	<i className="fa fa-paper-plane reply-box-icon" onClick={e => this.sendMessage()}></i>
-					      </div>
-				      </div>
+			    		}
 	    			</div>
 	    		) : <LoadingComponent />
 	    	}
@@ -206,7 +216,8 @@ class SingleChatComponent extends Component {
 
 const mapStateToProps = (state) => {
 	const { messages } = state.chatMessages;
-	return { messages }
+	const { relations } = state.relationships;
+	return { messages, relations }
 }
 
 const mapDispatchToProps = (dispatch) => {

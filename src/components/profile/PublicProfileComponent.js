@@ -16,9 +16,8 @@ function PublicProfileComponent(props) {
 	const [ displayUser, setDisplayUser ] = useState({});
 	const [ loading, setLoading ] = useState(true);
 	const [ tabContent, setTabContent ] = useState("");
-	const [ follower, setFollower ] = useState(null);
+	const [ follower, setFollower ] = useState(3);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
-	const [ bigImg, setBigImg ] = useState('');
 
 	const history = useHistory();
 	if (userId === currentUser.id ) history.push("/app/profile");
@@ -46,7 +45,7 @@ function PublicProfileComponent(props) {
 				setDisplayUser(user)
 				bindPosts(user);
 			};
-			isFollower(user);
+			await isFollower(user);
 			setLoading(false);
 			setIsFollowerLoading(false);
 		}
@@ -79,24 +78,18 @@ function PublicProfileComponent(props) {
 	  			<Link to="/app/search">Goto Search</Link>
 	  		</div> :
 	  		<div>
-					{
-						bigImg &&
-						<div className="profile_card_big_img" onClick={e => setBigImg("")}>
-					  	<img className="mr-2" src={bigImg} alt="Card img cap" />
-						</div>
-					}
 					<div className="text-center mb-3">
 						<img 
 							src={ displayUser.photoURL || gtokFavicon}
 							alt="dp" 
-							className="profilePic"
+							className={`profilePic ${follower!==1 && "blur-image"}`}
 						/>
 						<h5 className="mb-0 mt-2">
 							{displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)}
 						</h5>
-						<button className="btn btn-link text-secondary btn-sm py-0" onClick={e => alert("Followers will not display at the moment. Come back later.")}>
+						<span className="text-secondary font-small">
 							{displayUser.followers && displayUser.followers.length} follower{displayUser.followers && displayUser.followers.length !== 1 && "s"}
-						</button>
+						</span>
 						<div className="d-flex justify-content-center mt-2">
 							<div className="btn-group">
 					  		<button className={`btn btn-sm ${follower ? "btn-secondary" : "btn-outline-secondary"}`} onClick={e => relationStatus("follow")}>
@@ -134,9 +127,12 @@ function PublicProfileComponent(props) {
 							    	</button>}
 							  </div>
 							</div>
-					    <button className="btn btn-sm btn-outline-secondary ml-2 btn_send_text" onClick={e => msgUser()} title="Send text">
-					    	<i className="fa fa-comment"></i>
-						  </button>
+							{
+								follower !== 3 &&
+						    <button className="btn btn-sm btn-outline-secondary ml-2 btn_send_text" onClick={e => msgUser()} title="Send text">
+						    	<i className="fa fa-comment"></i>
+							  </button>
+							}
 						</div>
 				  </div>
 		      <div className="card create-post-card">
@@ -155,7 +151,8 @@ function PublicProfileComponent(props) {
 		      		</div>
 		      	</div>
 		      </div>
-	      	{
+				  {
+				  	follower !== 1 ? <div className="card text-center mt-2 p-2 text-secondary">You must follow the user to see profile.</div> :
 	      		tabContent === "posts" ?
 	      		<div className="mt-3">
 	      			{

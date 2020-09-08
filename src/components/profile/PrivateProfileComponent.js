@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { 
@@ -193,9 +193,9 @@ function PrivateProfileComponent({
 					<h5 className="mb-0 mt-2">
 						{dbUser.displayName && capitalizeFirstLetter(dbUser.displayName)}
 					</h5>
-					<button className="btn btn-link text-secondary btn-sm py-0" onClick={e => alert("Followers will not display at the moment. Come back later.")}>
+					<Link to="/app/search" className="text-secondary font-small py-0">
 						{dbUser.followers && dbUser.followers.length} follower{dbUser.followers && dbUser.followers.length !== 1 && "s"}
-					</button>
+					</Link>
 			  </div>
 	      <div className="card create-post-card">
 	      	<div className="d-flex">
