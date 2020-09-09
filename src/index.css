@@ -74,6 +74,10 @@ input.form-input {
   padding: 10px;
 }
 
+input[type="date"] {
+	min-width: 95%;
+}
+
 .btn-sm-app {
 	/*outline: none;*/
 	color: #fff !important;

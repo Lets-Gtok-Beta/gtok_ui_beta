@@ -45,6 +45,7 @@ const HomeComponent = ({currentUser, posts, bindPosts}) => {
 		}
 		setPostBtn("Posting");
 		let result = await add("posts", {
+			active: true,
 			text: postText.trim(),
 			userId: currentUser.id,
 			followers: [],
