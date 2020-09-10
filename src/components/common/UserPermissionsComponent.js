@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
 /* Permissions reference: https://stackoverflow.com/questions/58128847/what-all-mobile-permission-we-can-ask-in-a-pwa */
 
-const UserPermissionsComponent = () => {
+const UserPermissionsComponent = ({
+	newMessagesCount,
+	newAlertsCount
+}) => {
 	const [ hideNotify, setHideNotify ] = useState(true);
 			// name: "notifications",
 			// name: "geolocation",
@@ -24,16 +28,35 @@ const UserPermissionsComponent = () => {
 		Notification.requestPermission(function(result) {
 	    if (result === 'granted') {
 	      navigator.serviceWorker.ready.then(function(registration) {
-	        registration.showNotification('Lets Gtok', {
-	          body: 'You received a new alert',
-	          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
-	          vibrate: [200, 100, 200, 100, 200, 100, 200],
-	          tag: 'lets-gtok'
-	        });
+	      	if (newAlertsCount > 0) {
+		        registration.showNotification('Lets Gtok', {
+		          body: 'You received new alerts',
+		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
+		          vibrate: [200, 100, 200, 100, 200, 100, 200],
+		          tag: 'lets-gtok',
+		          data: {
+		          	url: 'https://beta.letsgtok.com/app/alerts'
+		          }
+		        });
+	      	}
+	      	if (newMessagesCount > 0) {
+		        registration.showNotification('Lets Gtok', {
+		          body: 'You received a new messages',
+		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
+		          vibrate: [200, 100, 200, 100, 200, 100, 200],
+		          tag: 'lets-gtok',
+		          data: {
+		          	url: 'https://beta.letsgtok.com/app/chats'
+		          }
+		        });
+	      	}
 	      });
 	    }
 	  });
-	}, []);
+	  window.addEventListener('notificationclick', event => {
+	  	event.notification.close();
+	  });
+	}, [newAlertsCount, newMessagesCount]);
 
 	return (
 		<div className={`text-center ${hideNotify && "d-none"}`}>
@@ -42,4 +65,13 @@ const UserPermissionsComponent = () => {
 	)
 }
 
-export default UserPermissionsComponent;
+const mapStateToProps = (state) => {
+	const { newMessagesCount } = state.chatMessages;
+	const { newAlertsCount } = state.alerts;
+	return { newMessagesCount, newAlertsCount };
+}
+
+export default connect(
+	mapStateToProps, 
+	null
+)(UserPermissionsComponent);
