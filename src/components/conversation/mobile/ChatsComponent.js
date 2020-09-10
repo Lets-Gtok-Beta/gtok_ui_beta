@@ -104,10 +104,14 @@ class ChatsComponent extends Component {
 		this.props.history.push("/app/chats/"+con.id);
 	}
 
+	setDefaultImg = (e) => {
+		e.target.src = gtokFavicon;
+	}
+
 	renderConvo = (con) => {
 		return con.group ?
 			<div className="media p-2">
-				<img src={con.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
+				<img src={con.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" onError={this.setDefaultImg} />
 				<div className="media-body">
 					<h6 className="p-0 mb-0 pl-2">{con.groupName}</h6>
 					<small className="p-0 pl-2">
@@ -119,7 +123,7 @@ class ChatsComponent extends Component {
 			con.usersRef.map((user, idx) => {
 				return user.id !== this.state.currentUser.id && (
 					<div className="media p-2" key={idx}>
-						<img src={user.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
+						<img src={user.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" onError={this.setDefaultImg} />
 						<div className="media-body">
 							<h6 className="p-0 mb-0 pl-2">{capitalizeFirstLetter(user.displayName)}</h6>
 							<small className="p-0 pl-2">

@@ -7,7 +7,7 @@ import {
 	PermissionsComponent,
 	DisplayPostComponent
 } from "components";
-import { add, update, uploadImage, removeImage, signout, timestamp } from "firebase_config";
+import { add, update, uploadImage, signout, timestamp } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
@@ -132,11 +132,12 @@ function PrivateProfileComponent({
 
   const deleteFile = async () => {
   	if (window.confirm("Are you sure you want to remove profile image?")) {		
-	  	await removeImage(profileUrl);
+  		/* Don't remove source image. Affects in chats & alerts */
+	  	// await removeImage(profileUrl);
 			/* Log the activity */
 	  	await add("logs", {
 	  		text: `${dbUser.displayName} removed profile image`,
-	  		photoURL: dbUser.photoURL,
+	  		photoURL: "",
 	  		receiverId: "",
 	  		userId: dbUser.id,
 	  		actionType: "update",

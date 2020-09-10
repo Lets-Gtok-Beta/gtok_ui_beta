@@ -165,6 +165,10 @@ class SingleChatComponent extends Component {
   	</div>
   )
 
+	setDefaultImg = (e) => {
+		e.target.src = gtokFavicon;
+	}
+
   render() {
 	  return (
 	    <div className="container mob-single-chat-window">
@@ -173,7 +177,7 @@ class SingleChatComponent extends Component {
 	    			<div>
 			    		<div className="chat-window-header media p-2">
 			    			<Link to={"/app/profile/"+this.state.chatUser.id}>
-				    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" />
+				    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" onError={this.setDefaultImg} />
 				    		</Link>
 			    			<div className="media-body">
 			    				<div className="d-flex">

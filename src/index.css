@@ -773,8 +773,9 @@ button:active {
 
 	.mob-single-chat-window .chat-window-footer {
 		position: fixed;
-    bottom: 70px;
+    bottom: 58px;
     width: 100%;
+    background-color: white;
 	}
 }
 
