@@ -32,6 +32,10 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 	}, [relations, currentUser, displayUser])
 
 	const relationStatus = async (status) => {
+		if (status==="block" && 
+			!window.confirm("Are you sure to block "+displayUser.displayName+"?")) {
+			return null;
+		}
 		setIsFollowerLoading(true);
 		let res = await createRelationships(currentUser, displayUser, status);
   	await bindRelationships(currentUser);

@@ -36,11 +36,11 @@ export const createRelationships = async (currentUser, displayUser={}, status=nu
 	if (rlnTwo[0] && rlnTwo[0]["status"] === 3) { data["status"] = 0 }
 	/* End */
 	if (!rln[0]) {
-		if (status === "follow" && !rln) {
+		if (status === "follow") {
 			res = await add("userRelationships", data);
 		}
 	} else {
-	 	if (status === "follow" && rln[0]["status"] === null) {
+	 	if (status === "follow") {
 			res = await update("userRelationships", rln[0].id, { status: data["status"],	actionUserId: data["actionUserId"]});
 		} else if (
 			status === "unfollow" || status === "unblock" || status === "cancel_request"
@@ -85,7 +85,7 @@ export const createRelationships = async (currentUser, displayUser={}, status=nu
 		}
 	}
 	if (!!res) {
-  	// await add("logs", logsData);
+  	await add("logs", logsData);
 	}
 	return res;
 }
