@@ -642,6 +642,13 @@ button:active {
 }
 
 /* Mobile devices */
+.mob-navbar-image {
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	object-fit: initial;
+}
+
 .mob-single-chat-window {
 	padding: 0 !important;
 	height: 100%;

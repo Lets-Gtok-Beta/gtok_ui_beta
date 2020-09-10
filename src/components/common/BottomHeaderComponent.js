@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { Metadata } from "constants/index";
-import { gtokFavicon } from "images";
+import { gtokFavicon, gtokBot } from "images";
 import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList, SetRelationships } from "store/actions";
 import { HelmetMetaDataComponent } from "components";
 
@@ -17,6 +17,9 @@ const BottomHeaderComponent = ({
 	bindRelationships
 }) => {
 	const [metaDetails, setMetaDetails] = useState({});
+  // Window handlers
+	window.jQuery('[data-toggle="popover"]').popover();
+
 	useEffect(() => {
 		let path = window.location.pathname;
 		if (path.includes("/app/chats")) {
@@ -50,14 +53,15 @@ const BottomHeaderComponent = ({
 		  	<ul className="navbar-nav ml-auto">
 					<li className="nav-item" title="Profile">
 						<div className="nav-link p-0">
-							{/*
-				        <Link to="/app/profile">
-				        	<img src={(currentUser && currentUser.photoURL) || gtokFavicon} className="navbar-image" alt="Profile pic"/>
-				        </Link>
-							*/}
+		        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"  data-container="body" data-toggle="popover" data-placement="bottom" data-content={`Hi, I am your(${currentUser.displayName.split(" ")[0]}) personal intelligent assistant bot. Quite big name, right? You can change my name soon. Will ping you once I am ready to chat and talk. Bye!`} />
+							{/*							
+			        <Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G">
+			        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"/>
+			        </Link>
 			        <Link to="/app/support" className="text-secondary">
 			        	Help
 			        </Link>
+			        */}
 			      </div>
 		      </li>
 	      </ul>
