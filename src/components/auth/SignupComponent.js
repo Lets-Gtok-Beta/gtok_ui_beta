@@ -71,9 +71,9 @@ const SignupComponent = () => {
   		dob,
   		permissions: {
   			tnc: true,
-  			emailUpdates,
   			recordPageVisits: true,
-  			locationAccess: true
+  			locationAccess: true,
+  			emailUpdates
   		},
   		photoURL: null,
   		verifyEmailSentTime: new Date()

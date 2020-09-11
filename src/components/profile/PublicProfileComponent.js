@@ -7,16 +7,16 @@ import { capitalizeFirstLetter } from "helpers";
 import { DisplayPostComponent, SimilarityComponent } from "components";
 // import { CalendarChartData } from "constants/calendar"; CalendarComponent
 import { gtokFavicon } from "images";
-import { SetSelectedUserPosts, SetRelationships } from "store/actions";
+import { SetSelectedUserPosts, SetRelationships, SetUserRelations } from "store/actions";
 import { createRelationships } from "lib/api";
 
 function PublicProfileComponent(props) {
-	const { currentUser, selectedUserPosts, bindPosts, allUsers, bindRelationships } = props;
+	const { currentUser, selectedUserPosts, bindPosts, allUsers, bindRelationships, 	  bindUserRelations, singleUserRelations } = props;
 	const userId = props.match.params.name;
 	const [ displayUser, setDisplayUser ] = useState({});
 	const [ loading, setLoading ] = useState(true);
 	const [ tabContent, setTabContent ] = useState("");
-	const [ follower, setFollower ] = useState(3);
+	const [ follower, setFollower ] = useState(null);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
 
 	const history = useHistory();
@@ -43,6 +43,7 @@ function PublicProfileComponent(props) {
 			else {
 				user["id"] = userId;
 				setDisplayUser(user)
+			  bindUserRelations(user);
 				bindPosts(user);
 			};
 			await isFollower(user);
@@ -50,7 +51,7 @@ function PublicProfileComponent(props) {
 			setIsFollowerLoading(false);
 		}
 		getUser();
-	}, [userId, bindPosts, currentUser, allUsers]);
+	}, [userId, bindPosts, currentUser, allUsers, bindUserRelations]);
 
 	const relationStatus = async (status) => {
 		setIsFollowerLoading(true);
@@ -88,7 +89,7 @@ function PublicProfileComponent(props) {
 							{displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)}
 						</h5>
 						<span className="text-secondary font-small">
-							{displayUser.followers && displayUser.followers.length} follower{displayUser.followers && displayUser.followers.length !== 1 && "s"}
+							{singleUserRelations.length} follower{singleUserRelations.length !== 1 && "s"}
 						</span>
 						<div className="d-flex justify-content-center mt-2">
 							<div className="btn-group">
@@ -179,13 +180,15 @@ function PublicProfileComponent(props) {
 const mapStateToProps = (state) => {
 	const { selectedUserPosts } = state.posts;
 	const { allUsers } = state.users;
-	return { selectedUserPosts, allUsers };
+	const { singleUserRelations } = state.relationships;
+	return { selectedUserPosts, allUsers, singleUserRelations };
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
-		bindRelationships: (content) => dispatch(SetRelationships(content))
+		bindRelationships: (content) => dispatch(SetRelationships(content)),
+		bindUserRelations: (content) => dispatch(SetUserRelations(content))
 	}
 }
 

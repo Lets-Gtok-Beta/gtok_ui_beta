@@ -11,10 +11,10 @@ import { add, update, uploadImage, signout, timestamp } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
-import { SetSelectedUserPosts } from "store/actions";
+import { SetSelectedUserPosts, SetUserRelations } from "store/actions";
 
 function PrivateProfileComponent({
-	user, currentUser, dbUser, bindLoggedIn, bindUser, bindDbUser, bindPosts, selectedUserPosts
+	user, currentUser, dbUser, bindLoggedIn, bindUser, bindDbUser, bindPosts, selectedUserPosts, singleUserRelations, bindUserRelations
 }) {
 	const defaultImage = gtokFavicon;
 	const [name, setName] = useState(dbUser.displayName);
@@ -32,7 +32,8 @@ function PrivateProfileComponent({
   // }
   useEffect(() => {
 	  bindPosts(dbUser);
-  }, [bindPosts, dbUser]);
+	  bindUserRelations(dbUser);
+  }, [bindPosts, dbUser, bindUserRelations]);
 
   // Window handlers
 	window.jQuery('[data-toggle="popover"]').popover();
@@ -195,7 +196,7 @@ function PrivateProfileComponent({
 						{dbUser.displayName && capitalizeFirstLetter(dbUser.displayName)}
 					</h5>
 					<Link to="/app/search" className="text-secondary font-small py-0">
-						{dbUser.followers && dbUser.followers.length} follower{dbUser.followers && dbUser.followers.length !== 1 && "s"}
+						{singleUserRelations.length} follower{singleUserRelations.length !== 1 && "s"}
 					</Link>
 			  </div>
 	      <div className="card create-post-card">
@@ -279,7 +280,8 @@ function PrivateProfileComponent({
 const mapStateToProps = (state) => {
 	const { dbUser, user } = state.authUsers;
 	const { selectedUserPosts } = state.posts;
-	return { dbUser, user, selectedUserPosts };
+	const { singleUserRelations } = state.relationships;
+	return { dbUser, user, selectedUserPosts, singleUserRelations };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -287,7 +289,8 @@ const mapDispatchToProps = (dispatch) => {
 		bindLoggedIn: (content) => dispatch(SetLoggedIn(content)),
 		bindUser: (content) => dispatch(SetUser(content)),
 		bindDbUser: (content) => dispatch(SetDbUser(content)),
-		bindPosts: (content) => dispatch(SetSelectedUserPosts(content))
+		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
+		bindUserRelations: (content) => dispatch(SetUserRelations(content))
 	}
 }
 

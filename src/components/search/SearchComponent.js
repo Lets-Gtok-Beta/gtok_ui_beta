@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import { SearchUserComponent, DisplaySearchUserComponent, PendingUserComponent } from "components";
-import { SetAllUsers, SetRelationships } from "store/actions";
+import { SetAllUsers } from "store/actions";
 
 const SearchComponent = ({
-	currentUser, allUsers, bindAllUsers, relations, bindRelationships
+	currentUser, allUsers, bindAllUsers, relations
 }) => {
 	const [ searchVal, setSearchVal ] = useState("");
 	const [ voiceIcon, setVoiceIcon ] = useState("microphone");
@@ -28,7 +28,7 @@ const SearchComponent = ({
   		rlns = relations.filter(rln => rln["userIdOne"] === currentUser.id && rln["status"] === 1);
   		setFollowingRelations(rlns);
   	}
-  }, [currentUser, allUsers, bindAllUsers, searchVal, bindRelationships, relations]);
+  }, [currentUser, allUsers, bindAllUsers, searchVal, relations]);
 
 	const searchValue = async (val) => {
 		if (val.includes("search")) {
@@ -207,8 +207,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindAllUsers: (content, type, searchVal) => dispatch(SetAllUsers(content, type, searchVal)),
-		bindRelationships: (currentUser, displayUser, status) => dispatch(SetRelationships(currentUser, displayUser, status))
+		bindAllUsers: (content, type, searchVal) => dispatch(SetAllUsers(content, type, searchVal))
 	}
 }
 

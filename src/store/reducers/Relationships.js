@@ -1,8 +1,8 @@
-import { SET_RELATIONSHIPS, SET_USER_RELATION } from "../types";
+import { SET_RELATIONSHIPS, SET_USER_RELATIONS } from "../types";
 
 const INITIAL_STATE = {
 	relations: [],
-	userRelation: {}
+	singleUserRelations: []
 }
 
 const relationships = (state=INITIAL_STATE, action) => {
@@ -14,10 +14,10 @@ const relationships = (state=INITIAL_STATE, action) => {
 				relations: payload.rls
 			}
 		}
-		case SET_USER_RELATION: {
+		case SET_USER_RELATIONS: {
 			return {
 				...state,
-				userRelation: payload.rls[0]
+				singleUserRelations: payload.rls
 			}
 		}
 		default:

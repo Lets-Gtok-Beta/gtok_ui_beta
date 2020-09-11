@@ -19,7 +19,7 @@ export default function HelmetMetaDataComponent(props) {
 			<title>{title}</title>
      	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
      	<meta name="csrf_token" content="" />
-     	<meta property="type" content="website" />
+     	<meta property="type" content="webapp" />
      	<meta property="url" content={currentUrl} />
 	   	<meta name="_token" content="" />
 	    <meta name="robots" content="noodp" />
@@ -36,7 +36,7 @@ export default function HelmetMetaDataComponent(props) {
 	    <meta property="og:image" content={image} />
 	    <meta content="image/*" property="og:image:type" />
 	    <meta property="og:url" content={currentUrl} />
-	    <meta property="og:site_name" content="CampersTribe" />
+	    <meta property="og:site_name" content="LetsGtok" />
 	    <meta property="og:description" content={description} />
       <link rel="icon" type="image/png" href={gtokFavicon} sizes="16x16"/>
 		</Helmet>
