@@ -43,7 +43,7 @@ function PublicProfileComponent(props) {
 			else {
 				user["id"] = userId;
 				setDisplayUser(user)
-			  bindUserRelations(user);
+			  bindUserRelations({}, user, 1);
 				bindPosts(user);
 			};
 			await isFollower(user);
@@ -188,7 +188,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
 		bindRelationships: (content) => dispatch(SetRelationships(content)),
-		bindUserRelations: (content) => dispatch(SetUserRelations(content))
+		bindUserRelations: (cUser, dUser, status) => dispatch(SetUserRelations(cUser, dUser, status))
 	}
 }
 

@@ -32,7 +32,7 @@ function PrivateProfileComponent({
   // }
   useEffect(() => {
 	  bindPosts(dbUser);
-	  bindUserRelations(dbUser);
+	  bindUserRelations({}, dbUser, 1);
   }, [bindPosts, dbUser, bindUserRelations]);
 
   // Window handlers
@@ -290,7 +290,7 @@ const mapDispatchToProps = (dispatch) => {
 		bindUser: (content) => dispatch(SetUser(content)),
 		bindDbUser: (content) => dispatch(SetDbUser(content)),
 		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
-		bindUserRelations: (content) => dispatch(SetUserRelations(content))
+		bindUserRelations: (cUser, dUser, status) => dispatch(SetUserRelations(cUser, dUser, status))
 	}
 }
 

@@ -1,6 +1,6 @@
 import { getQuery, firestore } from "firebase_config";
 
-export const getRelationships = async (currentUser, displayUser={}, status=null) => {
+export const getRelationships = async (currentUser={}, displayUser={}, status=null) => {
 	let relations = [];
 	if (status !== null) {
 		if (displayUser.id && currentUser.id) {
