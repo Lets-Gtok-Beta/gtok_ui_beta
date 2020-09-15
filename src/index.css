@@ -784,6 +784,13 @@ button:active {
     width: 100%;
     background-color: white;
 	}
+
+	.bot-chat-window-footer {
+		position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: white;
+	}
 }
 
 @media (min-width: 576px) {
