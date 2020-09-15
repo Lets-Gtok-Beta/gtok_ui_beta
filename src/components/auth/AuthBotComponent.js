@@ -25,7 +25,7 @@ const AuthBotComponent = ({bindReload, messages, bindChatbotMessages}) => {
   	if (!message && !key) {
   		return null;
   	}
-  	msg = {text: message, type: "answer"};
+  	msg = {text: message.trim(), type: "answer"};
   	if (key === "loginOption") {
   		if (value === "Login" || value === "Forgot password") {
   			setLoginOption(value)
@@ -162,7 +162,6 @@ const AuthBotComponent = ({bindReload, messages, bindChatbotMessages}) => {
 					  		</div>
 					  	</div>
 			  		))}
-			  		<div className="chat-window-2"></div>
 			  	</div>
 		      <div className="d-flex px-3 align-self-center align-items-center bot-chat-window-footer">
 		    		<div className="flex-grow-1">

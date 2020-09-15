@@ -78,7 +78,7 @@ const LoginComponent = ({bindReload}) => {
 		        <Link to="/forgot_password">Forgot password</Link>
 		        <Link to="/signup">New User? Signup</Link>
 			    	<Link to="/bot_login">
-			    		Use our Gtok bot to login.
+			    		Use our Gtok bot to login
 			    	</Link>
 		      </div>
 		    </div>
