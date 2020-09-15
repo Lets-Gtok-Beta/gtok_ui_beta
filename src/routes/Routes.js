@@ -26,7 +26,8 @@ import {
 	SupportComponent,
 	MobileChatsComponent,
 	MobileSingleChatComponent,
-	SharePostComponent
+	SharePostComponent,
+	AuthBotComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -41,6 +42,7 @@ export const Routes = (props) => (
 	<Switch>
 		<Route exact path="/" component={LandingComponent} />
 		<Route path="/login" component={LoginComponent} />
+		<Route path="/bot_login" component={AuthBotComponent} />
 		<Route path="/logout" component={LogoutComponent} />
 		<Route exact path="/signup" component={SignupComponent} />
 		<Route exact path="/signup_success" component={SignupSuccessComponent} />

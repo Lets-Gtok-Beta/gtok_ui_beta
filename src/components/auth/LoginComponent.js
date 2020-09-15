@@ -77,12 +77,14 @@ const LoginComponent = ({bindReload}) => {
 						<br/>
 		        <Link to="/forgot_password">Forgot password</Link>
 		        <Link to="/signup">New User? Signup</Link>
+			    	<Link to="/bot_login">
+			    		Use our Gtok bot to login.
+			    	</Link>
 		      </div>
 		    </div>
 		    <div className="mt-5 pt-3 col-xs-12 col-md-6 login-page-clipart">
 		    	<img src="assets/images/two_people_1_2.jpg" alt="Lets Gtok" className="col-8" />
 		    	<div className="login-page-caption">Lets <span className="text-danger">Get To Know </span>each other <br/> & bring similarities together.
-
 		    	</div>
 		    </div>
 		  </div>

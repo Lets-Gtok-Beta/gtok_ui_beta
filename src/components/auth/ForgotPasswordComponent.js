@@ -1,37 +1,21 @@
 import React, { useState } from "react";
-import { Link, useHistory } from 'react-router-dom';
-import * as firebase from 'firebase';
+import { Link } from 'react-router-dom';
 
 import { StaticHeaderComponent } from "components";
+import { sendForgotPassword } from 'firebase_config';
 
 const ForgotPasswordComponent = () => {
   const [email, setEmail] = useState("");
 	const [btnSave, setBtnSave] = useState("Send");
   const [result, setResult] = useState({});
-  const history = useHistory();
 
-  const handleForm = e => {
+  const handleForm = async (e) => {
     e.preventDefault();
     setBtnSave("Sending...");
-    firebase
-    .auth()
-    .sendPasswordResetEmail(email)
-    .then(res => {
-    	console.log('res', res)
-    	setResult({
-    		status: 200,
-    		message: 'Email sent'
-    	});
-    	setTimeout(() => {
-    		history.push('/login');
-    	}, 3000);
-    })
-    .catch(e => {
-    	setResult({
-    		status: 404,
-    		message: e.message
-    	});
-    });
+    let res = await sendForgotPassword(email);
+  	setResult(res);
+  	if (res.status === 200) setBtnSave("Sent");
+  	else setBtnSave("Send");
   };
 
   const renderSuccessNotification = () => (

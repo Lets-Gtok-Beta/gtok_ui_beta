@@ -18,7 +18,8 @@ import {
 	SET_PERMISSIONS,
 	SET_SHARE_POST,
 	SET_RELATIONSHIPS,
-	SET_USER_RELATIONS
+	SET_USER_RELATIONS,
+	SET_CHATBOT_MESSAGES
 } from "./types.js";
 import {
 	getNewMessagesCount,
@@ -262,6 +263,15 @@ export const SetUserRelations = (currentUser, displayUser, status) => {
 				}
 			});
 		});
+	}
+}
+
+export const SetChatbotMessages = (content) => {
+	return {
+		type: SET_CHATBOT_MESSAGES,
+		payload: {
+			messages: content
+		}
 	}
 }
 

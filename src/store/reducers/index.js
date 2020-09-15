@@ -9,6 +9,7 @@ import alerts from "./Alerts";
 import posts from "./Posts";
 import users from "./SearchUsers";
 import relationships from "./Relationships";
+import chatbotMessages from "./ChatbotMessages";
 
 export default combineReducers({
 	subscriptionPlans,
@@ -20,5 +21,6 @@ export default combineReducers({
 	alerts,
 	posts,
 	users,
-	relationships
+	relationships,
+	chatbotMessages
 });

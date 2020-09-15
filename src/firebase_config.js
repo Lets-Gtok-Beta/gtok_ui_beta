@@ -320,6 +320,12 @@ export const getGeoLocation = () => {
 	// Ref: https://positionstack.com/dashboard
 }
 
+export const sendForgotPassword = (email) => {
+  return auth.sendPasswordResetEmail(email)
+  	.then(res => formatResult(200, 'Email sent'))
+    .catch(e => formatResult(404, e.message))
+}
+
 /* Common code */
 function formatResult(status, message, data={}) {
 	return { status, message, data };

@@ -48,6 +48,7 @@ import TodayTrendsComponent from "components/home/TodayTrendsComponent";
 import SharePostComponent from "components/home/SharePostComponent";
 import HelmetMetaDataComponent from "components/common/HelmetMetaDataComponent";
 import UserPermissionsComponent from "components/common/UserPermissionsComponent";
+import AuthBotComponent from "components/auth/AuthBotComponent";
 
 export {
 	EmailVerifyComponent,
@@ -99,5 +100,6 @@ export {
 	TodayTrendsComponent,
 	SharePostComponent,
 	HelmetMetaDataComponent,
-	UserPermissionsComponent
+	UserPermissionsComponent,
+	AuthBotComponent
 }
