@@ -55,7 +55,7 @@ const AuthBotComponent = ({bindReload, messages, bindChatbotMessages}) => {
 		} 
 
 		if (loginOption === "Login") {
-			if (tmpText.includes("@")) {
+			if (!email && tmpText.includes("@")) {
 	  		setEmail(tmpText);
 	  		newMsg = [...newMsg, {
 	  			text: "Now, enter your password."
@@ -72,7 +72,7 @@ const AuthBotComponent = ({bindReload, messages, bindChatbotMessages}) => {
 	  	}
 		}
 		if (loginOption === "Forgot password") {
-			if (msg["text"].includes("@")) {
+			if (!email && msg["text"].includes("@")) {
 	  		setEmail(msg["text"]);
 	  		let res = await sendForgotPassword(msg["text"]);
 	  		console.log("res", res)
