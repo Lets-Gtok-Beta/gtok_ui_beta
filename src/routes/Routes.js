@@ -27,7 +27,8 @@ import {
 	MobileChatsComponent,
 	MobileSingleChatComponent,
 	SharePostComponent,
-	AuthBotComponent
+	AuthBotComponent,
+	CreatePostComponent
 } from "components";
 
 const LandingComponent = () => {
@@ -35,7 +36,7 @@ const LandingComponent = () => {
 	if (!token) {
 		return (<Redirect to="/login" />)
 	}
-	return (<Redirect to="/app/home" />);
+	return (<Redirect to="/app/posts" />);
 };
 
 export const Routes = (props) => (
@@ -52,6 +53,7 @@ export const Routes = (props) => (
 		<AuthRoute exact path="/app" component={LandingComponent} />
 		<AuthRoute exact path="/app/alerts" component={AlertsComponent} />
 		<AuthRoute exact path="/app/home" component={HomeComponent} />
+		<AuthRoute exact path="/app/create_post" component={CreatePostComponent} />
 		<AuthRoute exact path="/app/posts" component={HomeComponent} />
 		<AuthRoute exact path="/app/posts/:id" component={SharePostComponent} />
 		<AuthRoute exact path="/app/profile" component={PrivateProfileComponent} />

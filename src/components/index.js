@@ -49,6 +49,7 @@ import SharePostComponent from "components/home/SharePostComponent";
 import HelmetMetaDataComponent from "components/common/HelmetMetaDataComponent";
 import UserPermissionsComponent from "components/common/UserPermissionsComponent";
 import AuthBotComponent from "components/auth/AuthBotComponent";
+import CreatePostComponent from "components/home/CreatePostComponent";
 
 export {
 	EmailVerifyComponent,
@@ -101,5 +102,6 @@ export {
 	SharePostComponent,
 	HelmetMetaDataComponent,
 	UserPermissionsComponent,
-	AuthBotComponent
+	AuthBotComponent,
+	CreatePostComponent
 }

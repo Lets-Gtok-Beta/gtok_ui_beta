@@ -45,7 +45,7 @@ const BottomHeaderComponent = ({
     	}
     	<nav className="navbar fixed-top navbar-expand-sm py-md-0">
     		<div className="navbar-brand mr-auto">
-	        <Link to="/app/home">
+	        <Link to="/app/posts">
 	        	<img src={gtokFavicon} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
 	        	<span className="badge badge-secondary beta-badge">Beta</span>
 	        </Link>
@@ -67,9 +67,9 @@ const BottomHeaderComponent = ({
 	      </ul>
     	</nav>
     	<div className="d-flex flex-row navbar-bottom align-items-center align-self-center justify-content-around">
-				<div className={`nav-item ml-1 ${(metaDetails && metaDetails.path === "home") && "nav-item-active"}`} title="Home">
+				<div className={`nav-item ml-1 ${(metaDetails && metaDetails.path === "posts") && "nav-item-active"}`} title="Home">
 					<div className="nav-link text-center">
-		        <Link to="/app/home">
+		        <Link to="/app/posts">
 		        	<i className="fa fa-home"></i><br/>
 			        Home
 		        </Link>

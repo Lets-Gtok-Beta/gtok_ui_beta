@@ -15,13 +15,15 @@ import {
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
 import { SetPosts, SetSharePost } from "store/actions";
+import { NotificationComponent } from "components";
 
 const DisplayPostComponent = ({
-	currentUser, post, setResult, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false
+	currentUser, post, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false
 }) => {
 	const [ postedUser, setPostedUser ] = useState("");
 	const [ follower, setFollower ] = useState(false);
 	const [ followerLoading, setFollowerLoading ] = useState(true);
+	const [ result, setResult ] = useState({});
 	const history = useHistory();
 
 	useEffect(() => {
@@ -115,6 +117,9 @@ const DisplayPostComponent = ({
 
   return postedUser && (
     <div className="card card-br-0 mb-4 pb-2">
+	  	{
+	  		result.status && <NotificationComponent result={result} setResult={setResult} />
+	  	}
 			<div className="media post-card-image p-2 text-secondary">
 		  	<img className="mr-2" src={postedUser.photoURL || gtokFavicon} alt="Card img cap" onClick={e => redirectToProfile()}/>
 			  <div className="media-body">

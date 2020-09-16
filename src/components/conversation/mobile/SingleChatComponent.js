@@ -18,7 +18,8 @@ class SingleChatComponent extends Component {
 			message: "",
 			messagesList: [],
 			convoId: props.match.params.id,
-			currentUser: props.currentUser
+			currentUser: props.currentUser,
+			copied: false
 		}
 		this.unsubscribe = "";
 		// this.messagesList = [];
@@ -147,6 +148,25 @@ class SingleChatComponent extends Component {
   	return adminId !== this.state.currentUser.id;
   }
 
+  copyText = (text) => {
+  	navigator.clipboard.writeText(text);
+  	this.setState({copied: true});
+  	setTimeout(() => {
+  		this.setState({copied: false});
+  	}, 1500);
+  }
+
+  shareText = (text) => {
+  	this.props.history.push({
+  		pathname: "/app/create_post",
+  		state: {sharePostText: text}
+  	});
+  }
+
+  copiedTextAlert = () => (
+  	<div className="page-top-alert"> Copied </div>
+  );
+
   renderMessageWindow = () => (
   	<div className="chat-window pt-2 pr-2">
     	{
@@ -154,10 +174,22 @@ class SingleChatComponent extends Component {
     		this.state.messagesList[0] ? 
     			this.state.messagesList.map((msg, idx) => (
 	    			<div key={idx}>
-		    			<p className={`${this.isMsgAdmin(msg.admin) ? "sender ml-2" : "receiver"} p-2 white-space-preline`}>
-		    				<small className="pull-right">{moment(msg.createdAt).format("HH:mm DD/MM/YY")}</small> <br/>
+		    			<div className={`${this.isMsgAdmin(msg.admin) ? "sender ml-2" : "receiver"} p-2 my-2 white-space-preline`}>
+	    				<div className="dropdown p-0 pull-left">
+	    					<i className="fa fa-angle-down msg-menu-icon" data-toggle="dropdown"></i>
+	    					<div className="dropdown-menu">
+					        <button className="dropdown-item btn-link" onClick={e => this.copyText(msg.text)}>
+					        	<i className="fa fa-copy"></i>&nbsp;
+					        	Copy text
+					        </button>
+					        <button className="dropdown-item btn-link" onClick={e => this.shareText(msg.text)}>
+					        	<i className="fa fa-share"></i> &nbsp; Share via Post
+					        </button>
+					      </div>
+	    				</div>
+		    			<small className="pull-right">{moment(msg.createdAt).format("HH:mm DD/MM/YY")}</small> <br/>
 		    			{msg.text}
-		    			</p>
+		    			</div>
 		    		</div>
 					))
 				: <div className="text-center text-secondary"> No messages yet </div>
@@ -172,6 +204,7 @@ class SingleChatComponent extends Component {
   render() {
 	  return (
 	    <div className="container mob-single-chat-window">
+	    	{this.state.copied && this.copiedTextAlert() }
 	    	{
 	    		this.state.conversation && this.state.chatUser ? (
 	    			<div>
@@ -199,7 +232,7 @@ class SingleChatComponent extends Component {
 			    		</div>
 			    		{this.renderMessageWindow()}
 			    		{
-						  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary">You must follow this user to chat.</div> :
+						  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary chat-window-footer">You must follow this user to chat.</div> :
 					      <div className="d-flex px-3 align-self-center align-items-center chat-window-footer">
 					    		<div className="flex-grow-1">
 						      	<textarea className="reply-box" rows="2" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>

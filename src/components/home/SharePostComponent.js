@@ -11,6 +11,7 @@ import { HelmetMetaDataComponent, DisplayPostComponent, LoadingComponent } from 
 const SharePostComponent = (props) => {
 	const { sharePost, currentUser, bindSharePost } = props;
 	const [result, setResult ] = useState("");
+	const [copied, setCopied ] = useState(false);
 	let postId = props.match.params.id;
 	let sharePostUrl = "https://beta.letsgtok.com/app/posts/"+props.match.params.id;
 
@@ -20,13 +21,29 @@ const SharePostComponent = (props) => {
 		}
 	}, [bindSharePost, sharePost, currentUser, postId]);
 
+  const copyLink = () => {
+  	navigator.clipboard.writeText(sharePostUrl);
+  	setCopied(true);
+  	setTimeout(() => {
+  		setCopied(false);
+  	}, 1500);
+  }
+
+  const copiedLinkAlert = () => (
+  	<div className="page-top-alert"> Link Copied </div>
+  );
+
 	return sharePost && sharePost.id ? (
 		<div className="container pt-3">
+    	{copied && copiedLinkAlert() }
 			{result.status && <NotificationComponent result={result} setResult={setResult}/>}
 			<HelmetMetaDataComponent currentUrl={sharePostUrl} title={sharePost.category.title} description={sharePost.text} />
 			<DisplayPostComponent currentUser={currentUser} post={sharePost} setResult={setResult} hideShareBtn={true} />
 			{console.log("URL", sharePostUrl)}
-			<div className="text-center">
+			<div className="d-flex flex-row align-items-center">
+			  <div className="copy-link-icon" onClick={copyLink}>
+			  	<i className="fa fa-link pt-2 pl-2"></i>
+			  </div>
 			  <FacebookShareButton url={sharePostUrl} title={sharePost.category.title} quote={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
 			  	<FacebookIcon size={36}/>
 			  </FacebookShareButton>

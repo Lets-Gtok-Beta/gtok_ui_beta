@@ -49,6 +49,25 @@ code {
 	border-radius: 0px !important;
 }
 
+.page-top-alert {
+	position: absolute;
+	/*bottom: 50px;*/
+	top: 0px;
+	left: 42vw;
+	margin: 0px auto;
+	z-index: 99999;
+	background-color: #DC3545;
+	color: #fff;
+	font-size: 14px;
+	padding: 5px 10px;
+}
+
+.copy-link-icon {
+	width: 36px;
+  height: 36px;
+  border: 1px solid rgba(0,0,0, 0.88);
+}
+
 .text-between-line:before,
 .text-between-line:after {
 	content: "\00a0\00a0\00a0\00a0\00a0";
@@ -624,6 +643,11 @@ button:active {
 	color: #DC3545;
 	border-radius: 20px 20px 0px;
 	word-break: break-word;
+}
+
+.chat-window .msg-menu-icon {
+	font-weight: bolder;
+	font-size: 18px;
 }
 
 .login-page-clipart {

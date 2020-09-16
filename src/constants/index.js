@@ -4,6 +4,11 @@ export const Metadata = {
 		description: "GTOK profile is a place where you can edit profile page.",
 		path: "home"
 	},
+	"/app/posts": {
+		title: "Lets Gtok",
+		description: "You can see others posts",
+		path: "posts"
+	},
 	"/app/profile": {
 		title: "Profile | Lets Gtok",
 		description: "GTOK profile is a place where you can edit profile page.",

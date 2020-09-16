@@ -42,7 +42,7 @@ const HeaderComponent = ({
     	}
     	<nav className="navbar fixed-top navbar-expand-sm py-md-0">
     		<div className="navbar-brand mr-auto">
-	        <Link to="/app/home">
+	        <Link to="/app/posts">
 	        	<img src={gtokFavicon} alt="GTOK" style={{maxHeight: "28px", position: "relative", top: "-7px"}} />
 	        	<span className="badge badge-secondary beta-badge">Beta</span>
 	        </Link>
@@ -54,9 +54,9 @@ const HeaderComponent = ({
 			  </button>
 			  <div className="collapse navbar-collapse">
 			  	<ul className="navbar-nav mx-auto">
-						<li className={`nav-item ${(metaDetails && metaDetails.path === "home") && "nav-item-active"}`} title="Home">
+						<li className={`nav-item ${(metaDetails && metaDetails.path === "posts") && "nav-item-active"}`} title="Home">
 							<div className="nav-link">
-				        <Link to="/app/home" className="text-secondary">Home</Link>
+				        <Link to="/app/posts" className="text-secondary">Home</Link>
 				      </div>
 			      </li>
 						<li className={`nav-item ${(metaDetails && metaDetails.path === "search") && "nav-item-active"}`} title="Search">
