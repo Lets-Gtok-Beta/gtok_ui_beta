@@ -121,16 +121,18 @@ const DisplayPostComponent = ({
 		if ('speechSynthesis' in window) {
 			window.speechSynthesis.cancel();
 			window.speechSynthesis.getVoices();
+			let speech = new SpeechSynthesisUtterance();
+		  // Set the text and voice attributes.
+			speech.text = post.text;
+			speech.volume = 1;
+			speech.rate = 1;
+			speech.pitch = 0.8;
+		  speech.voiceURI = 'native';
+		  // speech.lang = locale;
+			window.speechSynthesis.speak(speech);
+		} else {
+			alert('This feature is not supported in this device');
 		}
-		let speech = new SpeechSynthesisUtterance();
-	  // Set the text and voice attributes.
-		speech.text = post.text;
-		speech.volume = 1;
-		speech.rate = 1;
-		speech.pitch = 0.8;
-	  speech.voiceURI = 'native';
-	  // speech.lang = locale;
-		window.speechSynthesis.speak(speech);
 		setIsTalking(false);
 	}
 
