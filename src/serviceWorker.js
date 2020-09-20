@@ -20,6 +20,11 @@ const isLocalhost = Boolean(
     )
 );
 
+window.addEventListener('notificationclick', event => {
+	event.notification.close();
+	window.location = event.notification.data.url;
+});
+
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.

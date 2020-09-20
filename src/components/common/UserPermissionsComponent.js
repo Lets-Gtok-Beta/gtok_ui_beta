@@ -53,9 +53,6 @@ const UserPermissionsComponent = ({
 	      });
 	    }
 	  });
-	  window.addEventListener('notificationclick', event => {
-	  	event.notification.close();
-	  });
 	}, [newAlertsCount, newMessagesCount]);
 
 	return (
