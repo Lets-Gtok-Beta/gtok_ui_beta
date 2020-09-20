@@ -54,7 +54,8 @@ class SingleChatComponent extends Component {
 			convoId: id,
 			conversation: result,
 			chatUser,
-			status
+			status,
+			chatUserLastSeen: chatUser.lastSeen.seconds
 		});
 		this.getMessagesSnapshot();
 	}
@@ -174,21 +175,23 @@ class SingleChatComponent extends Component {
     		this.state.messagesList[0] ? 
     			this.state.messagesList.map((msg, idx) => (
 	    			<div key={idx}>
-		    			<div className={`${this.isMsgAdmin(msg.admin) ? "sender ml-2" : "receiver"} p-2 my-2 white-space-preline`}>
-	    				<div className="dropdown p-0 pull-left">
-	    					<i className="fa fa-angle-down msg-menu-icon" data-toggle="dropdown"></i>
-	    					<div className="dropdown-menu">
-					        <button className="dropdown-item btn-link" onClick={e => this.copyText(msg.text)}>
-					        	<i className="fa fa-copy"></i>&nbsp;
-					        	Copy text
-					        </button>
-					        <button className="dropdown-item btn-link" onClick={e => this.shareText(msg.text)}>
-					        	<i className="fa fa-share"></i> &nbsp; Share via Post
-					        </button>
-					      </div>
-	    				</div>
-		    			<small className="pull-right">{moment(msg.createdAt).format("HH:mm DD/MM/YY")}</small> <br/>
-		    			{msg.text}
+		    			<div className={`${this.isMsgAdmin(msg.admin) ? "sender ml-2" : "receiver"} mt-3 white-space-preline`}>
+			    			{msg.text}
+		    				<div className="msg-header">
+				    			<small className="pull-left msg-datetime">{moment(msg.createdAt).format("HH:mm DD/MM/YY")}</small>
+			    				<div className="dropdown p-0 pull-right">
+			    					<i className="fa fa-angle-down msg-menu-icon" data-toggle="dropdown"></i>
+			    					<div className="dropdown-menu">
+							        <button className="dropdown-item btn-link" onClick={e => this.copyText(msg.text)}>
+							        	<i className="fa fa-copy"></i>&nbsp;
+							        	Copy text
+							        </button>
+							        <button className="dropdown-item btn-link" onClick={e => this.shareText(msg.text)}>
+							        	<i className="fa fa-share"></i> &nbsp; Share via Post
+							        </button>
+							      </div>
+			    				</div>
+			    			</div>
 		    			</div>
 		    		</div>
 					))
@@ -209,23 +212,29 @@ class SingleChatComponent extends Component {
 	    		this.state.conversation && this.state.chatUser ? (
 	    			<div>
 			    		<div className="chat-window-header media p-2">
+			    	{/*
 			    			<Link to={"/app/profile/"+this.state.chatUser.id}>
 				    			<img src={this.state.conversation.photoURL || this.state.chatUser.photoURL || gtokFavicon} alt="user dp" className="chat-window-dp" onError={this.setDefaultImg} />
-				    		</Link>
+				    		</Link>*/}
 			    			<div className="media-body">
 			    				<div className="d-flex">
-			    					<div className="flex-grow-1">
-					    				<h6 className="pl-2 mb-0">
-					    				{this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}
-					    				</h6>
-					    				<small className="pl-2 font-13">
-					    				Last updated {moment(this.state.conversation.updatedAt).format("HH:mm DD/MM/YY")}
-					    				</small>
-			    					</div>
 			    					<div className="flex-shrink-1 go-back-btn" title="Go back">
 			    						<Link to="/app/chats">
 			    							<i className="fa fa-arrow-left"></i>
 			    						</Link>
+			    					</div>
+			    					<div className="flex-grow-1 text-right">
+					    				<div className="pl-2 mb-0 chat-user-name">
+							    			<Link to={"/app/profile/"+this.state.chatUser.id}>
+					    						{this.state.conversation.groupName || capitalizeFirstLetter(this.state.chatUser.displayName)}
+					    					</Link>
+					    				</div>
+					    				{
+					    					this.state.chatUser.lastSeen &&
+						    				<small className="pl-2 fs-12 font-grey chat-user-active">
+							    				Last active {this.state.chatUserLastSeen && moment.unix(this.state.chatUserLastSeen).format("HH:mm DD/MM/YYYY")}
+						    				</small>
+					    				}
 			    					</div>
 			    				</div>
 				    		</div>
@@ -233,9 +242,9 @@ class SingleChatComponent extends Component {
 			    		{this.renderMessageWindow()}
 			    		{
 						  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary chat-window-footer">You must follow this user to chat.</div> :
-					      <div className="d-flex px-3 align-self-center align-items-center chat-window-footer">
+					      <div className="d-flex px-2 align-self-center align-items-center chat-window-footer">
 					    		<div className="flex-grow-1">
-						      	<textarea className="reply-box" rows="2" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
+						      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
 						      	</textarea>
 						      </div>
 					      	<div className="flex-shrink-1 pl-2">

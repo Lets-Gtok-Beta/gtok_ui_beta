@@ -152,13 +152,13 @@ const SearchComponent = ({
 				</div>
     	</div>
 			<ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-			  <li className="nav-item p-0">
+			  <li className="nav-item p-0 mx-0">
 			    <a className="nav-link p-0 active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
 			  </li>
 			  <li className="nav-item p-0">
 			    <a className="nav-link p-0" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Pending ({pendingRelations.length})</a>
 			  </li>
-			  <li className="nav-item p-0">
+			  <li className="nav-item p-0 mx-0">
 			    <a className="nav-link p-0" id="pills-followers-tab" data-toggle="pill" href="#pills-followers" role="tab" aria-controls="pills-followers" aria-selected="false">Followers ({followerRelations.length})</a>
 			  </li>
 			  <li className="nav-item p-0">

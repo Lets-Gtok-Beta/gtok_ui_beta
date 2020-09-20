@@ -53,7 +53,7 @@ const BottomHeaderComponent = ({
 		  	<ul className="navbar-nav ml-auto">
 					<li className="nav-item" title="Profile">
 						<div className="nav-link p-0">
-		        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"  data-container="body" data-toggle="popover" data-placement="bottom" data-content={`Hi, I am your(${currentUser.displayName.split(" ")[0]}) personal intelligent assistant bot. Quite big name, right? You can change my name soon. Will ping you once I am ready to chat and talk. Bye!`} />
+		        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"  data-container="body" data-toggle="popover" data-placement="bottom" data-content={`Hi! I am your personal friend (a bot). I can chat, work and help you in daily activities. I am so happy to be your personal friend, ${currentUser.displayName.split(" ")[0].toUpperCase()}. Will ping you once I am ready to chat...`} />
 							{/*							
 			        <Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G">
 			        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"/>

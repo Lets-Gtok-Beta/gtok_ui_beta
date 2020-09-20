@@ -27,25 +27,25 @@ const AlertsComponent = ({
 
   return (
     <div className="container">
-    	<div className="card">
+    	<div className="card alerts-wrapper">
     		<div className="card-header py-1 px-2">
     			<small>Recent Alerts</small>
     		</div>
     		{
     			loading ? <LoadingComponent /> : (
 	    			alerts[0] ? alerts.map(alert => (
-							<div className="media p-3" key={alert.id} style={{boxShadow: "1px 1px 2px gainsboro"}}>
-						  	<Link to={"/app/profile/"+alert.userId}>
+					  	<Link to={alert.actionLink || "/app/profile/"+alert.userId} key={alert.id}>
+								<div className="media p-3" style={{boxShadow: "1px 1px 2px gainsboro"}}>
 							  	<img className="mr-2" src={alert.photoURL || gtokFavicon} alt="Card img cap" onError={setDefaultImg} style={{width: "37px", height: "37px", objectFit: "cover", borderRadius: "50%"}} />
-						  	</Link>
-							  <div className="media-body font-xs-small">
-							  	{capitalizeFirstLetter(alert.text)}<br/>
-							  	<small className="pull-right text-secondary">
-							  		{moment(alert.createdAt).fromNow()}
-							  	</small>
-							  </div>
+								  <div className="media-body font-xs-small">
+								  	{capitalizeFirstLetter(alert.text)}<br/>
+								  	<small className="pull-right text-secondary">
+								  		{moment(alert.createdAt).fromNow()}
+								  	</small>
+								  </div>
 							  <hr/>
 						  </div>
+					  	</Link>
 	    			)) : <div className="text-secondary text-center p-2">No alerts to show</div>
     			)
     		}

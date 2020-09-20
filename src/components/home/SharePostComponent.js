@@ -7,6 +7,7 @@ import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, Wha
 import { NotificationComponent } from "components";
 import { SetSharePost } from "store/actions";
 import { HelmetMetaDataComponent, DisplayPostComponent, LoadingComponent } from "components";
+import { gtokBot } from "images";
 
 const SharePostComponent = (props) => {
 	const { sharePost, currentUser, bindSharePost } = props;
@@ -34,27 +35,46 @@ const SharePostComponent = (props) => {
   );
 
 	return sharePost && sharePost.id ? (
-		<div className="container pt-3">
-    	{copied && copiedLinkAlert() }
-			{result.status && <NotificationComponent result={result} setResult={setResult}/>}
-			<HelmetMetaDataComponent currentUrl={sharePostUrl} title={sharePost.category.title} description={sharePost.text} />
-			<DisplayPostComponent currentUser={currentUser} post={sharePost} setResult={setResult} hideShareBtn={true} />
-			{console.log("URL", sharePostUrl)}
-			<div className="d-flex flex-row align-items-center">
-			  <div className="copy-link-icon" onClick={copyLink}>
-			  	<i className="fa fa-link pt-2 pl-2"></i>
-			  </div>
-			  <FacebookShareButton url={sharePostUrl} title={sharePost.category.title} quote={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
-			  	<FacebookIcon size={36}/>
-			  </FacebookShareButton>
-				<TwitterShareButton url={sharePostUrl} title={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
-		     <TwitterIcon size={36} />
-		   </TwitterShareButton>
-		   <WhatsappShareButton url={sharePostUrl} title={sharePost.text} separator=":: " className="socialMediaButton">
-		     <WhatsappIcon size={36} />
-		   </WhatsappShareButton>
-		  </div>
-	  </div>
+		<div className="container">
+	  	<div className="row">
+	    	<div className="col-xs-12 col-md-9">
+					<div className="container pt-3">
+			    	{copied && copiedLinkAlert() }
+						{result.status && <NotificationComponent result={result} setResult={setResult}/>}
+						<HelmetMetaDataComponent currentUrl={sharePostUrl} title={sharePost.category.title} description={sharePost.text} />
+						<DisplayPostComponent currentUser={currentUser} post={sharePost} setResult={setResult} hideShareBtn={true} />
+						<div className="d-flex flex-row justify-content-center">
+						  <div className="copy-link-icon" onClick={copyLink}>
+						  	<i className="fa fa-link pt-2 pl-2"></i>
+						  </div>
+						  <FacebookShareButton url={sharePostUrl} title={sharePost.category.title} quote={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
+						  	<FacebookIcon size={36}/>
+						  </FacebookShareButton>
+							<TwitterShareButton url={sharePostUrl} title={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
+					     <TwitterIcon size={36} />
+					   </TwitterShareButton>
+					   <WhatsappShareButton url={sharePostUrl} title={sharePost.text} separator=":: " className="socialMediaButton">
+					     <WhatsappIcon size={36} />
+					   </WhatsappShareButton>
+					  </div>
+				  </div>
+				</div>
+	    	<div className="d-none col-md-3 d-md-block mt-2">
+	    		<div className="card right-sidebar-wrapper">
+	    			<div className="card-body">
+							<div className="d-flex profile-bot">
+								<img src={gtokBot} alt="gtokBot" className="bot-icon" />
+								<small className="bot-text">Your personal friend</small>
+							</div>
+							<hr/>
+							<p className="profile-bot-description">
+								Hi! I am your personal friend (a bot). I can chat, work and help you in daily activities. I am so happy to be your personal friend, {currentUser.displayName.split(" ")[0].toUpperCase()}. Will ping you once I am ready to chat...
+							</p>
+	    			</div>
+	    		</div>
+	    	</div>
+			</div>
+		</div>
 	) : <LoadingComponent />
 }
 

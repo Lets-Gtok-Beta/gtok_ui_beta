@@ -24,6 +24,7 @@ const DisplayPostComponent = ({
 	const [ follower, setFollower ] = useState(false);
 	const [ followerLoading, setFollowerLoading ] = useState(true);
 	const [ result, setResult ] = useState({});
+	const [ isTalking, setIsTalking ] = useState(false);
 	const history = useHistory();
 
 	useEffect(() => {
@@ -42,10 +43,10 @@ const DisplayPostComponent = ({
 	}, [post, currentUser]);
 
 	const followPost = async (e) => {
-		if (currentUser.id === postedUser.id) {
-			alert("You cannot follow yourself.")
-			return null;
-		}
+		// if (currentUser.id === postedUser.id) {
+		// 	alert("You cannot follow yourself.")
+		// 	return null;
+		// }
 		setFollowerLoading(true);
   	if (!follower) {
 	  	await update("posts", post.id, { followers: arrayAdd(currentUser.id), followersCount: post.followers.length+1 });
@@ -115,6 +116,24 @@ const DisplayPostComponent = ({
 		}
 	}
 
+	const listenPost = () => {
+		setIsTalking(true);
+		if ('speechSynthesis' in window) {
+			window.speechSynthesis.cancel();
+			window.speechSynthesis.getVoices();
+		}
+		let speech = new SpeechSynthesisUtterance();
+	  // Set the text and voice attributes.
+		speech.text = post.text;
+		speech.volume = 1;
+		speech.rate = 1;
+		speech.pitch = 0.8;
+	  speech.voiceURI = 'native';
+	  // speech.lang = locale;
+		window.speechSynthesis.speak(speech);
+		setIsTalking(false);
+	}
+
   return postedUser && (
     <div className="card card-br-0 mb-4 pb-2">
 	  	{
@@ -142,11 +161,30 @@ const DisplayPostComponent = ({
 		  </div>
 		  <div className="card-body text-center">
 		  	<p className="white-space-preline">{post.text}</p>
-	  		<div className="font-small">This post has {post.followersCount} same pinch{post.followersCount !== 1 && "es"}</div>
-	  		<div className="mt-2">
+		  	<div>
+				  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={listenPost}>
+				  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
+				  </button>
+				  {followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
+					  <button className="btn btn-link btn-sm ml-2 fs-15" onClick={e => followPost(e)}>
+				  		<i className={`fa fa-heart ${follower ? "text-danger" : "text-secondary"}`}></i> &nbsp;
+				  		<span className={`${follower ? "text-danger" : "text-secondary"}`}>{post.followersCount}</span>
+					  </button>
+					}
+				  {
+				  	!hideShareBtn && 
+					  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={sharePost}>
+					  	<i className="fa fa-share-alt"></i>
+					  </button>
+					}
+		  	</div>
+	  		<div className="mt-2 d-none">
+			  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={listenPost}>
+			  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
+			  </button>
 		  	{
 		  		currentUser.id !== post.userId &&
-			  	<button className="btn btn-outline-secondary btn-sm font-xs-small" title="Number of similar people" onClick={e => followPost(e)}>
+			  	<button className="btn btn-outline-secondary btn-sm font-xs-small ml-2" title="Number of similar people" onClick={e => followPost(e)}>
 			  		{followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
 			  			<div>
 					  		<i className={`fa fa-heart ${follower && "text-danger"}`}></i> &nbsp;
@@ -159,7 +197,7 @@ const DisplayPostComponent = ({
 		  		currentUser.id !== post.userId && !hideSimilarityBtn &&
 			    <Link to={"/app/profile/"+post.userId} className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" title={"Show similarities with "+postedUser.displayName && postedUser.displayName.split(" ")[0]}>
 			    	<i className="fa fa-bar-chart"></i> &nbsp;
-				    Show similarities
+				    Similarities
 			    </Link>
 			  }
 			  {

@@ -25,7 +25,7 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 	useEffect(() => {
 		if (relations[0]) {
 			let relation = relations.find(rln => rln["userIdOne"] === currentUser.id && rln["userIdTwo"] === displayUser.id);
-			if (relation && relation.status) {
+			if (relation && relation.id) {
 				setFollower(relation.status);
 			};
 		}
@@ -90,13 +90,13 @@ const SearchUserComponent = ({displayUser, currentUser, relations, bindRelations
 							  <div className="dropdown-menu">
 							  	{ follower === 0 &&
 								    <button className="dropdown-item" onClick={e => relationStatus("cancel_request")}>
-								    	Cancel Request
+								    	<i className="fa fa-times"></i>&nbsp;Cancel Request
 								    </button>}
 							    { follower === 1 &&
 							    	<button className="dropdown-item" onClick={e => relationStatus("unfollow")}>
 							    		<i className="fa fa-times"></i>&nbsp;Unfollow
 							    	</button>}
-							    { follower !== 3 &&
+							    { follower !== 0 && follower !== 3 &&
 							    	<button className="dropdown-item" onClick={e => relationStatus("block")}>
 							    		<i className="fa fa-ban"></i>&nbsp; Block
 							    	</button>}

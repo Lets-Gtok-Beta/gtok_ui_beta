@@ -18,6 +18,7 @@ export const createRelationships = async (currentUser, displayUser={}, status=nu
 		collection: "userRelationships",
 		actionId: "",
 		actionKey: "followers",
+		actionLink: "/app/search",
 		timestamp
 	}
 	let data = {
@@ -29,14 +30,23 @@ export const createRelationships = async (currentUser, displayUser={}, status=nu
 	let rln = await getQuery(
 		firestore.collection("userRelationships").where("userIdOne", "==", currentUser.id).where("userIdTwo", "==", displayUser.id).get()
 	);
+
 	/* Start: If a user is private or blocked, the status must be pending */
 	let rlnTwo = await getQuery(
 		firestore.collection("userRelationships").where("userIdOne", "==", displayUser.id).where("userIdTwo", "==", currentUser.id).get()
 	);
 	if (rlnTwo[0] && rlnTwo[0]["status"] === 3) { data["status"] = 0 }
 	/* End */
+
 	if (!rln[0]) {
 		if (status === "follow") {
+			if (data["status"] === 0) {
+				logsData["receiverId"] = data["userIdTwo"];
+				logsData["text"] = `${currentUser.displayName} sent you a follow request.`;
+			} else if (data["status"] === 1) {
+				logsData["receiverId"] = data["userIdTwo"];
+				logsData["text"] = `${currentUser.displayName} followed you`;				
+			}
 			res = await add("userRelationships", data);
 		}
 	} else {
@@ -56,7 +66,7 @@ export const createRelationships = async (currentUser, displayUser={}, status=nu
 				logsData["actionId"] = rln[0].id;
 				logsData["actionKey"] = "unblock";
 			} else if (status === "cancel_request") {
-				logsData["text"] = `${currentUser.displayName} declined your request`;
+				logsData["text"] = `${currentUser.displayName} declined your follow request`;
 				logsData["actionType"] = "update";
 				logsData["actionId"] = rln[0].id;
 				logsData["actionKey"] = "decline";
@@ -70,14 +80,15 @@ export const createRelationships = async (currentUser, displayUser={}, status=nu
 			res = await update("userRelationships", rln[0].id, {status: 3, actionUserId:currentUser.id});
 			res = await update("userRelationships", rlnTwo[0].id, {status: null, actionUserId:currentUser.id});
 		} else if (status === "accept_request") {
-			logsData["text"] = `${currentUser.displayName} accepted request`;
+			logsData["receiverId"] = data["userIdTwo"];
+			logsData["text"] = `${currentUser.displayName} accepted your follow request`;
 			logsData["actionType"] = "update";
 			logsData["actionId"] = rln[0].id;
 			logsData["actionKey"] = status;
 			res = await update("userRelationships", rln[0].id, {status: 1, actionUserId:currentUser.id});
 			res = await update("userRelationships", rlnTwo[0].id, {status: 1, actionUserId:currentUser.id});
 		} else if (status === "decline_request") {
-			logsData["text"] = `${currentUser.displayName} declined request`;
+			logsData["text"] = `${currentUser.displayName} declined your follow request`;
 			logsData["actionType"] = "update";
 			logsData["actionId"] = rlnTwo[0].id;
 			logsData["actionKey"] = status;
