@@ -695,9 +695,11 @@ button:active {
 }
 
 .chat-window {
-	font-size: 14px;
+/*	font-size: 14px;
 	height: 380px !important;
 	overflow-y: scroll;
+	padding-right: 15px !important;
+	padding-bottom: 15px;*/
 }
 
 ::-webkit-scrollbar {
@@ -725,10 +727,6 @@ button:active {
 	border-radius: 50%;
 	border: 1px solid (20, 20, 20, 0.45) !important;
 	object-fit: contain;
-}
-
-.chat-window {
-	padding-bottom: 15px;
 }
 
 .chat-window .sender {
@@ -829,12 +827,6 @@ button:active {
 	color: #000000;
 }
 
-.mob-single-chat-window .chat-window {
-	font-size: 14px;
-	/*height: 370px !important;*/
-	overflow-y: scroll;
-}
-
 .mob-single-chat-window .chat-window .sender {
 	max-width: calc(100% / 1.5);
 }
@@ -845,6 +837,12 @@ button:active {
 }
 
 /* Media queries */
+@media (max-height: 569px) {
+	.mob-single-chat-window .chat-window {
+		padding-bottom: 125px !important;
+	}
+}
+
 @media (max-width: 575px) {
 	.font-xs-small {
 		font-size: small !important;
@@ -915,8 +913,11 @@ button:active {
 	.mob-single-chat-window .chat-window {
 		position: fixed;
 		top: 62px;
-		height: 71vh !important;
+		height: 73vh !important;
 		width: 100%;
+		padding-bottom: 25px;
+		padding-right: 10px;
+		overflow-y: scroll;
 	}
 
 	.mob-single-chat-window .chat-window-footer {

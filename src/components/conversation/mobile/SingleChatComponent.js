@@ -9,7 +9,7 @@ import { capitalizeFirstLetter } from "helpers";
 import { LoadingComponent } from "components";
 import { SetChatMessages, SetNewMessagesCount } from "store/actions";
 import { gtokFavicon } from "images";
-import { add, getId, update, firestore, timestamp } from "firebase_config";
+import { add, getQuery, getId, update, firestore, timestamp } from "firebase_config";
 
 class SingleChatComponent extends Component {	
 	constructor(props) {
@@ -49,6 +49,11 @@ class SingleChatComponent extends Component {
 		if (this.props.relations[0]) {
 			let rln = this.props.relations.find(rln => rln["userIdOne"] === this.state.currentUser.id && rln["userIdTwo"] === chatUser.id);
 			if (rln && rln["status"]) { status = rln["status"]; }
+		} else {
+			let rln = await getQuery(
+				firestore.collection("userRelationships").where("userIdOne", "==", this.state.currentUser.id).where("userIdTwo", "==", chatUser.id).get()
+			);
+			if (rln[0] && rln[0]["status"]) { status = rln[0]["status"]; }
 		}
 		this.setState({
 			convoId: id,
@@ -169,7 +174,7 @@ class SingleChatComponent extends Component {
   );
 
   renderMessageWindow = () => (
-  	<div className="chat-window pt-2 pr-2">
+  	<div className="chat-window">
     	{
     		this.state.loading ? <LoadingComponent /> : 
     		this.state.messagesList[0] ? 
@@ -244,7 +249,7 @@ class SingleChatComponent extends Component {
 						  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary chat-window-footer">You must follow this user to chat.</div> :
 					      <div className="d-flex px-2 align-self-center align-items-center chat-window-footer">
 					    		<div className="flex-grow-1">
-						      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)}>
+						      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)} autoFocus>
 						      	</textarea>
 						      </div>
 					      	<div className="flex-shrink-1 pl-2">
