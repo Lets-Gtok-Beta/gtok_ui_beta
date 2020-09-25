@@ -31,7 +31,7 @@ function PrivateProfileComponent({
   // 	isNewPath: true
   // }
   useEffect(() => {
-	  bindPosts(dbUser);
+	  bindPosts(dbUser, "selectedUser", {sort: true});
 	  bindUserRelations({}, dbUser, 1);
   }, [bindPosts, dbUser, bindUserRelations]);
 
@@ -289,7 +289,7 @@ const mapDispatchToProps = (dispatch) => {
 		bindLoggedIn: (content) => dispatch(SetLoggedIn(content)),
 		bindUser: (content) => dispatch(SetUser(content)),
 		bindDbUser: (content) => dispatch(SetDbUser(content)),
-		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
+		bindPosts: (content, type, data) => dispatch(SetSelectedUserPosts(content, type, data)),
 		bindUserRelations: (cUser, dUser, status) => dispatch(SetUserRelations(cUser, dUser, status))
 	}
 }

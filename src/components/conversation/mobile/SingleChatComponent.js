@@ -19,7 +19,8 @@ class SingleChatComponent extends Component {
 			messagesList: [],
 			convoId: props.match.params.id,
 			currentUser: props.currentUser,
-			copied: false
+			copied: false,
+			autoFocus: false
 		}
 		this.unsubscribe = "";
 		// this.messagesList = [];
@@ -146,7 +147,8 @@ class SingleChatComponent extends Component {
   		newMessage: true
   	});
   	this.setState({
-  		message: ""
+  		message: "",
+  		autoFocus: true
   	});
   }
 
@@ -249,7 +251,7 @@ class SingleChatComponent extends Component {
 						  	(this.state.status !== 1) ? <div className="card text-center mt-2 p-2 text-secondary chat-window-footer">You must follow this user to chat.</div> :
 					      <div className="d-flex px-2 align-self-center align-items-center chat-window-footer">
 					    		<div className="flex-grow-1">
-						      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)} autoFocus>
+						      	<textarea className="reply-box" rows="1" placeholder="Write message here.." value={this.state.message} onChange={e => this.setState({message: e.target.value})} onKeyPress={e => this.handleKeyPress(e)} autoFocus={this.state.autoFocus}>
 						      	</textarea>
 						      </div>
 					      	<div className="flex-shrink-1 pl-2">

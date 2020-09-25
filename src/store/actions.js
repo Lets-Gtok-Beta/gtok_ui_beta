@@ -19,7 +19,9 @@ import {
 	SET_SHARE_POST,
 	SET_RELATIONSHIPS,
 	SET_USER_RELATIONS,
-	SET_CHATBOT_MESSAGES
+	SET_CHATBOT_MESSAGES,
+	SET_NEW_POST,
+	SET_DELETED_POST
 } from "./types.js";
 import {
 	getNewMessagesCount,
@@ -162,9 +164,9 @@ export const SetTrendingPosts = (currentUser) => {
 	}
 }
 
-export const SetPosts = (currentUser) => {
+export const SetPosts = (currentUser, type="all", data) => {
 	return (dispatch) => {
-		getPosts(currentUser, "all").then(res => {
+		getPosts(currentUser, type, data).then(res => {
 			dispatch({
 				type: SET_POSTS,
 				payload: {
@@ -188,9 +190,9 @@ export const SetSharePost = (currentUser, type="id", data) => {
 	}
 }
 
-export const SetSelectedUserPosts = (currentUser) => {
+export const SetSelectedUserPosts = (currentUser, type="selectedUser", data) => {
 	return (dispatch) => {
-		getPosts(currentUser, "selectedUser").then(res => {
+		getPosts(currentUser, type, data).then(res => {
 			dispatch({
 				type: SET_SELECTED_USER_POSTS,
 				payload: {
@@ -200,6 +202,29 @@ export const SetSelectedUserPosts = (currentUser) => {
 		});
 	}
 }
+
+export const SetNewPost = (post) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_NEW_POST,
+			payload: {
+				newPost: post
+			}
+		});
+	}
+}
+
+export const SetDeletedPostId = (id) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_DELETED_POST,
+			payload: {
+				postId: id
+			}
+		});
+	}
+}
+
 
 export const SetAllUsers = (currentUser, type="all", searchVal="") => {
 	return (dispatch) => {

@@ -254,7 +254,7 @@ export const get = (collection, id="all") => {
 					...doc.data()
 				})
 			});
-			return object.sort((a, b) => a.createdAt - b.createdAt);
+			return object.sort((a, b) => b.createdAt - a.createdAt);
 		})
 		.catch((err) => {
 			console.error(err);

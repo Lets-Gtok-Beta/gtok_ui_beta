@@ -1,6 +1,7 @@
 import { get, getId, getQuery, firestore } from "firebase_config";
+import _ from "lodash";
 
-export const getPosts = async (currentUser, type="all", data) => {
+export const getPosts = async (currentUser, type="all", data={}) => {
 	let posts = [];
 	if (type==="id") {
 		if (data.post) return data.post;
@@ -19,11 +20,17 @@ export const getPosts = async (currentUser, type="all", data) => {
 		);
 	} else {
 		posts = await get("posts")
+		posts = _.sortBy(posts, [
+			o => o.category.title,
+			o => o.createdAt
+		]);
 		// posts = posts.map(async (post) => {
 		// 	post["user"] = await getId("users", post.userId);
 		// 	return post;
 		// });
 	}
-	posts = posts.sort((a,b) => b.createdAt - a.createdAt);
+	if (data.sort) {
+		posts = posts.sort((a,b) => b.createdAt - a.createdAt);		
+	}
 	return posts;
 }

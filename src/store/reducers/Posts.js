@@ -2,7 +2,9 @@ import {
 	SET_TRENDING_POSTS,
 	SET_POSTS,
 	SET_SELECTED_USER_POSTS,
-	SET_SHARE_POST
+	SET_SHARE_POST,
+	SET_NEW_POST,
+	SET_DELETED_POST
 } from "../types";
 
 const INITIAL_STATE = {
@@ -37,6 +39,18 @@ const Posts = (state=INITIAL_STATE, action) => {
 			return {
 				...state,
 				sharePost: payload.sharePost
+			}
+		}
+		case SET_NEW_POST: {
+			return {
+				...state,
+				posts: [payload.newPost, ...state.posts]
+			}
+		}
+		case SET_DELETED_POST: {
+			return {
+				...state,
+				posts: state.posts.filter(post => post.id !== payload.postId)
 			}
 		}
 		default:

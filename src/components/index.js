@@ -50,6 +50,7 @@ import HelmetMetaDataComponent from "components/common/HelmetMetaDataComponent";
 import UserPermissionsComponent from "components/common/UserPermissionsComponent";
 import AuthBotComponent from "components/auth/AuthBotComponent";
 import CreatePostComponent from "components/home/CreatePostComponent";
+import SortComponent from "components/common/SortComponent";
 
 export {
 	EmailVerifyComponent,
@@ -103,5 +104,6 @@ export {
 	HelmetMetaDataComponent,
 	UserPermissionsComponent,
 	AuthBotComponent,
-	CreatePostComponent
+	CreatePostComponent,
+	SortComponent
 }

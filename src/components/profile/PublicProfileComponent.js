@@ -44,7 +44,7 @@ function PublicProfileComponent(props) {
 				user["id"] = userId;
 				setDisplayUser(user)
 			  bindUserRelations({}, user, 1);
-				bindPosts(user);
+				bindPosts(user, "selectedUser", {sort: true});
 			};
 			await isFollower(user);
 			setLoading(false);
@@ -186,7 +186,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindPosts: (content) => dispatch(SetSelectedUserPosts(content)),
+		bindPosts: (content, type, data) => dispatch(SetSelectedUserPosts(content, type, data)),
 		bindRelationships: (content) => dispatch(SetRelationships(content)),
 		bindUserRelations: (cUser, dUser, status) => dispatch(SetUserRelations(cUser, dUser, status))
 	}

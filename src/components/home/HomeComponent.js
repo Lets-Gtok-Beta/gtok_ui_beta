@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 
 import { 
 	DisplayPostComponent,
-	GeneratePostComponent
+	GeneratePostComponent,
+	SortComponent
 } from "components";
 import { SetPosts } from "store/actions";
 import { capitalizeFirstLetter } from "helpers";
@@ -103,6 +104,7 @@ const HomeComponent = (props) => {
 				{
 					generatePost && <GeneratePostComponent setOpenModal={setGeneratePost} currentUser={currentUser} />
 				}
+				{ generatePost && <SortComponent />}
 			</div>
 		</div>
   );

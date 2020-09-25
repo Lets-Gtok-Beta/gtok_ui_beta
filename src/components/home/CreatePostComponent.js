@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { add, timestamp } from "firebase_config";
 import { 
@@ -8,10 +9,11 @@ import {
 import { PostCategories } from "constants/categories";
 import { capitalizeFirstLetter } from "helpers";
 import { gtokFavicon, gtokBot } from "images";
+import { SetNewPost } from "store/actions";
 
 const CreatePostComponent = (props) => {
 	let sharePostText = (props.history.location.state && props.history.location.state.sharePostText) || "";
-	const { currentUser } = props;
+	const { currentUser, bindNewPost } = props;
 	const [ charCount, setCharCount ] = useState(500-sharePostText.length);
 	const [ postText, setPostText ] = useState(sharePostText);
 	const [ category, setCategory ] = useState("");
@@ -39,7 +41,7 @@ const CreatePostComponent = (props) => {
 			return null;
 		}
 		setPostBtn("Posting");
-		let result = await add("posts", {
+		let postData = {
 			active: true,
 			text: postText.trim(),
 			userId: currentUser.id,
@@ -47,7 +49,8 @@ const CreatePostComponent = (props) => {
 			followersCount: 0,
 			category: PostCategories.find(c => c.title === category),
 			timestamp
-		});
+		}
+		let result = await add("posts", postData);
   	/* Log the activity */
   	await add("logs", {
   		text: `${currentUser.displayName} created a post`,
@@ -58,10 +61,11 @@ const CreatePostComponent = (props) => {
   		collection: "posts",
   		timestamp
   	});
+  	await bindNewPost(postData);
 		if (result.status === 200) {
 			props.history.push({
 				pathname: "/app/posts",
-				state: { reloadPosts: true, postingSuccess: true }
+				state: { postingSuccess: true }
 			});
 		} else {
 			setResult(result);
@@ -168,5 +172,13 @@ const CreatePostComponent = (props) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		bindNewPost: (content) => dispatch(SetNewPost(content))
+	}
+}
 
-export default withRouter(CreatePostComponent);
+export default connect(
+	null,
+	mapDispatchToProps
+)(withRouter(CreatePostComponent));

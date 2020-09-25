@@ -74,6 +74,21 @@ code {
 	padding: 5px 10px;
 }
 
+.sort-btn {
+	color: #fff;
+	position: fixed;
+	bottom: 70px;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	right: 3vw;
+	background-color: #DC3545;
+}
+
+.sort-btn i {
+	margin-top: 12px;
+}
+
 .copy-link-icon {
 	width: 36px;
   height: 36px;

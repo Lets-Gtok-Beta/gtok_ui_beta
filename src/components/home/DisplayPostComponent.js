@@ -85,7 +85,7 @@ const DisplayPostComponent = ({
 	}
 
 	const deletePost = async (id) => {
-		if (window.confirm("Are you sure to delete this post?")) {
+		if (id && window.confirm("Are you sure to delete this post?")) {
 			let result = await remove("posts", id);
   		/* Log the activity */
 	  	await add("logs", {
@@ -120,16 +120,18 @@ const DisplayPostComponent = ({
 		setIsTalking(true);
 		if ('speechSynthesis' in window) {
 			window.speechSynthesis.cancel();
-			window.speechSynthesis.getVoices();
-			let speech = new SpeechSynthesisUtterance();
+			setTimeout(() => {
+			let voices = window.speechSynthesis.getVoices();
+			let speech = new SpeechSynthesisUtterance(post.text);
 		  // Set the text and voice attributes.
-			speech.text = post.text;
+			// speech.text = post.text;
 			speech.volume = 1;
-			speech.rate = 1;
-			speech.pitch = 0.8;
-		  speech.voiceURI = 'native';
+			speech.rate = 0.8;
+			speech.pitch = 1;
+		  speech.voice = voices.find(v => v.lang === "hi-IN");
 		  // speech.lang = locale;
 			window.speechSynthesis.speak(speech);
+			}, 10);
 		} else {
 			alert('This feature is not supported in this device');
 		}
