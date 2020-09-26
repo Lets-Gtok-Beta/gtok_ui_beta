@@ -42,9 +42,19 @@ const Posts = (state=INITIAL_STATE, action) => {
 			}
 		}
 		case SET_NEW_POST: {
-			return {
-				...state,
-				posts: [payload.newPost, ...state.posts]
+			if (payload.newPost.id) {
+				let pst = state.posts.find(p => p.id === payload.newPost.id);
+				pst = Object.assign(pst, payload.newPost);
+				let psts = state.posts.filter(p => p.id !== payload.newPost.id);
+				return {
+					...state,
+					posts: [pst, ...psts]
+				}
+			} else {
+				return {
+					...state,
+					posts: [payload.newPost, ...state.posts]
+				}				
 			}
 		}
 		case SET_DELETED_POST: {

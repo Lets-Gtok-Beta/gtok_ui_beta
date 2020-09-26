@@ -18,29 +18,27 @@ import { SetPosts, SetSharePost } from "store/actions";
 import { NotificationComponent } from "components";
 
 const DisplayPostComponent = ({
-	currentUser, post, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false
+	currentUser, post, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false, allUsers
 }) => {
 	const [ postedUser, setPostedUser ] = useState("");
-	const [ follower, setFollower ] = useState(false);
-	const [ followerLoading, setFollowerLoading ] = useState(true);
+	const [ follower, setFollower ] = useState(!!post.followers.find(f => f === currentUser.id));
+	const [ followersCount, setFollowersCount ] = useState(post.followers.length);
+	const [ followerLoading, setFollowerLoading ] = useState(false);
 	const [ result, setResult ] = useState({});
 	const [ isTalking, setIsTalking ] = useState(false);
 	const history = useHistory();
 
 	useEffect(() => {
-	  const isFollower = async () => {
-	  	let f = await post.followers.find(f => f === currentUser.id);
-	  	if (!!f) setFollower(true);
-	  	setFollowerLoading(false);
-	  }
-		isFollower();
 		async function getPostedUser() {
-			let result = await getId("users", post.userId);
+			let result = allUsers.find(user => user.id === post.userId);
+			if (!result) {
+				result = await getId("users", post.userId);
+			}
 			result["id"] = post.userId;
 			setPostedUser(result);
 		}
 		getPostedUser();
-	}, [post, currentUser]);
+	}, [post, allUsers]);
 
 	const followPost = async (e) => {
 		// if (currentUser.id === postedUser.id) {
@@ -64,6 +62,7 @@ const DisplayPostComponent = ({
 	  		timestamp
 	  	});
 	  	setFollower(true);
+	  	setFollowersCount(post.followers.length+1);
   	} else {
 	  	await update("posts", post.id, { followers: arrayRemove(currentUser.id), followersCount: post.followers.length-1 });
   		/* Log the activity */
@@ -80,6 +79,7 @@ const DisplayPostComponent = ({
 	  		timestamp
 	  	});
 	  	setFollower(false);
+	  	setFollowersCount(post.followers.length-1);
   	}
   	setFollowerLoading(false);
 	}
@@ -138,6 +138,17 @@ const DisplayPostComponent = ({
 		setIsTalking(false);
 	}
 
+	const editPost = (post) => {
+		history.push({
+  		pathname: "/app/create_post",
+  		state: {
+  			sharePostText: post.text,
+  			sharePostCategory: post.category,
+  			sharePostId: post.id
+  		}
+  	});
+	}
+
   return postedUser && (
     <div className="card card-br-0 mb-4 pb-2">
 	  	{
@@ -150,9 +161,17 @@ const DisplayPostComponent = ({
 			    	{capitalizeFirstLetter(postedUser.displayName)}
 			    	{
 			    		(post.userId === currentUser.id) &&
-				    	<button className="btn btn-sm btn-danger pull-right" onClick={e => deletePost(post.id)}>
-				    		<i className="fa fa-trash"></i>
-				    	</button>
+	    				<div className="dropdown p-0 pull-right post-menu-dropdown">
+	    					<i className="fa fa-angle-down post-menu-icon" data-toggle="dropdown"></i>
+	    					<div className="dropdown-menu post-menu-options">
+					        <button className="dropdown-item btn-link" onClick={e => editPost(post)}>
+					        	Edit
+					        </button>
+					        <button className="dropdown-item btn-link" onClick={e => deletePost(post.id)}>
+					        	Delete
+					        </button>
+					      </div>
+	    				</div>
 			    	}
 			    </h6>
 			    <span className="font-small" title="Posted time">
@@ -172,7 +191,7 @@ const DisplayPostComponent = ({
 				  {followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
 					  <button className="btn btn-link btn-sm ml-2 fs-15" onClick={e => followPost(e)}>
 				  		<i className={`fa fa-heart ${follower ? "text-danger" : "text-secondary"}`}></i> &nbsp;
-				  		<span className={`${follower ? "text-danger" : "text-secondary"}`}>{post.followersCount}</span>
+				  		<span className={`${follower ? "text-danger" : "text-secondary"}`}>{followersCount}</span>
 					  </button>
 					}
 				  {
@@ -216,6 +235,11 @@ const DisplayPostComponent = ({
   );
 };
 
+const mapStateToProps = (state) => {
+	const { allUsers } = state.users;
+	return { allUsers };
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		bindPosts: (content) => dispatch(SetPosts(content)),
@@ -224,6 +248,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-	null,
+	mapStateToProps,
 	mapDispatchToProps
 )(DisplayPostComponent);

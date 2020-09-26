@@ -16,6 +16,12 @@ const HomeComponent = (props) => {
 	const [ generatePost, setGeneratePost ] = useState(false);
 	let propsState = props.history.location.state || {};
 	const [ reloadPosts, setReloadPosts ] = useState(propsState.reloadPosts || false);
+	const sortOptions = [
+		{key: "recent", val: "Most Recent", checked: true}, 
+		{key: "oldest", val: "Most Oldest"}, 
+		{key: "category_asc", val: "Category (A-Z)"}, 
+		{key: "category_desc", val: "Category (Z-A)"}
+	]
 
 	useEffect(() => {
 		if (!posts[0]) bindPosts(currentUser);
@@ -24,6 +30,10 @@ const HomeComponent = (props) => {
 			setReloadPosts(false);
 		}
 	}, [bindPosts, currentUser, posts, propsState, reloadPosts]);
+
+	const onSortOptionChange = async (val) => {
+		await bindPosts(currentUser, "all", {sort: val});
+	}
 
   return (
     <div className="container">
@@ -54,7 +64,7 @@ const HomeComponent = (props) => {
 	    		</div>
 	    	</div>
 	    	<div className="col-xs-12 col-md-7">
-		      <div className="card create-post-card mt-2 mb-4">
+		      <div className="d-none d-md-block card create-post-card mt-2">
 		      {/*
 		      	<div className="d-flex">
 		      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (postType !== "bot" ? "#eee" : "white")}} onClick={e => setPostType("human")}><i className="fa fa-pencil"></i>&nbsp;Type a post</div>
@@ -81,11 +91,14 @@ const HomeComponent = (props) => {
 		      		</div>*/
 		      	}
 			    </div>
-			    {
-			    	posts[0] && posts.map((post, idx) => (
-				    	<DisplayPostComponent currentUser={currentUser} post={post} key={idx}/>
-			    	))
-			    }
+					<SortComponent options={sortOptions} onChange={onSortOptionChange}/>
+					<div className="mt-3">
+				    {
+				    	posts[0] && posts.map((post, idx) => (
+					    	<DisplayPostComponent currentUser={currentUser} post={post} key={idx}/>
+				    	))
+				    }
+			    </div>
 			  </div>
 	    	<div className="d-none col-md-3 d-md-block mt-2">
 	    		<div className="card right-sidebar-wrapper">
@@ -104,7 +117,6 @@ const HomeComponent = (props) => {
 				{
 					generatePost && <GeneratePostComponent setOpenModal={setGeneratePost} currentUser={currentUser} />
 				}
-				{ generatePost && <SortComponent />}
 			</div>
 		</div>
   );
@@ -117,7 +129,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		bindPosts: (content) => dispatch(SetPosts(content))
+		bindPosts: (currentUser, type, ops) => dispatch(SetPosts(currentUser, type, ops))
 	}
 }
 

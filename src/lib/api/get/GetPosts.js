@@ -19,18 +19,27 @@ export const getPosts = async (currentUser, type="all", data={}) => {
 		firestore.collection("posts").where("followersCount", ">", 0).orderBy("followersCount", "desc").limit(3).get()
 		);
 	} else {
-		posts = await get("posts")
-		posts = _.sortBy(posts, [
-			o => o.category.title,
-			o => o.createdAt
-		]);
+		posts = await get("posts");
 		// posts = posts.map(async (post) => {
 		// 	post["user"] = await getId("users", post.userId);
 		// 	return post;
 		// });
 	}
-	if (data.sort) {
-		posts = posts.sort((a,b) => b.createdAt - a.createdAt);		
+
+	if (data.sort === "oldest") {
+		posts = posts.sort((a,b) => a.createdAt - b.createdAt);
+	} else if (data.sort === "category_desc") {
+		posts = _.sortBy(posts, [
+			o => o.category.title,
+			o => o.createdAt
+		]).reverse();
+	} else if (data.sort === "category_asc") {
+		posts = _.sortBy(posts, [
+			o => o.category.title,
+			o => o.createdAt
+		]);
+	} else {
+		posts = posts.sort((a,b) => b.createdAt - a.createdAt);
 	}
 	return posts;
 }

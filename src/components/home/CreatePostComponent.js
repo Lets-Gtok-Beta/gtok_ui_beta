@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { add, timestamp } from "firebase_config";
+import { add, update, timestamp } from "firebase_config";
 import { 
 	NotificationComponent
 } from "components";
@@ -13,10 +13,12 @@ import { SetNewPost } from "store/actions";
 
 const CreatePostComponent = (props) => {
 	let sharePostText = (props.history.location.state && props.history.location.state.sharePostText) || "";
+	let sharePostCategory = (props.history.location.state && props.history.location.state.sharePostCategory && props.history.location.state.sharePostCategory.title) || "";
+	let sharePostId = (props.history.location.state && props.history.location.state.sharePostId) || "";
 	const { currentUser, bindNewPost } = props;
 	const [ charCount, setCharCount ] = useState(500-sharePostText.length);
 	const [ postText, setPostText ] = useState(sharePostText);
-	const [ category, setCategory ] = useState("");
+	const [ category, setCategory ] = useState(sharePostCategory);
 	const [ postBtn, setPostBtn ] = useState("Post");
 	const [ result, setResult ] = useState({});
 
@@ -41,16 +43,28 @@ const CreatePostComponent = (props) => {
 			return null;
 		}
 		setPostBtn("Posting");
-		let postData = {
-			active: true,
-			text: postText.trim(),
-			userId: currentUser.id,
-			followers: [],
-			followersCount: 0,
-			category: PostCategories.find(c => c.title === category),
-			timestamp
+		let result = "";
+		if (sharePostId) {
+			let postData = {
+				text: postText.trim(),
+				category: PostCategories.find(c => c.title === category)
+			}
+			result = await update("posts", sharePostId, postData);
+			postData = Object.assign(postData, {id: sharePostId});
+  		await bindNewPost(postData);
+		} else {
+			let postData = {
+				active: true,
+				text: postText.trim(),
+				userId: currentUser.id,
+				followers: [],
+				followersCount: 0,
+				category: PostCategories.find(c => c.title === category),
+				timestamp
+			}
+			result = await add("posts", postData);
+  		await bindNewPost(postData);
 		}
-		let result = await add("posts", postData);
   	/* Log the activity */
   	await add("logs", {
   		text: `${currentUser.displayName} created a post`,
@@ -61,7 +75,6 @@ const CreatePostComponent = (props) => {
   		collection: "posts",
   		timestamp
   	});
-  	await bindNewPost(postData);
 		if (result.status === 200) {
 			props.history.push({
 				pathname: "/app/posts",
@@ -128,7 +141,7 @@ const CreatePostComponent = (props) => {
 							    </label>
 							  </div>
 							  <select className="custom-select font-small" id="inputGroupSelect01" onChange={e => handleChange("category", e.target.value)} value={category}>
-							    <option defaultValue value="">Choose...</option>
+							    <option value="">Choose...</option>
 							    {
 							    	PostCategories.map(category => (
 							    		<option value={category.title} key={category.key}>

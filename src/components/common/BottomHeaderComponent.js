@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { Metadata } from "constants/index";
-import { gtokFavicon, gtokBot } from "images";
+import { gtokFavicon } from "images";
 import { SetNewMessagesCount, SetNewAlertsCount, SetSurveysList, SetRelationships } from "store/actions";
 import { HelmetMetaDataComponent } from "components";
 
@@ -53,8 +53,11 @@ const BottomHeaderComponent = ({
 		  	<ul className="navbar-nav ml-auto">
 					<li className="nav-item" title="Profile">
 						<div className="nav-link p-0">
+			        <Link to="/app/create_post" className="text-secondary" title="Share an experience">
+			        	<i className="fa fa-pencil"></i>
+			        </Link>
+							{/*
 		        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"  data-container="body" data-toggle="popover" data-placement="bottom" data-content={`Hi! I am your personal friend (a bot). I can chat, work and help you in daily activities. I am so happy to be your personal friend, ${currentUser.displayName.split(" ")[0].toUpperCase()}. Will ping you once I am ready to chat...`} />
-							{/*							
 			        <Link to="/app/chats/new/sL8tqx4Gt9yWBEH6cn7G">
 			        	<img src={gtokBot} className="mob-navbar-image" alt="Profile pic"/>
 			        </Link>
