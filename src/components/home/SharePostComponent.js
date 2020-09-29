@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton
+import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton, LinkedinIcon, LinkedinShareButton
 } from "react-share";
 
 import { NotificationComponent } from "components";
@@ -50,12 +50,15 @@ const SharePostComponent = (props) => {
 						  <FacebookShareButton url={sharePostUrl} title={sharePost.category.title} quote={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
 						  	<FacebookIcon size={36}/>
 						  </FacebookShareButton>
-							<TwitterShareButton url={sharePostUrl} title={sharePost.text} hashtag="#letsgtok" className="socialMediaButton">
+							<TwitterShareButton url={sharePostUrl} title={sharePost.text} hashtags="#letsgtok" className="socialMediaButton">
 					     <TwitterIcon size={36} />
 					   </TwitterShareButton>
 					   <WhatsappShareButton url={sharePostUrl} title={sharePost.text} separator=":: " className="socialMediaButton">
 					     <WhatsappIcon size={36} />
 					   </WhatsappShareButton>
+					   <LinkedinShareButton url={sharePostUrl} title={sharePost.text} summary={sharePost.category.title} source="Lets Gtok" className="socialMediaButton">
+					     <LinkedinIcon size={36} />
+					   </LinkedinShareButton>
 					  </div>
 				  </div>
 				</div>

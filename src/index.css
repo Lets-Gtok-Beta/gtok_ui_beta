@@ -269,6 +269,7 @@ button:active {
 	top: -5px;
 }
 
+/* Profile page */
 .profile-pic-section {
 	position: relative;
 	cursor: pointer;
@@ -300,6 +301,36 @@ button:active {
 	display: inline;
 }
 
+.profile-options {
+	overflow-x: auto;
+	text-align: center;
+}
+
+.profile-options::-webkit-scrollbar {
+	display: none;
+}
+
+.profile-options div.option {
+	font-size: 13px;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	position: relative;
+}
+
+.profile-options div.option div:after {
+	content: '\b7';
+	font-size: 34px;
+	color: #DC3545;
+}
+
+.profile-options div.option .active {
+	margin-top: -21px !important;
+	height: 33px;
+}
+
+.profile-options div.option:first-child {
+	/*padding-left: 0.5rem;*/
+}
 
 /* Notification */
 .notification {
@@ -551,6 +582,17 @@ button:active {
 .right-sidebar-wrapper .profile-bot .bot-text {
 	padding-left: 10px;
 	font-size: 14px;
+}
+
+/* Share post page */
+.instaButton {
+	background-color: rgba(245,96,64, 0.7) !important;
+  border: none;
+  padding: 0px;
+  font-size: 23px !important;
+  color: white !important;
+  cursor: pointer;
+  min-width: 34px;
 }
 
 /* Surveys */

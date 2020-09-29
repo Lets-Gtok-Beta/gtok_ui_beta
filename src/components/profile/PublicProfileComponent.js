@@ -15,9 +15,9 @@ function PublicProfileComponent(props) {
 	const userId = props.match.params.name;
 	const [ displayUser, setDisplayUser ] = useState({});
 	const [ loading, setLoading ] = useState(true);
-	const [ tabContent, setTabContent ] = useState("");
 	const [ follower, setFollower ] = useState(null);
 	const [ isFollowerLoading, setIsFollowerLoading ] = useState(true);
+	const [activeOption, setActiveOption] = useState("posts");
 
 	const history = useHistory();
 	if (userId === currentUser.id ) history.push("/app/profile");
@@ -136,25 +136,21 @@ function PublicProfileComponent(props) {
 							}
 						</div>
 				  </div>
-		      <div className="card create-post-card">
-		      	<div className="d-flex">
-		      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (tabContent !== "posts" ? "#eee" : "white")}} onClick={e => setTabContent("")}>
-		      			<div className="d-flex flex-row">
-		      				<i className="fa fa-bar-chart pr-1 mt-1"></i>
-		      				<span>Similarities</span>
-		      			</div>
-		      		</div>
-		      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (tabContent === "posts" ? "#eee" : "white")}} onClick={e => setTabContent("posts")}>
-		      			<div className="d-flex flex-row">
-		      				<i className="fa fa-pencil pr-1 mt-1"></i>
-		      				<span>Posts</span>
-		      			</div>
-		      		</div>
-		      	</div>
-		      </div>
+			  	<hr className="my-1"/>
+				  <div className="d-flex flex-row profile-options justify-content-center">
+				  	<div className="option" onClick={e => setActiveOption("posts")}>
+				  		Posts
+				  		<div className={activeOption === "posts" ? "active":"d-none"}></div>
+				  	</div>
+				  	<div className="option" onClick={e => setActiveOption("similarities")}>
+				  		Similarities
+				  		<div className={activeOption === "similarities" ? "active":"d-none"}></div>
+				  	</div>
+				  </div>
+				  <hr className="my-0 mb-2"/>
 				  {
 				  	follower !== 1 ? <div className="card text-center mt-2 p-2 text-secondary">You must follow the user to see profile.</div> :
-	      		tabContent === "posts" ?
+	      		activeOption === "posts" ?
 	      		<div className="mt-3">
 	      			{
 		      		!!selectedUserPosts[0] ? selectedUserPosts.map((post, idx) => (

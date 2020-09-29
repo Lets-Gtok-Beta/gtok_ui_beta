@@ -9,7 +9,7 @@ export default function HelmetMetaDataComponent(props) {
 	let quote = props.quote || "";
 	let title = props.title || "Lets Gtok - Similar people at your finger tips";
 	let image = props.image || gtokFavicon;
-	let description = props.description || "Lets get to know each other and bring similarities together. Share your experience and find similar people." + 
+	let description = props.description || "Lets get to know each other. Share experiences and connect with similar people." + 
 		"Trust us, its million dollars experience to find similar people and have an endless talk!"+
 		"So, join us on this voyage, and explore the beauty and miracle of being yourself!";
 	let hashtag = props.hashtag || "#LetsGtok";

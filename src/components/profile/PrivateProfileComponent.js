@@ -24,7 +24,7 @@ function PrivateProfileComponent({
 	// const [btnDelete, setBtnDelete] = useState('Delete Account');
 	const [btnSignout, setBtnSignout] = useState('Logout');
 	const [result, setResult] = useState({});
-	const [ tabContent, setTabContent ] = useState("");
+	const [activeOption, setActiveOption] = useState("profile");
   const history = useHistory();
   // const pathDetails = {
   // 	path: "/app/profile",
@@ -199,24 +199,28 @@ function PrivateProfileComponent({
 						{singleUserRelations.length} follower{singleUserRelations.length !== 1 && "s"}
 					</Link>
 			  </div>
-	      <div className="card create-post-card">
-	      	<div className="d-flex">
-	      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (tabContent === "" ? "#eee" : "white")}} onClick={e => setTabContent("")}>
-	      			<div className="d-flex flex-row">
-	      				<i className="fa fa-user pr-1 mt-1"></i>
-	      				<span>Profile & Permissions</span>
-	      			</div>
-	      		</div>
-	      		<div className="col-6 font-xs-small card p-2 create-post-card-type" style={{backgroundColor: (tabContent === "posts" ? "#eee" : "white")}} onClick={e => setTabContent("posts")}>
-	      			<div className="d-flex flex-row">
-	      				<i className="fa fa-pencil pr-1 mt-1"></i>
-	      				<span>Posts</span>
-	      			</div>
-	      		</div>
-	      	</div>
-	      </div>
+		  	<hr className="my-1"/>
+			  <div className="d-flex flex-row profile-options justify-content-center">
+			  	<div className="option" onClick={e => setActiveOption("profile")}>
+			  		Profile
+			  		<div className={activeOption === "profile" ? "active":"d-none"}></div>
+			  	</div>
+			  	<div className="option" onClick={e => setActiveOption("posts")}>
+			  		Posts
+			  		<div className={activeOption === "posts" ? "active":"d-none"}></div>
+			  	</div>
+			  	<div className="option" onClick={e => setActiveOption("permissions")}>
+			  		Permissions
+			  		<div className={activeOption === "permissions" ? "active":"d-none"}></div>
+			  	</div>
+			  	<div className="option" onClick={e => setActiveOption("settings")}>
+			  		Settings
+			  		<div className={activeOption === "settings" ? "active":"d-none"}></div>
+			  	</div>
+			  </div>
+			  <hr className="my-0 mb-2"/>
       	{
-      		tabContent === "posts" ?
+      		activeOption === "posts" &&
       		<div className="mt-3">
       			{
 	      		!!selectedUserPosts[0] ? selectedUserPosts.map((post, idx) => (
@@ -224,7 +228,8 @@ function PrivateProfileComponent({
 	      		)) : <div className="card text-center mt-2 p-2 text-secondary">No posts found</div>
 	      		}
 	      	</div>
-      		:
+      	}
+      	{ activeOption === "profile" &&
 		      <div className="card card-br-0 p-2 mt-2 font-xs-small">
 						<div className="form-group row">
 					    <label htmlFor="userName" className="col-sm-4 col-form-label">Name</label>
@@ -259,8 +264,15 @@ function PrivateProfileComponent({
 					      <input type="file" className="form-control-plaintext d-none" id="staticImage" onChange={e => uploadFile(e.target.files[0])} accept="image/*" />
 					    </div>
 					  </div>
-						<h5 className="text-center">Permissions</h5>
+					</div>
+				}
+				{	activeOption === "permissions" &&
+		      <div className="card">
 						<PermissionsComponent currentUser={dbUser} />
+					</div>
+				}
+				{	activeOption === "settings" &&
+		      <div className="card card-br-0 p-2 mt-2 font-xs-small">
 					  <div className="text-center">
 						  <button className="btn btn-sm btn-outline-danger font-xs-small" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
 						 </div>
