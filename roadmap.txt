@@ -11,6 +11,41 @@ Next week: (2 hrs)
 1. Routing needs to be done. Each question must have separate page.
 2. Firebase login with gmail.
 
+Challenges
+#1:
+Challenge: Share your life experiences and daily activities.
+Fees: Free of cost. Anyone can participate.
+Prize money: A total of 1000/- cash prize.
+Prizes will be decided based on following -
+1. Highest number of pinches: A pinch is a feeling that expresses others feelings to your post. More pinches means more people felt the same experience.
+	a. Two(2) people will be selected and each will get 150/- INR
+2. Highest number of posts during competition: Expressing your thoughts/experiences. A post can be of different categories.
+	a. Two(2) people will be selected and each will get 150/- INR
+3. Highest percentage of similarity (2 ppl): For this prize, 2 people will be selected. These 2 people are based on the similarity percentage. Similarity percentage will be calculated based on the posts and questions answered inside the app.
+	a. Two(2) people will be selected and each will get 150/- INR
+
+Rules -
+1. A user must have at least 18 years age.
+2. One user must have only one Lets Gtok user account. If more than one account per user, he/she may disqualify from the challenge.
+3. A user can post any number of posts from his/her own account.
+4. The post content will be monitored throughly for the competition. A user cannot delete his/her competition posts. So, be cautious while posting.
+5. Any hatred/negativity/racism/adult/copyright contents will be strictly prohibited and such content will be dismissed immediately. The posted user will be disqualified as well. In extreme cases, the user account will be disabled permanently.
+6. One user will receive one prize only. Lets Gtok may ask for user authenticity proof before giving prize money.
+7. Prize money will be transfered directly to the individual bank account (or) any online bank accounts like GPay, Paytm, Paypal. In few cases, prizes may be given in hand.
+8. Lets Gtok has complete rights to modify this challenge at any time.
+
+
+1. Highest number of pinches - each 100/- = 3 * 100 = 300/-
+	a. 3 posts will be selected.
+	b. each post will be taken from different category
+	c. each post will be taken from different person.
+2. Highest % of similarity (2 ppl) - each 200/- = 400/-
+	a. Similarity % will be calculated using Artificial Intelligence algorithm
+	b. Based on the posts & Based on the surveys.
+3. Highest number of posts during competition - each 100/- = 1 * 100 = 100/-
+	a. Should obey Lets Gtok policies
+	c. 
+
 Personal
 Sub caption text.
 qId,question,type,value,required
@@ -22,7 +57,7 @@ qId,question,type,value,required
 6,Gender,checkbox,Male/Female/Prefer not to say/,true
 
 
-
+----Draft1--------------------
 Unlimited texting
 Eligible to sell data
 Ask for private information
@@ -35,3 +70,53 @@ Search includes face recognition feature
 <li>Send gifts</li>
 <li>See the winks</li>
 <li>Ask for private date</li>
+----Draft2-------------------------
+Unlimited texting
+See your followers
+Chat with your followers
+Check similarities with unlimited people
+Customize priorities in search
+Sync all your surveys information
+Unlock premium badges
+24*7 Gtok bot help available
+
+----Draft3---------------------------
+Unlimited texting
+Eligible to sell data
+Ask for private information
+See your followers
+Customize priorities in search
+Synchronize all surveys information
+Search includes face recognition feature
+24x7 technical support
+
+
+Survey template:
+Pet lovers
+"Pets have more love and compassion in them than humans" - By Robert Wagner
+pet_lovers
+qId,question,type,value,description
+1,Have you ever owned a pet?,checkbox,Dog/Cat/No/,
+2,How long have you had of your pet(s)?,text,,
+3,What is the name(s) of your pet?,text,,
+4,How old is your pet?,number,,
+5,What breed is your pet?,text,,
+6,What is your pet's favorite food?,text,,
+7,Have you ever celebrated your pets birthday?,radio,Yes/No,
+8,Have you ever included your pet in a family holiday card?,radio,Yes/No,
+9,How often do you talk to your pet?,radio,Daily/Weekly/Monthly/A few times in a year/Never,
+10,How often do you take pictures of your pet?,radio,Daily/Weekly/Monthly/A few times in a year/Never,
+11,How often do you upload your pet photo to a social media account?,radio,Daily/Weekly/Monthly/A few times in a year/Never,
+12,If your pet sleeps with you - what best describes your motivation to have an animal with you?,checkbox,Protection and Security/Companionship/Not applicable/,
+13,When it comes to your pets wellbeing - what are your most important concerns?,checkbox,Health-Life expectancy/Energy level/Happiness-Demeanor/Cleanliness-Hygiene/Behaviorial issues/,
+14,Which type of pet food do you usually purchase for your pet?,radio,Dry only/Wet only/Both wet and dry/,
+15,What is the food product name you used most often for your pet?,text,,
+
+General
+-
+open_survey
+qId,question,type,value,description
+1,Your favorite breakfast,checkbox,Idli/Dosa/Poha/Samosa/Poori/Paratha/Paniyaram/Thepla/Egg Toast/Bread Pakora/Sandwich/Oats/Pasta/,
+2,Your favorite pet(s),checkbox,None/Dog/Cat/Birds/Rabbit/Horses/Fishes in aquarium/Cattles/,
+3,Your favorite sport(s),checkbox,None/Cricket/Football/Basketball/Badminton/Hockey/Kabaddi/Tennis/Boxing/,
+4,Your profession,text,,
