@@ -4,7 +4,8 @@ import {
 	SET_SELECTED_USER_POSTS,
 	SET_SHARE_POST,
 	SET_NEW_POST,
-	SET_DELETED_POST
+	SET_DELETED_POST,
+	SET_UPDATED_POST
 } from "../types";
 
 const INITIAL_STATE = {
@@ -61,6 +62,14 @@ const Posts = (state=INITIAL_STATE, action) => {
 			return {
 				...state,
 				posts: state.posts.filter(post => post.id !== payload.postId)
+			}
+		}
+		case SET_UPDATED_POST: {
+			let pst = state.posts.findIndex(p => p.id === payload.updatedPost.id);
+			state.posts.splice(pst, 1, payload.updatedPost);
+			return {
+				...state,
+				posts: state.posts
 			}
 		}
 		default:

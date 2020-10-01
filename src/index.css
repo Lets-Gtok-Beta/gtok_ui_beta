@@ -304,6 +304,7 @@ button:active {
 .profile-options {
 	overflow-x: auto;
 	text-align: center;
+	overflow-y: hidden;
 }
 
 .profile-options::-webkit-scrollbar {
@@ -488,7 +489,7 @@ button:active {
 }
 
 .post-menu-icon {
-	font-size: large;
+	font-size: x-large;
 }
 
 .post-menu-dropdown .dropdown-menu {

@@ -21,7 +21,8 @@ import {
 	SET_USER_RELATIONS,
 	SET_CHATBOT_MESSAGES,
 	SET_NEW_POST,
-	SET_DELETED_POST
+	SET_DELETED_POST,
+	SET_UPDATED_POST
 } from "./types.js";
 import {
 	getNewMessagesCount,
@@ -225,6 +226,18 @@ export const SetDeletedPostId = (id) => {
 	}
 }
 
+export const SetUpdatedPost = (currentUser, type, data) => {
+	return (dispatch) => {
+		getPosts(currentUser, type, data).then(res => {
+			dispatch({
+				type: SET_UPDATED_POST,
+				payload: {
+					updatedPost: res
+				}
+			});
+		});
+	}
+}
 
 export const SetAllUsers = (currentUser, type="all", searchVal="") => {
 	return (dispatch) => {

@@ -63,7 +63,6 @@ const CreatePostComponent = (props) => {
 				timestamp
 			}
 			result = await add("posts", postData);
-  		await bindNewPost(postData);
 		}
   	/* Log the activity */
   	await add("logs", {
@@ -78,7 +77,7 @@ const CreatePostComponent = (props) => {
 		if (result.status === 200) {
 			props.history.push({
 				pathname: "/app/posts",
-				state: { postingSuccess: true }
+				state: { postingSuccess: true, reloadPosts: true }
 			});
 		} else {
 			setResult(result);

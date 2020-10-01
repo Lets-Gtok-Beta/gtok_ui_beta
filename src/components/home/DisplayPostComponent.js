@@ -14,11 +14,11 @@ import {
 } from "firebase_config";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
-import { SetPosts, SetSharePost } from "store/actions";
+import { SetPosts, SetSharePost, SetUpdatedPost } from "store/actions";
 import { NotificationComponent } from "components";
 
 const DisplayPostComponent = ({
-	currentUser, post, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false, allUsers
+	currentUser, post, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false, allUsers, bindUpdatedPost
 }) => {
 	const [ postedUser, setPostedUser ] = useState("");
 	const [ follower, setFollower ] = useState(!!post.followers.find(f => f === currentUser.id));
@@ -62,7 +62,6 @@ const DisplayPostComponent = ({
 	  		timestamp
 	  	});
 	  	setFollower(true);
-	  	setFollowersCount(post.followers.length+1);
   	} else {
 	  	await update("posts", post.id, { followers: arrayRemove(currentUser.id), followersCount: post.followers.length-1 });
   		/* Log the activity */
@@ -79,9 +78,15 @@ const DisplayPostComponent = ({
 	  		timestamp
 	  	});
 	  	setFollower(false);
-	  	setFollowersCount(post.followers.length-1);
   	}
+  	await getUpdatedPost(post.id)
   	setFollowerLoading(false);
+	}
+
+	const getUpdatedPost = async (id) => {
+		await bindUpdatedPost(currentUser, "id", {id});
+		let res = await getId("posts", id);
+		setFollowersCount(res.followers.length);
 	}
 
 	const deletePost = async (id) => {
@@ -243,7 +248,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		bindPosts: (content) => dispatch(SetPosts(content)),
-		bindSharePost: (content, type, data) => dispatch(SetSharePost(content, type, data))
+		bindSharePost: (content, type, data) => dispatch(SetSharePost(content, type, data)),
+		bindUpdatedPost: (content, type, data) => dispatch(SetUpdatedPost(content, type, data)),
 	}
 }
 
