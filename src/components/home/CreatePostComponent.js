@@ -132,7 +132,7 @@ const CreatePostComponent = (props) => {
 		      		</div>
 		      	</div>
 		      	<div className="create-post">
-				    	<textarea className="post-textbox font-xs-small" rows={3} placeholder="Start typing here.. Ex: Love BBQ, BMW is my favorite car..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
+				    	<textarea className="post-textbox font-xs-small" rows={5} placeholder="Start typing here.. Ex: Love BBQ, BMW is my favorite car..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
 							<div className="input-group px-1">
 							  <div className="input-group-prepend">
 							    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">
