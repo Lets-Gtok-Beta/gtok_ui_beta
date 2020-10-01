@@ -5,7 +5,9 @@ import Routes from "routes/Routes";
 import {
 	getQuery,
 	firestore,
-	auth
+	auth,
+	update,
+	timestamp
 } from "./firebase_config";
 import "./App.css";
 
@@ -40,6 +42,7 @@ class App extends Component {
 					let orgUser = await getQuery(
 						firestore.collection('users').where("email", "==", currentUser.email).get()
 					);
+					await update("users", orgUser[0].id, {lastSigninTime: timestamp});
 					bindDbUser(orgUser[0]);
 					this.setState({
 						...this.state, loading: false
