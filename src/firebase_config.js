@@ -73,6 +73,14 @@ export const verifyEmail = () => {
 	});
 }
 
+/* Change password */
+export const changePassword = (newPassword) => {
+	const user = firebase.auth().currentUser;
+	return user.updatePassword(newPassword)
+    .then(res => formatResult(200, 'Updated Successfully', res))
+    .catch(e => formatResult(422, e.message));
+}
+
 /* Signup Code */
 export const signup = ({email, password, data}) => {
   return auth.createUserWithEmailAndPassword(email, password)

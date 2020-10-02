@@ -7,6 +7,7 @@ import { SetPermissions } from "store/actions";
 function PublicProfileComponent({currentUser, pms, bindPermissions}) {
 	const [ loading, setLoading ] = useState(true);
 	const [ userPms, setUserPms ] = useState(currentUser.permissions || {});
+	const [result, setResult] = useState({});
 
 	useEffect(() => {
 		if (!pms[0]) bindPermissions(currentUser);
@@ -16,7 +17,13 @@ function PublicProfileComponent({currentUser, pms, bindPermissions}) {
 	const handleChange = async (key, value) => {
 		setLoading(true);
 		userPms[key] = !userPms[key];
-		await update("users", currentUser.id, {permissions: userPms});
+		setUserPms((prevState) =>({...prevState, ...userPms}));
+		setLoading(false);
+	}
+
+	const savePms = async () => {
+		setLoading(true);
+		let result = await update("users", currentUser.id, {permissions: userPms});
 		/* Log the activity */
   	await add("logs", {
   		text: `${currentUser.displayName} updated permissions`,
@@ -30,16 +37,16 @@ function PublicProfileComponent({currentUser, pms, bindPermissions}) {
   		description: userPms,
   		timestamp
   	});
-		setUserPms((prevState) =>({...prevState, ...userPms}));
+		setResult(result);
 		setLoading(false);
 	}
 
 	return (
-	  <div className="container">
+	  <div className="container permissions-wrapper">
 			{
 	  		pms.map((pm, idx) => (
-					<div className="d-flex align-content-center" key={idx}>
-						<div className="custom-switch mb-2">
+					<div className="d-flex align-content-center ml-2" key={idx}>
+						<div className="mb-2">
 						  <input type="checkbox" className="custom-control-input" id={pm.name} name={pm.name} onChange={e => handleChange(pm.name, e.target.value)} checked={userPms[pm.name]} />
 						  <label className="custom-control-label ml-2" htmlFor={pm.name}>
 						  	{pm.description}
@@ -49,7 +56,15 @@ function PublicProfileComponent({currentUser, pms, bindPermissions}) {
 	  		))
   		}
   		<div className="text-center">
-				{loading &&<i className="fa fa-spinner fa-spin"></i>}
+	    	{
+	    		result.status && 
+	    		<div className={`text-${result.status === 200 ? "success" : "danger"} mb-2`}>
+			    	{result.message}
+	    		</div>
+	    	}
+				<button className="btn btn-sm btn-outline-secondary" onClick={savePms}>
+					Save {loading &&<i className="fa fa-spinner fa-spin"></i>}
+				</button>
 			</div>
 		</div>
 	);

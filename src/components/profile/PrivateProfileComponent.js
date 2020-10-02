@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 
 import { 
 	NotificationComponent,
 	PermissionsComponent,
-	DisplayPostComponent
+	DisplayPostComponent,
+	SettingsComponent
 } from "components";
-import { add, update, uploadImage, signout, timestamp } from "firebase_config";
+import { add, update, uploadImage, timestamp } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
@@ -22,10 +23,8 @@ function PrivateProfileComponent({
 	const [btnUpload, setBtnUpload] = useState('Upload');
 	const [btnSave, setBtnSave] = useState("");
 	// const [btnDelete, setBtnDelete] = useState('Delete Account');
-	const [btnSignout, setBtnSignout] = useState('Logout');
 	const [result, setResult] = useState({});
 	const [activeOption, setActiveOption] = useState("profile");
-  const history = useHistory();
   // const pathDetails = {
   // 	path: "/app/profile",
   // 	isNewPath: true
@@ -88,23 +87,6 @@ function PrivateProfileComponent({
   	setBtnSave("");
   }
 
-  const signoutUser = async () => {
-  	setBtnSignout("Working...");
-  	await signout();
-  	await bindLoggedIn(false);
-    await bindDbUser(null);
-  	await bindUser(null);
-  	history.push("/logout");
-  }
-/*
-  const deleteAccount = async (e) => {
-  	e.preventDefault();
-  	setBtnDelete('Deleting...');
-  	await remove('users', dbUser.id)
-  	await removeProfile();
-		history.push('/profile_deleted');
-  }
-*/
   const uploadFile = async (file) => {
   	if (!file) {
   		setResult({
@@ -267,24 +249,11 @@ function PrivateProfileComponent({
 					</div>
 				}
 				{	activeOption === "permissions" &&
-		      <div className="card">
-						<PermissionsComponent currentUser={dbUser} />
-					</div>
+					<PermissionsComponent currentUser={dbUser} />
 				}
 				{	activeOption === "settings" &&
-		      <div className="card card-br-0 p-2 mt-2 font-xs-small">
-					  <div className="text-center">
-						  <button className="btn btn-sm btn-outline-danger font-xs-small" disabled={btnSignout !== 'Logout'} onClick={signoutUser}>{btnSignout}</button>
-						 </div>
-					</div>
+					<SettingsComponent currentUser={dbUser} />
       	}
-			{/*
-				<hr/>
-				<div className="text-center">
-					All your data will be lost, if you delete account. <br/><br/>
-					<button type="button" className="btn btn-danger btn-sm-app" onClick={e => deleteAccount(e)} disabled={btnDelete !== 'Delete Account'}>{btnDelete}</button>
-				</div>
-			*/}
 	  </div>
 	);
 }

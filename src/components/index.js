@@ -51,6 +51,7 @@ import UserPermissionsComponent from "components/common/UserPermissionsComponent
 import AuthBotComponent from "components/auth/AuthBotComponent";
 import CreatePostComponent from "components/home/CreatePostComponent";
 import SortComponent from "components/common/SortComponent";
+import SettingsComponent from "components/profile/SettingsComponent";
 
 export {
 	EmailVerifyComponent,
@@ -105,5 +106,6 @@ export {
 	UserPermissionsComponent,
 	AuthBotComponent,
 	CreatePostComponent,
-	SortComponent
+	SortComponent,
+	SettingsComponent
 }
