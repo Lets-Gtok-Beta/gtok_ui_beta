@@ -22,7 +22,22 @@ const isLocalhost = Boolean(
 
 window.addEventListener('notificationclick', event => {
 	event.notification.close();
-	window.location = event.notification.data.url;
+	event.waitUntil(
+	  window.clients.matchAll({type: 'window'}).then( windowClients => {
+      // Check if there is already a window/tab open with the target URL
+      // for (var i = 0; i < windowClients.length; i++) {
+      //   var client = windowClients[i];
+      //   // If so, just focus it.
+      //   if (client.url === url && 'focus' in client) {
+      //     return client.focus();
+      //   }
+      // }
+      // If not, then open the target URL in a new window/tab.
+      if (window.clients.openWindow) {
+        return window.clients.openWindow(event.notification.data.url);
+      }
+	  })
+  );
 });
 
 export function register(config) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { messaging } from "firebase_config";
 
 /* Permissions reference: https://stackoverflow.com/questions/58128847/what-all-mobile-permission-we-can-ask-in-a-pwa */
 
@@ -29,47 +30,41 @@ const UserPermissionsComponent = ({
 	    if (result === 'granted') {
 	      navigator.serviceWorker.ready.then(function(registration) {
 	      	if (newAlertsCount > 0) {
-		        registration.showNotification('Lets Gtok', {
-		          body: 'You received new alerts',
-		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
-		          vibrate: [200, 100, 200, 100, 200, 100, 200],
-		          tag: 'lets-gtok',
-		          data: {
-		          	url: 'https://beta.letsgtok.com/app/alerts'
-		          },
-		          click_action: 'https://beta.letsgtok.com/app/alerts'
-		        });
+						messaging.setBackgroundMessageHandler(function(payload) {
+			        return registration.showNotification('Lets Gtok', {
+			          body: 'You received new alerts',
+			          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
+			          vibrate: [200, 100, 200, 100, 200, 100, 200],
+			          tag: 'lets-gtok',
+			          data: {
+			          	url: 'https://beta.letsgtok.com/app/alerts'
+			          },
+			          click_action: 'https://beta.letsgtok.com/app/alerts',
+			          fcm_options: {
+			          	link: 'https://beta.letsgtok.com/app/alerts'
+			          }
+			        });
+						});
 	      	}
 	      	if (newMessagesCount > 0) {
-		        registration.showNotification('Lets Gtok', {
-		          body: 'You received a new messages',
-		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
-		          vibrate: [200, 100, 200, 100, 200, 100, 200],
-		          tag: 'lets-gtok',
-		          data: {
-		          	url: 'https://beta.letsgtok.com/app/chats'
-		          },
-		          click_action: 'https://beta.letsgtok.com/app/chats'
-		        });
+						messaging.setBackgroundMessageHandler(function(payload) {
+			        return registration.showNotification('Lets Gtok', {
+			          body: 'You received a new messages',
+			          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
+			          vibrate: [200, 100, 200, 100, 200, 100, 200],
+			          tag: 'lets-gtok',
+			          data: {
+			          	url: 'https://beta.letsgtok.com/app/chats'
+			          },
+			          fcm_options: {
+			          	link: 'https://beta.letsgtok.com/app/chats'
+			          },
+			          click_action: 'https://beta.letsgtok.com/app/chats'
+			        });
+						});
 	      	}
-	      	let dayInMs = 1000*60*60*24;
-	      	setInterval(() => {
-		        registration.showNotification('Lets Gtok', {
-		          body: 'See your friends experience at Gtok.',
-		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
-		          vibrate: [200, 100, 200, 100, 200, 100, 200],
-		          tag: 'lets-gtok',
-		          data: {
-		          	url: 'https://beta.letsgtok.com'
-		          },
-		          click_action: 'https://beta.letsgtok.com'
-		        });
-	      	}, dayInMs);
 	      });
 	    }
-	  });
-	  window.addEventListener('notificationclick', (e) => {
-	  	// Referecne: https://stackoverflow.com/questions/39418545/chrome-push-notification-how-to-open-url-adress-after-click
 	  });
 	}, [newAlertsCount, newMessagesCount]);
 

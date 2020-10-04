@@ -22,6 +22,8 @@ const config = {
 export const auth = firebase.auth();
 export const storage = firebase.storage();
 export const firestore = fb.firestore();
+export const messaging = firebase.messaging();
+
 
 export const initFirebaseUser = () => {
 	/*

@@ -9,7 +9,6 @@ import { validateEmail } from "helpers";
 const SignupComponent = () => {
   const [ name, setName ] = useState("");
   const [ dob, setDob ] = useState("");
-  const [ dateType, setDateType ] = useState("text");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ cpassword, setCpassword ] = useState("");
@@ -99,57 +98,70 @@ const SignupComponent = () => {
   }*/
 
   return (
-    <div className="App">
+    <div className="container">
     	<StaticHeaderComponent />
-    	<div className="mt-5 pt-3">
-		    <h4>Signup</h4>
-		    <div className="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
-      {error ? <div className="alert alert-danger">{error}</div> : ''}
-	      <div className="form pt-4">
-	        <input
-	          value={name}
-	          onChange={e => setName(e.target.value)}
-	          name="name"
-	          type="text"
-	          className="form-input"
-	          placeholder="Enter your name"
-	        />
-	        <input
-	          onChange={e => setDob(e.target.value)}
-	          onFocus={e => setDateType("date")}
-	          onBlur={e => setDateType("text")}
-	          name="dob"
-	          value={dob}
-	          type={dateType}
-	          className="form-input"
-	          placeholder="Date of birth"
-	          max="2003-01-01"
-	        />
-	        <input
-	          value={email}
-	          onChange={e => setEmail(e.target.value)}
-	          name="email"
-	          type="email"
-	          className="form-input"
-	          placeholder="Enter email"
-	        />
-	        <input
-	          onChange={e => setPassword(e.target.value)}
-	          name="password"
-	          value={password}
-	          type="password"
-	          className="form-input"
-	          placeholder="Enter password (must be atleast 6 letters)"
-	        />
-	        <input
-	          onChange={e => setCpassword(e.target.value)}
-	          name="cpassword"
-	          value={cpassword}
-	          type="password"
-	          className="form-input"
-	          placeholder="Re-enter password"
-	        />
-	        <br/>
+    	<div className="mt-5 pt-5">
+    		<div className="text-center">
+			    <h4>Signup</h4>
+			    <div className="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
+			  </div>
+	      <div className="signup-form">
+		    	<div className="form-group">
+		    		<label>Name</label>
+		        <input
+		          value={name}
+		          onChange={e => setName(e.target.value)}
+		          name="name"
+		          type="text"
+		          className="form-control"
+		          placeholder="Enter your name"
+		        />
+		    	</div>
+		    	<div className="form-group">
+		    		<label>Date of birth</label>
+		        <input
+		          onChange={e => setDob(e.target.value)}
+		          name="dob"
+		          value={dob}
+		          type="date"
+		          className="form-control"
+		          placeholder="Date of birth"
+		          max="2003-01-01"
+		        />
+		    	</div>
+		    	<div className="form-group">
+		    		<label>Email</label>
+		        <input
+		          value={email}
+		          onChange={e => setEmail(e.target.value)}
+		          name="email"
+		          type="email"
+		          className="form-control"
+		          placeholder="Enter email"
+		        />
+		    	</div>
+		    	<div className="form-group">
+		    		<label>Password</label>
+		        <input
+		          onChange={e => setPassword(e.target.value)}
+		          name="password"
+		          value={password}
+		          type="password"
+		          className="form-control"
+		          placeholder="Enter password (must be atleast 6 letters)"
+		        />
+		    	</div>
+		    	<div className="form-group">
+		    		<label>Re-enter Password</label>
+		        <input
+		          onChange={e => setCpassword(e.target.value)}
+		          name="cpassword"
+		          value={cpassword}
+		          type="password"
+		          className="form-control"
+		          placeholder="Re-enter password"
+		        />
+		    	</div>
 	      {/*
 					<div className="d-flex">
 						<div className="custom-switch mb-2">
@@ -164,15 +176,16 @@ const SignupComponent = () => {
 						<div className="custom-switch mb-2">
 						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
 						  <label className="custom-control-label" htmlFor="emailUpdates">
-						  	<small>Would like to get email notifications.</small>
+						  	<small className="fs-15">Would like to get email notifications.</small>
 						  </label>
 						</div>
 					</div>
 				  <div className="text-center">
+		      	{error ? <small className="text-danger">{error}</small> : ''} <br/><br/>
 					  <button className="btn btn-secondary btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+						<br/><br/>
+		        <Link to="/login">Existing User? Login</Link>
 				  </div>
-					<br/>
-	        <Link to="/login">Existing User? Login</Link>
 	      </div>
 	    </div>
     <br/>

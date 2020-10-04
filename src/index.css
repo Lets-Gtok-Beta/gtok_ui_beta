@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playball&family=Poppins&display=swap');
 
 * {
-  font-family: 'Roboto', sans-serif;	
+  /*font-family: 'Roboto', sans-serif;	*/
 	/*font-family: 'Poppins', sans-serif;*/
 }
 
@@ -16,6 +16,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.font-poppins {
+	font-family: 'Poppins', sans-serif;
 }
 
 .App {
@@ -45,6 +49,10 @@ code {
 	font-size: 15px !important;
 }
 
+.fs-17 {
+	font-size: 17px !important;
+}
+
 .letter-spacing-2 {
 	letter-spacing: 0.05em;
 }
@@ -63,6 +71,10 @@ code {
 
 .text-grey {
 	color: #7f8fa6;
+}
+
+.text-native {
+	color: rgba(220, 53, 69, 1) !important;
 }
 
 .text-default {
@@ -259,6 +271,15 @@ button:active {
   padding: 0;
   margin: 0 5px;
   vertical-align: middle;
+}
+
+/* Signup page */
+.signup-form {
+	padding-top: 25px;
+}
+
+.signup-form label {
+	font-size: 13px;
 }
 
 .nav {
@@ -948,7 +969,7 @@ button:active {
 }
 
 .login-page-clipart {
-
+	font-family: 'Poppins' !important;
 }
 
 .login-page-clipart img {
