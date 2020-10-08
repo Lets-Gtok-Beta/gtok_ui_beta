@@ -88,6 +88,7 @@ function PublicProfileComponent(props) {
 						<h5 className="mb-0 mt-2">
 							{displayUser.displayName && capitalizeFirstLetter(displayUser.displayName)}
 						</h5>
+						{displayUser.bio && <span className="text-secondary">{displayUser.bio}</span>}
 						<span className="text-secondary font-small">
 							{singleUserRelations.length} follower{singleUserRelations.length !== 1 && "s"}
 						</span>

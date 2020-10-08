@@ -16,6 +16,7 @@ import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
 import { SetPosts, SetSharePost, SetUpdatedPost } from "store/actions";
 import { NotificationComponent } from "components";
+import { PostCategories } from "constants/categories";
 
 const DisplayPostComponent = ({
 	currentUser, post, bindPosts, hideSimilarityBtn=false, bindSharePost, hideShareBtn=false, hideRedirects=false, allUsers, bindUpdatedPost
@@ -81,6 +82,11 @@ const DisplayPostComponent = ({
   	}
   	await getUpdatedPost(post.id)
   	setFollowerLoading(false);
+	}
+
+	const selectCategory = (id) => {
+		let category = PostCategories.find(c => c.id === id);
+		return category.title;
 	}
 
 	const getUpdatedPost = async (id) => {
@@ -183,7 +189,7 @@ const DisplayPostComponent = ({
 			    <i className="fa fa-clock-o"></i>&nbsp;{moment(post.createdAt).fromNow()}
 			    </span>
 			    <span className="font-small ml-2" title="Post category">
-			    <i className="fa fa-tag"></i>&nbsp;{!!post.category ? post.category.title : "General"}
+			    <i className="fa fa-tag"></i>&nbsp;{selectCategory(post.categoryId)}
 			    </span>
 			  </div>
 		  </div>

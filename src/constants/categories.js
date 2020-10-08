@@ -1,75 +1,173 @@
 export const PostCategories = [
 	{
 		title: "Arts & Design",
-		key: "arts_design"
+		key: "arts_design",
+		id: 0
 	},
 	{
 		title: "Business",
-		key: "business"
+		key: "business",
+		id: 1
 	},
 	{
 		title: "Craziness",
-		key: "craziness"
+		key: "craziness",
+		id: 2
 	},
 	{
-		title: "Current activity (What you're doing right now)",
-		key: "current_activity"
+		title: "Current activity/feeling",
+		key: "current_activity",
+		id: 3
 	},
 	{
 		title: "Dance",
-		key: "dance"
+		key: "dance",
+		id: 4
 	},
 	{
 		title: "Dreams/Goals",
-		key: "dreams"
+		key: "dreams",
+		id: 5
 	},
 	{
 		title: "Facts",
-		key: "facts"
+		key: "facts",
+		id: 6
 	},
 	{
 		title: "Fashion & Lifestyle",
-		key: "fashion_lifestyle"
+		key: "fashion_lifestyle",
+		id: 7
 	},
 	{
 		title: "Favorite songs",
-		key: "favorite_songs"
+		key: "favorite_songs",
+		id: 8
 	},
 	{
 		title: "Food habits",
-		key: "food_habits"
+		key: "food_habits",
+		id: 9
 	},
 	{
 		title: "General",
-		key: "general"
+		key: "general",
+		id: 10
 	},
 	{
 		title: "Innovative ideas",
-		key: "innovative_ideas"
+		key: "innovative_ideas",
+		id: 11
 	},
 	{
 		title: "Music",
-		key: "music"
+		key: "music",
+		id: 12
 	},
 	{
 		title: "Motivation",
-		key: "motivation"
+		key: "motivation",
+		id: 13
 	},
 	{
 		title: "Pet lovers",
-		key: "pet_lovers"
+		key: "pet_lovers",
+		id: 14
 	},
 	{
 		title: "Thoughts",
-		key: "random_thoughts"
+		key: "random_thoughts",
+		id: 15
+	},
+	{
+		title: "Spiritual",
+		key: "spiritual",
+		id: 16
 	},
 	{
 		title: "Sports",
-		key: "sports"
+		key: "sports",
+		id: 17
 	},
 	{
 		title: "Writings/Poetry",
-		key: "writings"
+		key: "writings",
+		id: 18
+	}
+]
+
+export const InterestedCategories = [
+	{
+		label: "Arts & Design",
+		value: "arts_design"
+	},
+	{
+		label: "Business",
+		value: "business"
+	},
+	{
+		label: "Craziness",
+		value: "craziness"
+	},
+	{
+		label: "Current activities",
+		value: "current_activity"
+	},
+	{
+		label: "Dance",
+		value: "dance"
+	},
+	{
+		label: "Dreams/Goals",
+		value: "dreams"
+	},
+	{
+		label: "Facts",
+		value: "facts"
+	},
+	{
+		label: "Fashion & Lifestyle",
+		value: "fashion_lifestyle"
+	},
+	{
+		label: "Favorite songs",
+		value: "favorite_songs"
+	},
+	{
+		label: "Food habits",
+		value: "food_habits"
+	},
+	{
+		label: "General",
+		value: "general"
+	},
+	{
+		label: "Innovative ideas",
+		value: "innovative_ideas"
+	},
+	{
+		label: "Music",
+		value: "music"
+	},
+	{
+		label: "Motivation",
+		value: "motivation"
+	},
+	{
+		label: "Pet lovers",
+		value: "pet_lovers"
+	},
+	{
+		label: "Thoughts",
+		value: "random_thoughts"
+	},
+	{
+		label: "Sports",
+		value: "sports"
+	},
+	{
+		label: "Writings/Poetry",
+		value: "writings"
 	}
 ]
 

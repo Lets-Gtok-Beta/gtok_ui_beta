@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+import MultiSelect from "react-multi-select-component";
 
 import { 
 	NotificationComponent,
@@ -13,13 +14,17 @@ import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
 import { SetSelectedUserPosts, SetUserRelations } from "store/actions";
+import { InterestedCategories } from "constants/categories";
 
 function PrivateProfileComponent({
 	user, currentUser, dbUser, bindLoggedIn, bindUser, bindDbUser, bindPosts, selectedUserPosts, singleUserRelations, bindUserRelations
 }) {
 	const defaultImage = gtokFavicon;
+	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(dbUser.displayName);
 	const [profileUrl, setProfileUrl] = useState(dbUser.photoURL || defaultImage);
+	const [bio, setBio] = useState(dbUser.bio || "");
+	const [selected, setSelected] = useState(dbUser.interestedTopics || []);
 	const [btnUpload, setBtnUpload] = useState('Upload');
 	const [btnSave, setBtnSave] = useState("");
 	// const [btnDelete, setBtnDelete] = useState('Delete Account');
@@ -39,14 +44,13 @@ function PrivateProfileComponent({
 
   const handleChange = async (key, value) => {
   	if (key === "name") { 
-  		setName(value); 
-	  	if (dbUser.displayName !== (value && value.trim())) setBtnSave(key);
-	  	else setBtnSave("");
+  		setName(value);
   	}
   }
 
   const saveDetails = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!name || !name.trim()) {
     	alert("Display name is mandatory");
     	return null;
@@ -57,6 +61,7 @@ function PrivateProfileComponent({
     	data = Object.assign(data, { photoURL: profileUrl })
     	setBtnUpload("Upload");
     }
+    data = Object.assign(data, {interestedTopics: selected, bio});
     await updateDbUser(data);
 		/* Log the activity */
   	await add("logs", {
@@ -71,6 +76,7 @@ function PrivateProfileComponent({
   		timestamp
   	});
     setBtnSave("");
+    setLoading(false);
   };
 
   const updateDbUser = async (data) => {
@@ -217,7 +223,6 @@ function PrivateProfileComponent({
 					    <label htmlFor="userName" className="col-sm-4 col-form-label">Name</label>
 					    <div className="col-sm-8">
 					      <input type="text" className="form-input" id="userName" value={name} placeholder="Display name" onChange={e => handleChange("name", e.target.value)} />
-					      {btnSave==="name" && updateElements()}
 					    </div>
 					  </div>
 						<div className="form-group row">
@@ -233,6 +238,36 @@ function PrivateProfileComponent({
 				    		<i className={`fa fa-${ user && user.emailVerified ? 'check text-success':'times text-danger'}`}  data-container="body" data-toggle="popover" data-placement="top" data-content={`${user.emailVerified ? "Verified" : "Not verified"}`}></i>
 					    </div>
 					  </div>
+						<div className="form-group row">
+					    <label htmlFor="staticEmail" className="col-sm-4 col-form-label">Interested topics</label>
+					    <div className="col-sm-8">
+					    	<MultiSelect
+					    		options={InterestedCategories}
+					    		value={selected}
+					    		onChange={setSelected}
+					    		labelledBy={"select"}
+					    	/>
+					    </div>
+					  </div>
+						<div className="form-group row">
+					    <label htmlFor="userName" className="col-sm-4 col-form-label">
+					    	Bio
+					    </label>
+					    <div className="col-sm-8">
+					    	<textarea className="form-control" placeholder="Add your intro here" onChange={e => setBio(e.target.value)}></textarea>
+					    </div>
+					  </div>
+			  		<div className="text-center">
+				    	{
+				    		result.status && 
+				    		<div className={`text-${result.status === 200 ? "success" : "danger"} mb-2`}>
+						    	{result.message}
+				    		</div>
+				    	}
+		  				<button className="btn btn-sm btn-outline-secondary" onClick={saveDetails}>
+								Save {loading &&<i className="fa fa-spinner fa-spin"></i>}
+							</button>
+						</div>
 					  { dbUser.admin && 
 							<div className="form-group row">
 						    <label htmlFor="verified" className="col-sm-2 col-form-label">Admin</label>

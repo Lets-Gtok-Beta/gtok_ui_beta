@@ -47,7 +47,8 @@ const CreatePostComponent = (props) => {
 		if (sharePostId) {
 			let postData = {
 				text: postText.trim(),
-				category: PostCategories.find(c => c.title === category)
+				category: PostCategories.find(c => c.title === category),
+				categoryId: PostCategories.find(c => c.title === category).id
 			}
 			result = await update("posts", sharePostId, postData);
 			postData = Object.assign(postData, {id: sharePostId});
@@ -60,6 +61,7 @@ const CreatePostComponent = (props) => {
 				followers: [],
 				followersCount: 0,
 				category: PostCategories.find(c => c.title === category),
+				categoryId: PostCategories.find(c => c.title === category).id,
 				timestamp
 			}
 			result = await add("posts", postData);
@@ -178,7 +180,7 @@ const CreatePostComponent = (props) => {
 							</p>
 	    			</div>
 	    		</div>
-	    	</div>		    
+	    	</div>
 	  	</div>
 		</div>
   );

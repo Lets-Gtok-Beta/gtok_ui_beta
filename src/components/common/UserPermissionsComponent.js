@@ -31,7 +31,7 @@ const UserPermissionsComponent = ({
 	      navigator.serviceWorker.ready.then(function(registration) {
 	      	if (newAlertsCount > 0) {
 						messaging.setBackgroundMessageHandler(function(payload) {
-			        return registration.showNotification('Lets Gtok', {
+			        registration.showNotification('Lets Gtok', {
 			          body: 'You received new alerts',
 			          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
 			          vibrate: [200, 100, 200, 100, 200, 100, 200],
@@ -48,7 +48,7 @@ const UserPermissionsComponent = ({
 	      	}
 	      	if (newMessagesCount > 0) {
 						messaging.setBackgroundMessageHandler(function(payload) {
-			        return registration.showNotification('Lets Gtok', {
+			        registration.showNotification('Lets Gtok', {
 			          body: 'You received a new messages',
 			          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
 			          vibrate: [200, 100, 200, 100, 200, 100, 200],
