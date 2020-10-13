@@ -75,7 +75,7 @@ export const PostCategories = [
 		id: 14
 	},
 	{
-		title: "Thoughts",
+		title: "Thoughts/Opinions",
 		key: "random_thoughts",
 		id: 15
 	},
