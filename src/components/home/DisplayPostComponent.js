@@ -10,6 +10,7 @@ import {
 	getId,
 	update,
 	remove,
+	removeFile,
 	timestamp
 } from "firebase_config";
 import { gtokFavicon } from "images";
@@ -98,6 +99,9 @@ const DisplayPostComponent = ({
 	const deletePost = async (id) => {
 		if (id && window.confirm("Are you sure to delete this post?")) {
 			let result = await remove("posts", id);
+			if (post.fileUrl) {
+				await removeFile(post.fileUrl);
+			}
   		/* Log the activity */
 	  	await add("logs", {
 	  		text: `${currentUser.displayName} removed the post`,
