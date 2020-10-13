@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { add, update, timestamp } from "firebase_config";
-import { 
+import { add, update, timestamp, uploadFile, removeFile } from "firebase_config";
+import{
 	NotificationComponent
 } from "components";
 import { PostCategories } from "constants/categories";
@@ -15,12 +15,17 @@ const CreatePostComponent = (props) => {
 	let sharePostText = (props.history.location.state && props.history.location.state.sharePostText) || "";
 	let sharePostCategory = (props.history.location.state && props.history.location.state.sharePostCategory && props.history.location.state.sharePostCategory.title) || "";
 	let sharePostId = (props.history.location.state && props.history.location.state.sharePostId) || "";
+	let sharePostAudioUrl = (props.history.location.state && props.history.location.state.sharePostAudioUrl) || "";
+
 	const { currentUser, bindNewPost } = props;
 	const [ charCount, setCharCount ] = useState(500-sharePostText.length);
 	const [ postText, setPostText ] = useState(sharePostText);
 	const [ category, setCategory ] = useState(sharePostCategory);
 	const [ postBtn, setPostBtn ] = useState("Post");
 	const [ result, setResult ] = useState({});
+	const [fileUrl, setFileUrl] = useState(sharePostAudioUrl);
+	const [btnUpload, setBtnUpload] = useState("Upload");
+
 
 	const handleChange = (key, val) => {
 		if (key === "post") {
@@ -48,7 +53,8 @@ const CreatePostComponent = (props) => {
 			let postData = {
 				text: postText.trim(),
 				category: PostCategories.find(c => c.title === category),
-				categoryId: PostCategories.find(c => c.title === category).id
+				categoryId: PostCategories.find(c => c.title === category).id,
+				fileUrl
 			}
 			result = await update("posts", sharePostId, postData);
 			postData = Object.assign(postData, {id: sharePostId});
@@ -62,6 +68,7 @@ const CreatePostComponent = (props) => {
 				followersCount: 0,
 				category: PostCategories.find(c => c.title === category),
 				categoryId: PostCategories.find(c => c.title === category).id,
+				fileUrl,
 				timestamp
 			}
 			result = await add("posts", postData);
@@ -90,6 +97,30 @@ const CreatePostComponent = (props) => {
 	const cancelPost = () => {
 		props.history.push("/app/posts");
 	}
+
+  const uploadAudio = async (file) => {
+  	if (!file) {
+  		setResult({
+  			status: 400,
+  			message: 'A new audio required'
+  		});
+  		return null;
+  	}
+  	await uploadFile({
+  		type: "audio",
+  		file,
+  		setBtnUpload,
+  		setResult,
+  		setFileUrl
+  	});
+  }
+
+  const deleteFile = async () => {
+  	if (window.confirm("Are you sure to remove audio clip?")) {		
+	  	await removeFile(fileUrl);
+	  	setFileUrl("");
+  	}
+  }
 
   return (
     <div className="container">
@@ -135,6 +166,27 @@ const CreatePostComponent = (props) => {
 		      	</div>
 		      	<div className="create-post">
 				    	<textarea className="post-textbox font-xs-small" rows={5} placeholder="Start typing here.. Ex: Love BBQ, BMW is my favorite car..." maxLength="500" onChange={e => handleChange("post", e.target.value)} value={postText}></textarea>
+							<div className="p-2 text-secondary text-center">
+								<label htmlFor="staticAudioFile">
+					    	{
+					    		btnUpload === "Upload" ? 
+					    			fileUrl ?
+						    		<div className="profile-pic-section">
+							    		<audio src={fileUrl} controls controlsList="nodownload"></audio>
+							    		<br/>
+											<span className="btn-link btn-sm font-xs-small" onClick={deleteFile}>
+												Remove audio
+											</span>
+										</div> :
+										<div>
+											<i className="fa fa-plus-circle"></i> &nbsp;
+											<span className="font-small">Upload your experience as an audio clip</span>
+										</div>
+									: <div className="font-small"><i className="fa fa-spinner fa-spin"></i> {btnUpload !== "Upload" && btnUpload}</div>
+					    	}
+					    	</label>
+					      <input type="file" className="form-control-plaintext d-none" id="staticAudioFile" onChange={e => uploadAudio(e.target.files[0])} accept="audio/*" />
+						  </div>
 							<div className="input-group px-1">
 							  <div className="input-group-prepend">
 							    <label className="input-group-text font-small" htmlFor="inputGroupSelect01">

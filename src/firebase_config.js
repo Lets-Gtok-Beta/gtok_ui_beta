@@ -171,11 +171,14 @@ export const removeProfile = () => {
 		.catch(err => formatResult(500, err.message))
 }
 
-export const uploadImage = ({
-	file, setResult, setBtnUpload, setProfileUrl
+export const uploadFile = ({
+	file, setResult, setBtnUpload, setFileUrl, type
 }) => {
 	let storageRef = storage.ref();
 	let imageRef = storageRef.child("avatars/" + file.name);
+	if (type === "audio") {
+		imageRef = storageRef.child("audios/" + file.name);
+	}
 	let metadata = {
 		contentType: file.type,
 		contentSize: file.size
@@ -184,7 +187,7 @@ export const uploadImage = ({
 	uploadTask.on( "state_changed",
 		(snapshot) => {
 			let progress =
-				(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
 			setBtnUpload(progress + "%");
 			switch (snapshot.state) {
 				case "paused":
@@ -218,14 +221,14 @@ export const uploadImage = ({
 		},
 		(res) => {
 			uploadTask.snapshot.ref.getDownloadURL().then((downloadUrl) => {
-				setProfileUrl(downloadUrl);
+				setFileUrl(downloadUrl);
 				setBtnUpload('Upload');
 			});
 		}
 	);
 }
 
-export const removeImage = (imageUrl) => {
+export const removeFile = (imageUrl) => {
 	let imageRef = storage.refFromURL(imageUrl);
 	return imageRef.delete()
 		.then(suc => formatResult(200, "Deleted successfully"))

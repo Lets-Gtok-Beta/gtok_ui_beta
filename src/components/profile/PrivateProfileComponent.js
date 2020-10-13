@@ -9,7 +9,7 @@ import {
 	DisplayPostComponent,
 	SettingsComponent
 } from "components";
-import { add, update, uploadImage, timestamp } from "firebase_config";
+import { add, update, uploadFile, timestamp } from "firebase_config";
 import { SetUser, SetLoggedIn, SetDbUser } from "store/actions";
 import { gtokFavicon } from "images";
 import { capitalizeFirstLetter } from "helpers";
@@ -22,7 +22,7 @@ function PrivateProfileComponent({
 	const defaultImage = gtokFavicon;
 	const [loading, setLoading] = useState(false);
 	const [name, setName] = useState(dbUser.displayName);
-	const [profileUrl, setProfileUrl] = useState(dbUser.photoURL || defaultImage);
+	const [fileUrl, setFileUrl] = useState(dbUser.photoURL || defaultImage);
 	const [bio, setBio] = useState(dbUser.bio || "");
 	const [selected, setSelected] = useState(dbUser.interestedTopics || []);
 	const [btnUpload, setBtnUpload] = useState('Upload');
@@ -57,8 +57,8 @@ function PrivateProfileComponent({
     }
     let data = {}
     if (name) { data = Object.assign(data, { displayName: name.toLowerCase().trim() })}
-    if (profileUrl) {
-    	data = Object.assign(data, { photoURL: profileUrl })
+    if (fileUrl) {
+    	data = Object.assign(data, { photoURL: fileUrl })
     	setBtnUpload("Upload");
     }
     data = Object.assign(data, {interestedTopics: selected, bio});
@@ -89,11 +89,11 @@ function PrivateProfileComponent({
 
   const undoDetails = () => {
   	setName(dbUser.displayName);
-  	setProfileUrl(dbUser.photoURL);
+  	setFileUrl(dbUser.photoURL);
   	setBtnSave("");
   }
 
-  const uploadFile = async (file) => {
+  const uploadImage = async (file) => {
   	if (!file) {
   		setResult({
   			status: 400,
@@ -102,8 +102,8 @@ function PrivateProfileComponent({
   		return null;
   	}
     setBtnSave("image");
-  	await uploadImage({
-  		file, setBtnUpload, setResult, setProfileUrl
+  	await uploadFile({
+  		file, setBtnUpload, setResult, setFileUrl
   	});
 		/* Log the activity */
   	await add("logs", {
@@ -119,10 +119,10 @@ function PrivateProfileComponent({
   	});
   }
 
-  const deleteFile = async () => {
+  const deleteImage = async () => {
   	if (window.confirm("Are you sure you want to remove profile image?")) {		
   		/* Don't remove source image. Affects in chats & alerts */
-	  	// await removeImage(profileUrl);
+	  	// await removeImage(fileUrl);
 			/* Log the activity */
 	  	await add("logs", {
 	  		text: `${dbUser.displayName} removed profile image`,
@@ -135,7 +135,7 @@ function PrivateProfileComponent({
 	  		actionKey: "photoURL",
 	  		timestamp
 	  	});
-	  	setProfileUrl(defaultImage);
+	  	setFileUrl(defaultImage);
 	    await updateDbUser({ photoURL: defaultImage });
   	}
   }
@@ -165,7 +165,7 @@ function PrivateProfileComponent({
 			    		btnUpload === "Upload" ? 
 			    		<div className="profile-pic-section">
 				    		<img 
-									src={profileUrl} 
+									src={fileUrl} 
 									alt="dp" 
 									className="profilePic"
 								/>
@@ -175,7 +175,7 @@ function PrivateProfileComponent({
 							</div> : <div className="profilePic text-center"><i className="fa fa-spinner fa-spin"></i></div>
 			    	}
 					</label>
-					<span className={`icon-bg-dark ${defaultImage === profileUrl ? 'd-none' : ''}`} onClick={deleteFile} title="Delete image">
+					<span className={`icon-bg-dark ${defaultImage === fileUrl ? 'd-none' : ''}`} onClick={deleteImage} title="Delete image">
 						<i className="fa fa-trash"></i>
 					</span>
 					{btnSave==="image" && updateElements()}
@@ -278,7 +278,7 @@ function PrivateProfileComponent({
 					  }
 						<div className="form-group row">
 					    <div className="col-sm-4">
-					      <input type="file" className="form-control-plaintext d-none" id="staticImage" onChange={e => uploadFile(e.target.files[0])} accept="image/*" />
+					      <input type="file" className="form-control-plaintext d-none" id="staticImage" onChange={e => uploadImage(e.target.files[0])} accept="image/*" />
 					    </div>
 					  </div>
 					</div>

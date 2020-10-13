@@ -136,6 +136,17 @@ code {
 	box-shadow: 0 0 1px 1px rgba(50, 50, 50, 0.1);
 }
 
+/* Audio controls */
+audio {
+  filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%);
+  height: 45px;
+  outline: none !important;
+}
+
+audio::-internal-media-controls-download-button { 
+  display:none; 
+}
+
 /* Radio group */
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
@@ -1045,6 +1056,10 @@ button:active {
 }
 
 @media (max-width: 575px) {
+	audio {
+  	width: 85vw !important;
+	}
+
 	.font-xs-small {
 		font-size: small !important;
 	}
@@ -1137,11 +1152,18 @@ button:active {
 }
 
 @media (min-width: 576px) {
+	audio {
+  	width: 80vw !important;
+	}
 }
 
 @media (min-width: 768px) {
 	.modal .modal-dialog {
 		max-width: 80% !important;
+	}
+
+	audio {
+  	width: 25vw !important;
 	}
 }
 

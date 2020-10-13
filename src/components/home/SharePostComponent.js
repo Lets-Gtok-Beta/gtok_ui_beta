@@ -37,7 +37,7 @@ const SharePostComponent = (props) => {
 	return sharePost && sharePost.id ? (
 		<div className="container">
 	  	<div className="row">
-	    	<div className="col-xs-12 col-md-9">
+	    	<div className="col-xs-12 col-md-9 px-0">
 					<div className="container pt-3">
 			    	{copied && copiedLinkAlert() }
 						{result.status && <NotificationComponent result={result} setResult={setResult}/>}

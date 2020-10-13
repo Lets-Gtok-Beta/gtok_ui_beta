@@ -155,7 +155,8 @@ const DisplayPostComponent = ({
   		state: {
   			sharePostText: post.text,
   			sharePostCategory: post.category,
-  			sharePostId: post.id
+  			sharePostId: post.id,
+  			sharePostAudioUrl: post.fileUrl
   		}
   	});
 	}
@@ -195,6 +196,9 @@ const DisplayPostComponent = ({
 		  </div>
 		  <div className="card-body text-center">
 		  	<p className="white-space-preline">{post.text}</p>
+  			{ post.fileUrl &&
+	    		<audio src={post.fileUrl} controls controlsList="nodownload"></audio>
+				}
 		  	<div>
 				  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={listenPost}>
 				  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
