@@ -76,7 +76,7 @@ class HomeComponent extends Component {
 
 	loadMorePosts = async (last) => {
     if (
-    	window.innerHeight + document.documentElement.scrollTop === document.scrollingElement.scrollHeight
+    	window.innerHeight + document.documentElement.scrollTop >= document.scrollingElement.scrollHeight
     ) {
     	this.setState({loading: true});
 			let posts = await getQuery(
