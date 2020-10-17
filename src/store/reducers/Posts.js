@@ -45,12 +45,15 @@ const Posts = (state=INITIAL_STATE, action) => {
 		case SET_NEW_POST: {
 			if (payload.newPost.id) {
 				let pst = state.posts.find(p => p.id === payload.newPost.id);
-				pst = Object.assign(pst, payload.newPost);
-				let psts = state.posts.filter(p => p.id !== payload.newPost.id);
-				return {
-					...state,
-					posts: [pst, ...psts]
+				if (!!pst) {
+					pst = Object.assign(pst, payload.newPost);
+					let psts = state.posts.filter(p => p.id !== payload.newPost.id);
+					return {
+						...state,
+						posts: [pst, ...psts]
+					}
 				}
+				return { ...state }
 			} else {
 				return {
 					...state,

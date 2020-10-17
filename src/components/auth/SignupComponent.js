@@ -16,16 +16,17 @@ const SignupComponent = () => {
   const [ emailUpdates, setEmailUpdates ] = useState(true);
 	const [ btnSave, setBtnSave ] = useState("Submit");
   const [ error, setErrors ] = useState("");
+  const [eyeIcon, setEyeIcon] = useState("fa-eye");
   const history = useHistory();
 
   const handleForm = async (e) => {
     e.preventDefault();
     if (!name || !name.trim()) {
-    	setErrors("Please enter your name");
+    	setErrors("Name is mandatory");
     	return;
     }
     if (!dob) {
-    	setErrors("Please enter your Date of birth");
+    	setErrors("Date of Birth is mandatory");
     	return;
     }
     if (dob && (moment().diff(dob, 'years', false) < 18)) {
@@ -33,23 +34,23 @@ const SignupComponent = () => {
     	return;
     }
     if (!email || !email.trim()) {
-    	setErrors("Please enter your email");
+    	setErrors("Email is mandatory");
     	return;
     }
     if (email && !validateEmail(email)) {
-    	setErrors("Please enter a valid email");
+    	setErrors("Enter a valid email");
     	return;
     }
     if (!password || !password.trim()) {
-    	setErrors("Please enter a password");
+    	setErrors("Password is mandatory");
     	return;
     }
     if (!cpassword || !cpassword.trim()) {
-    	setErrors("Please re-enter password");
+    	setErrors("Re-enter your password");
     	return;
     }
     if (password !== cpassword) {
-    	setErrors("Password & confirm password must be same");
+    	setErrors("Password & Re-enter password must match");
     	return;
     }
     // if (!tnc) {
@@ -86,6 +87,17 @@ const SignupComponent = () => {
   	history.push("/");
   };
 
+  const showPassword = () => {
+  	let input = document.getElementById("signupPass");
+  	if (input.type === "password") {
+  		setEyeIcon("fa-eye-slash");
+  		input.type = "text";
+  	} else {
+  		setEyeIcon("fa-eye");
+  		input.type = "password"
+  	}
+  }
+
 	/*
   const handleGoogleLogin = async () => {
     let result = await googleSignup();
@@ -101,8 +113,8 @@ const SignupComponent = () => {
     <div className="container">
     	<StaticHeaderComponent />
     	<div className="mt-5 pt-5">
-    		<div className="text-center">
-			    <h4>Signup</h4>
+    		<div className="signup-form mb-3">
+			    <h5>Signup</h5>
 			    <div className="text-secondary">Lets Gtok is in Beta stage. As a Beta app user, you can use our app with limited features.</div>
 			  </div>
 	      <div className="signup-form">
@@ -140,7 +152,7 @@ const SignupComponent = () => {
 		          placeholder="Enter email"
 		        />
 		    	</div>
-		    	<div className="form-group">
+		    	<div className="form-group input-password">
 		    		<label>Password</label>
 		        <input
 		          onChange={e => setPassword(e.target.value)}
@@ -148,8 +160,10 @@ const SignupComponent = () => {
 		          value={password}
 		          type="password"
 		          className="form-control"
+		          id="signupPass"
 		          placeholder="Enter password (must be atleast 6 letters)"
 		        />
+		    		<i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
 		    	</div>
 		    	<div className="form-group">
 		    		<label>Re-enter Password</label>
@@ -172,20 +186,21 @@ const SignupComponent = () => {
 						</div>
 					</div>
 				*/}
-					<div className="d-flex">
+					<div className="d-flex align-items-center">
 						<div className="custom-switch mb-2">
 						  <input type="checkbox" className="custom-control-input" id="emailUpdates" name="emailUpdates" onChange={e => setEmailUpdates(!emailUpdates)} checked={emailUpdates} />
 						  <label className="custom-control-label" htmlFor="emailUpdates">
-						  	<small className="fs-15">Would like to get email notifications.</small>
+						  	Would like to get email notifications.
 						  </label>
 						</div>
 					</div>
-				  <div className="text-center">
-		      	{error ? <small className="text-danger">{error}</small> : ''} <br/><br/>
-					  <button className="btn btn-secondary btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
-						<br/><br/>
+	      	{error && <div className="text-danger fw-900"><br/><i className="fa fa-info-circle"></i>&nbsp;{error}</div>}
+	      	<div className="d-flex align-items-center">
+	      		<div className="flex-grow-1">
+						  <button className="btn btn-submit btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+						</div>
 		        <Link to="/login">Existing User? Login</Link>
-				  </div>
+		      </div>
 	      </div>
 	    </div>
     <br/>

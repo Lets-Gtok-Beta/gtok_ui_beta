@@ -24,8 +24,8 @@ code {
 
 .App {
   font-family: sans-serif;
-  text-align: center;
-  padding: 50px;
+  /*text-align: center;*/
+  padding: 20px;
 }
 
 .form {
@@ -100,6 +100,10 @@ code {
 	color: #fff;
 	font-size: 14px;
 	padding: 5px 10px;
+}
+
+.fw-900 {
+	font-weight: 900 !important;
 }
 
 /* Sort options */
@@ -286,11 +290,83 @@ button:active {
 
 /* Signup page */
 .signup-form {
-	padding-top: 25px;
+	font-size: 13px;
 }
 
-.signup-form label {
+.signup-form input {
+	border-radius: 0px;
 	font-size: 13px;
+	box-shadow: none !important;
+}
+
+.signup-form .input-password {
+	position: relative;
+}
+
+.signup-form .input-password .show-password {
+	position: absolute;
+	top: 36px;
+	right: 10px;
+	font-size: 17px;
+}
+
+.signup-form .btn-submit {
+	border: 1px solid;
+	border-radius: 0px;
+	min-height: 7vh;
+  min-width: 35vw;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+.signup-form a {
+	font-size: 14px;
+}
+
+/* Login page */
+.login-form {
+	padding-top: 25px;
+	text-align: left;
+}
+
+.login-form label {
+	font-size: 13px;
+}
+
+.login-form input {
+	border-radius: 0px;
+	font-size: 13px;
+	box-shadow: none !important;
+}
+
+.login-form .input-password {
+	position: relative;
+}
+
+.login-form .input-password .show-password {
+	position: absolute;
+	top: 37px;
+	right: 10px;
+	font-size: 17px;
+}
+
+.login-form .btn-submit {
+	border: 1px solid;
+	border-radius: 0px;
+	min-height: 7vh;
+  min-width: 35vw;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  transition: ease-in-out .25s;
+}
+
+.login-form .btn-submit:hover {
+	color: white;
+	background-color: black;
+}
+
+.login-form a {
+	font-size: 14px;
 }
 
 .nav {
@@ -981,6 +1057,7 @@ button:active {
 
 .login-page-clipart {
 	font-family: 'Poppins' !important;
+	text-align: center;
 }
 
 .login-page-clipart img {
@@ -1158,12 +1235,21 @@ button:active {
 }
 
 @media (min-width: 768px) {
+	.App {
+		padding: 50px;
+	}
+
 	.modal .modal-dialog {
 		max-width: 80% !important;
 	}
 
 	audio {
   	width: 25vw !important;
+	}
+
+	.btn-submit {
+		min-width: 12vw !important;
+		min-height: 6vh !important;
 	}
 }
 

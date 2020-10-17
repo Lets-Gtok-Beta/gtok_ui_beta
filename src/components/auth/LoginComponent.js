@@ -11,6 +11,7 @@ const LoginComponent = ({bindReload}) => {
   const [password, setPassword] = useState("");
 	const [btnSave, setBtnSave] = useState("Submit");
   const [error, setErrors] = useState("");
+  const [eyeIcon, setEyeIcon] = useState("fa-eye");
   const history = useHistory();
   const routes = [];
 
@@ -34,6 +35,17 @@ const LoginComponent = ({bindReload}) => {
   	history.push("/app/home");
   };
 
+  const showPassword = () => {
+  	let input = document.getElementById("loginPass");
+  	if (input.type === "password") {
+  		setEyeIcon("fa-eye-slash");
+  		input.type = "text";
+  	} else {
+  		setEyeIcon("fa-eye");
+  		input.type = "password"
+  	}
+  }
+
 /*
  	const signInWithGoogle = async () => {
 	  let result = await googleSignin();
@@ -48,38 +60,48 @@ const LoginComponent = ({bindReload}) => {
   return (
     <div className="App" onKeyDown={e => handleKeyDown(e)}>
     	<StaticHeaderComponent routes={routes} />
-    	<div className="row">
+    	<div className="row login-form">
 	    	<div className="mt-5 pt-3 col-xs-12 col-md-6">
-		      <h4>Login</h4>
-		      {error ? <div className="alert alert-danger">{error}</div> : ''}
-		      <div className="form">
-		        <input
-		          value={email}
-		          onChange={e => setEmail(e.target.value)}
-		          name="email"
-		          type="email"
-		          className="form-input"
-		          placeholder="Enter email"
-		          autoFocus={true}
-		        />
-		        <input
-		          onChange={e => setPassword(e.target.value)}
-		          name="password"
-		          value={password}
-		          type="password"
-		          className="form-input"
-		          placeholder="Enter password"
-		        />
-		        <br />
-					  <div className="text-center">
-						  <button className="btn btn-secondary btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+	      	<div className="d-flex align-items-center mb-3">
+	      		<div className="flex-grow-1">
+	      			<h5>Login</h5>
 						</div>
-						<br/>
-		        <Link to="/forgot_password">Forgot password</Link>
-		        <Link to="/signup">New User? Signup</Link>
-			    	<Link to="/bot_login">
-			    		Use our Gtok bot to login
+			    	<Link to="/bot_login" className="font-small">
+			    		Try Gtok bot to login
 			    	</Link>
+			    </div>
+		      <div>
+			    	<div className="form-group">
+			    		<label>Email</label>
+			        <input
+			          value={email}
+			          onChange={e => setEmail(e.target.value)}
+			          name="email"
+			          type="email"
+			          className="form-control"
+			          placeholder="Enter email"
+			          autoFocus={true}
+			        />
+			    	</div>
+			    	<div className="form-group input-password">
+			    		<label>Password</label>
+			        <input
+			          onChange={e => setPassword(e.target.value)}
+			          name="password"
+			          value={password}
+			          type="password"
+			          className="form-control"
+			          id="loginPass"
+			          placeholder="Enter password (must be atleast 6 letters)"
+			        />
+			    		<i className={`fa ${eyeIcon} show-password`} onClick={e => showPassword()}></i>
+			    	</div>
+		      	{error && <div className="text-danger fw-900"><br/><i className="fa fa-info-circle"></i>&nbsp;{error}</div>}
+					  <button className="btn btn-submit btn-sm" disabled={btnSave !== 'Submit'} onClick={e => handleForm(e)}>{btnSave}</button>
+						<div className="d-flex">
+			        <Link to="/forgot_password" className="flex-grow-1">Forgot password</Link> <br/>
+			        <Link to="/signup">New User? Signup</Link> <br/>
+			      </div>
 		      </div>
 		    </div>
 		    <div className="mt-5 pt-3 col-xs-12 col-md-6 login-page-clipart">

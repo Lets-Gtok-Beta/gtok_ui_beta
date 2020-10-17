@@ -166,6 +166,16 @@ export const SetTrendingPosts = (currentUser) => {
 }
 
 export const SetPosts = (currentUser, type="all", data) => {
+	if (type === "none") {
+		return (dispatch) => {
+			dispatch({
+				type: SET_POSTS,
+				payload: {
+					posts: data
+				}
+			});
+		}
+	}
 	return (dispatch) => {
 		getPosts(currentUser, type, data).then(res => {
 			dispatch({

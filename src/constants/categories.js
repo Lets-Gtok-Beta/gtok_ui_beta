@@ -55,9 +55,19 @@ export const PostCategories = [
 		id: 10
 	},
 	{
+		title: "Health & Fitness",
+		key: "health_fitness",
+		id: 20
+	},
+	{
 		title: "Innovative ideas",
 		key: "innovative_ideas",
 		id: 11
+	},
+	{
+		title: "Medical",
+		key: "medical",
+		id: 19
 	},
 	{
 		title: "Music",

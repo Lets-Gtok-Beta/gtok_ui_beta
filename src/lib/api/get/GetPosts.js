@@ -39,7 +39,7 @@ export const getPosts = async (currentUser, type="all", data={}) => {
 			o => o.createdAt
 		]);
 	} else {
-		posts = posts.sort((a,b) => b.createdAt - a.createdAt);
+		// posts = posts.sort((a,b) => b.createdAt - a.createdAt);
 	}
 	return posts;
 }
