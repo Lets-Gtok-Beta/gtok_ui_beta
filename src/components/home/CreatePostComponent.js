@@ -16,6 +16,7 @@ const CreatePostComponent = (props) => {
 	let sharePostCategory = (props.history.location.state && props.history.location.state.sharePostCategory && props.history.location.state.sharePostCategory.title) || "";
 	let sharePostId = (props.history.location.state && props.history.location.state.sharePostId) || "";
 	let sharePostAudioUrl = (props.history.location.state && props.history.location.state.sharePostAudioUrl) || "";
+	let isThread = (props.history.location.state && props.history.location.state.isThread) || false;
 
 	const { currentUser, bindNewPost } = props;
 	const [ charCount, setCharCount ] = useState(500-sharePostText.length);
@@ -25,7 +26,6 @@ const CreatePostComponent = (props) => {
 	const [ result, setResult ] = useState({});
 	const [fileUrl, setFileUrl] = useState(sharePostAudioUrl);
 	const [btnUpload, setBtnUpload] = useState("Upload");
-
 
 	const handleChange = (key, val) => {
 		if (key === "post") {
@@ -49,18 +49,19 @@ const CreatePostComponent = (props) => {
 		}
 		setPostBtn("Posting");
 		let result = "";
-		if (sharePostId) {
-			let postData = {
+		let postData = {};
+		if (sharePostId && !isThread) {
+			postData = Object.assign(postData, {
 				text: postText.trim(),
 				category: PostCategories.find(c => c.title === category),
 				categoryId: PostCategories.find(c => c.title === category).id,
 				fileUrl
-			}
+			});
 			result = await update("posts", sharePostId, postData);
 			postData = Object.assign(postData, {id: sharePostId});
   		await bindNewPost(postData);
 		} else {
-			let postData = {
+			postData = Object.assign(postData, {
 				active: true,
 				text: postText.trim(),
 				userId: currentUser.id,
@@ -68,10 +69,14 @@ const CreatePostComponent = (props) => {
 				followersCount: 0,
 				category: PostCategories.find(c => c.title === category),
 				categoryId: PostCategories.find(c => c.title === category).id,
+				prevId: sharePostId || null,
 				fileUrl,
 				timestamp
-			}
+			});
 			result = await add("posts", postData);
+			if (isThread) {
+				await update("posts", sharePostId, {nextId: result.data.id});
+			}
 		}
   	/* Log the activity */
   	await add("logs", {
