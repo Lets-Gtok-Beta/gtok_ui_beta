@@ -628,6 +628,17 @@ button:active {
 	border-radius: 50%;
 }
 
+.continue-posts .left-btn,
+.continue-posts .right-btn {
+	font-size: larger;
+}
+
+.post-card-footer {
+	text-align: center;
+	padding-top: 6px;
+	border-top: 1px dotted gainsboro;
+}
+
 .post-menu-dropdown {
 	position: static !important;
 }

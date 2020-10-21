@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { messaging } from "firebase_config";
 
 /* Permissions reference: https://stackoverflow.com/questions/58128847/what-all-mobile-permission-we-can-ask-in-a-pwa */
 
@@ -30,38 +29,34 @@ const UserPermissionsComponent = ({
 	    if (result === 'granted') {
 	      navigator.serviceWorker.ready.then(function(registration) {
 	      	if (newAlertsCount > 0) {
-						messaging.setBackgroundMessageHandler(function(payload) {
-			        registration.showNotification('Lets Gtok', {
-			          body: 'You received new alerts',
-			          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
-			          vibrate: [200, 100, 200, 100, 200, 100, 200],
-			          tag: 'lets-gtok',
-			          data: {
-			          	url: 'https://beta.letsgtok.com/app/alerts'
-			          },
-			          click_action: 'https://beta.letsgtok.com/app/alerts',
-			          fcm_options: {
-			          	link: 'https://beta.letsgtok.com/app/alerts'
-			          }
-			        });
-						});
+		        registration.showNotification('Lets Gtok', {
+		          body: 'You received new alerts',
+		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
+		          vibrate: [200, 100, 200, 100, 200, 100, 200],
+		          tag: 'lets-gtok',
+		          data: {
+		          	url: 'https://beta.letsgtok.com/app/alerts'
+		          },
+		          click_action: 'https://beta.letsgtok.com/app/alerts',
+		          fcm_options: {
+		          	link: 'https://beta.letsgtok.com/app/alerts'
+		          }
+		        });
 	      	}
 	      	if (newMessagesCount > 0) {
-						messaging.setBackgroundMessageHandler(function(payload) {
-			        registration.showNotification('Lets Gtok', {
-			          body: 'You received a new messages',
-			          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
-			          vibrate: [200, 100, 200, 100, 200, 100, 200],
-			          tag: 'lets-gtok',
-			          data: {
-			          	url: 'https://beta.letsgtok.com/app/chats'
-			          },
-			          fcm_options: {
-			          	link: 'https://beta.letsgtok.com/app/chats'
-			          },
-			          click_action: 'https://beta.letsgtok.com/app/chats'
-			        });
-						});
+		        registration.showNotification('Lets Gtok', {
+		          body: 'You received a new messages',
+		          icon: 'https://beta.letsgtok.com/static/media/favicon.42ec26b0.png',
+		          vibrate: [200, 100, 200, 100, 200, 100, 200],
+		          tag: 'lets-gtok',
+		          data: {
+		          	url: 'https://beta.letsgtok.com/app/chats'
+		          },
+		          fcm_options: {
+		          	link: 'https://beta.letsgtok.com/app/chats'
+		          },
+		          click_action: 'https://beta.letsgtok.com/app/chats'
+		        });
 	      	}
 	      });
 	    }

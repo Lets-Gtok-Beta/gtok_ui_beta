@@ -5,6 +5,11 @@ export const PostCategories = [
 		id: 0
 	},
 	{
+		title: "Banking",
+		key: "banking",
+		id: 22
+	},
+	{
 		title: "Business",
 		key: "business",
 		id: 1
@@ -80,6 +85,11 @@ export const PostCategories = [
 		id: 13
 	},
 	{
+		title: "Places/Locations",
+		key: "locations",
+		id: 23
+	},
+	{
 		title: "Pet lovers",
 		key: "pet_lovers",
 		id: 14
@@ -88,6 +98,11 @@ export const PostCategories = [
 		title: "Thoughts/Opinions",
 		key: "random_thoughts",
 		id: 15
+	},
+	{
+		title: "Shopping",
+		key: "shopping",
+		id: 21
 	},
 	{
 		title: "Spiritual",
