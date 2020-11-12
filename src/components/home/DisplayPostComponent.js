@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from "react-redux";
 import moment from "moment";
+import $ from "jquery";
 
 import { 
 	add,
@@ -41,6 +42,24 @@ const DisplayPostComponent = ({
 			setPostedUser(result);
 		}
 		getPostedUser();
+		function enableSwipe() {			
+			$(".carousel").on("touchstart", function(event){
+        let xClick = event.originalEvent.touches[0].pageX;
+		    $(this).one("touchmove", function(event){
+	        let xMove = event.originalEvent.touches[0].pageX;
+	        if(Math.floor(xClick - xMove) > 5){
+	          $(this).carousel('next');
+	        }
+	        else if( Math.floor(xClick - xMove) < -5 ){
+	          $(this).carousel('prev');
+	        }
+		    });
+		    $(".carousel").on("touchend", function(){
+		      $(this).off("touchmove");
+		    });
+			});
+		}
+		enableSwipe();
 	}, [displayPost, allUsers]);
 
 	const followPost = async (e) => {
@@ -267,7 +286,7 @@ const DisplayPostComponent = ({
 				<div className="pull-right">
 			  	{
 			  		(displayPost.userId === currentUser.id) &&
-				  	<button className="btn btn-link text-secondary btn-sm font-xs-small ml-2" onClick={e => addPost(displayPost.stories.length)}>
+				  	<button className="btn btn-link text-secondary btn-sm mr-2" onClick={e => addPost(displayPost.stories.length)}>
 				  		<i className="fa fa-plus"></i>
 				  	</button>
 				  }
