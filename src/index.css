@@ -654,6 +654,14 @@ button:active {
 	left: -10px !important;
 }
 
+.carousel-control-prev .carousel-control-prev-icon,
+.carousel-control-next .carousel-control-next-icon {
+	width: 15px;
+	height: 15px;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
+}
+
 /* Home page - Desktop */
 .left-sidebar-wrapper {
 	position: fixed !important;

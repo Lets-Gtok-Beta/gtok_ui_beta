@@ -63,7 +63,7 @@ class HomeComponent extends Component {
 	loadPosts = async () => {
 		this.setState({loading: true});
 		let posts = await getQuery(
-			firestore.collection("posts").orderBy("createdAt", "desc").where("prevId", "==", null).limit(this.state.pageLimit).get()
+			firestore.collection("posts").orderBy("createdAt", "desc").limit(this.state.pageLimit).get()
 		);
 		posts = posts.sort((a,b) => b.createdAt - a.createdAt);
 		this.setState({
@@ -80,7 +80,7 @@ class HomeComponent extends Component {
     ) {
     	this.setState({loading: true});
 			let posts = await getQuery(
-				firestore.collection("posts").orderBy("createdAt", "desc").where("prevId", "==", null).limit(this.state.pageId*this.state.pageLimit).get()
+				firestore.collection("posts").orderBy("createdAt", "desc").limit(this.state.pageId*this.state.pageLimit).get()
 			);
 			posts = posts.sort((a,b) => b.createdAt - a.createdAt);
 			this.setState({
@@ -153,7 +153,7 @@ class HomeComponent extends Component {
 						<SortComponent options={this.state.sortOptions} onChange={this.onSortOptionChange}/>
 						<div className="mt-3">
 					    {
-					    	this.state.posts[0] && this.state.posts.map((post, idx) => (
+					    	this.state.posts[0] && this.state.posts.map((post, idx) => post.stories && (
 						    	<DisplayPostComponent currentUser={this.props.currentUser} post={post} key={idx}/>
 					    	))
 					    }

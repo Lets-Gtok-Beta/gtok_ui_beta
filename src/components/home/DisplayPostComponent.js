@@ -97,18 +97,18 @@ const DisplayPostComponent = ({
 		setFollowersCount(res.followers.length);
 	}
 
-	const deletePost = async (post) => {
-		if (post.id && window.confirm("Are you sure to delete this post?")) {
-			let result = await remove("posts", post.id);
-			/* Wants to remove a post inside a thread */
-			if (post.prevId) {
-				await update("posts", post.prevId, { nextId: post.nextId || null });
-			}
-			if (post.nextId) {
-				await update("posts", post.nextId, { prevId: post.prevId || null });
-			}
-			if (displayPost.fileUrl) {
-				await removeFile(displayPost.fileUrl);
+	const deletePost = async (post, idx) => {
+		if (displayPost.id && window.confirm("Are you sure to delete this post?")) {
+			let result;
+			if (displayPost.stories.length === 1) {
+				result = await remove("posts", displayPost.id);
+			} else {
+				if (post.fileUrl) {
+					await removeFile(post.fileUrl);
+				}
+				displayPost.stories.splice(idx, 1);
+				result = await update("posts", displayPost.id, { stories: displayPost.stories });
+				setDisplayPost(displayPost);
 			}
   		/* Log the activity */
 	  	await add("logs", {
@@ -124,7 +124,7 @@ const DisplayPostComponent = ({
 	  		timestamp
 	  	});
 			setResult(result);
-			await bindPosts(currentUser);
+			// await bindPosts(currentUser);
 		}
 	}
 
@@ -161,36 +161,33 @@ const DisplayPostComponent = ({
 		setIsTalking(false);
 	}
 
-	const editPost = (post) => {
-		history.push({
-  		pathname: "/app/create_post",
-  		state: {
-  			sharePostText: post.text,
-  			sharePostCategory: post.category,
-  			sharePostId: post.id,
-  			sharePostAudioUrl: post.fileUrl
-  		}
-  	});
+	const editPost = (post, idx) => {
+		if (displayPost.id) {		
+			history.push({
+	  		pathname: "/app/create_post",
+	  		state: {
+	  			sharePost: displayPost,
+	  			story: post,
+	  			storyIdx: idx
+	  		}
+	  	});
+		}
 	}
 
-	const createPost = (post) => {
-		history.push({
-  		pathname: "/app/create_post",
-  		state: {
-  			sharePostCategory: displayPost.category,
-  			sharePostId: displayPost.id,
-  			isThread: true
-  		}
-  	});
+	const addPost = (idx) => {
+		if (displayPost.id) {		
+			history.push({
+	  		pathname: "/app/create_post",
+	  		state: {
+	  			sharePost: displayPost,
+	  			story: {text: "", fileUrl: null},
+	  			storyIdx: idx
+	  		}
+	  	});
+		}
 	}
 
-	const getPost = async (id) => {
-		let pst = await getId("posts", id);
-		pst["id"] = id;
-		setDisplayPost(pst);
-	}
-
-  return postedUser && (
+  return postedUser && displayPost.stories && (
     <div className="card card-br-0 mb-4 pb-2">
 	  	{
 	  		result.status && <NotificationComponent result={result} setResult={setResult} />
@@ -200,20 +197,6 @@ const DisplayPostComponent = ({
 			  <div className="media-body">
 			    <h6 className="my-0 text-camelcase font-small">
 			    	{capitalizeFirstLetter(postedUser.displayName)}
-			    	{
-			    		(displayPost.userId === currentUser.id) &&
-	    				<div className="dropdown p-0 pull-right post-menu-dropdown">
-	    					<i className="fa fa-angle-down post-menu-icon" data-toggle="dropdown"></i>
-	    					<div className="dropdown-menu post-menu-options">
-					        <button className="dropdown-item btn-link" onClick={e => editPost(displayPost)}>
-					        	Edit
-					        </button>
-					        <button className="dropdown-item btn-link" onClick={e => deletePost(displayPost)}>
-					        	Delete
-					        </button>
-					      </div>
-	    				</div>
-			    	}
 			    </h6>
 			    <span className="font-small" title="Posted time">
 			    <i className="fa fa-clock-o"></i>&nbsp;{moment(displayPost.createdAt).fromNow()}
@@ -224,72 +207,99 @@ const DisplayPostComponent = ({
 			  </div>
 		  </div>
 		  <div className="card-body text-center">
-		  	<p className="white-space-preline">{displayPost.text}</p>
-  			{ displayPost.fileUrl &&
-	    		<audio src={displayPost.fileUrl} controls controlsList="nodownload"></audio>
-				}
-				<div className="row align-items-center continue-posts">
-					<div className="col-2">
-					  <button className={`btn btn-link btn-sm ml-2 text-secondary left-btn ${!displayPost.prevId && "d-none"}`} onClick={e => getPost(displayPost.prevId)}>
-					  	<i className="fa fa-angle-left"></i>
-					  </button>
-					</div>
-					<div className="col-7">
-					  <button className={`btn btn-link btn-sm ml-2 fs-15 text-secondary flex-grow-1 ${!(displayPost.userId === currentUser.id && !displayPost.nextId) && "d-none"}`} onClick={e => createPost(displayPost)}>
-					  	<i className="fa fa-plus"></i>&nbsp; Continue
-					  </button>
-					</div>
-					<div className="col-3">
-					  <button className={`btn btn-link btn-sm ml-2 text-secondary left-btn ${!displayPost.nextId && "d-none"}`} onClick={e => getPost(displayPost.nextId)}>
-					  	<i className="fa fa-angle-right"></i>
-					  </button>
-					</div>
+  			<div id={displayPost.id} className="carousel slide" data-ride="carousel" data-interval="false">
+				  <div className="carousel-inner">
+				  	{
+				  		displayPost.stories.map((story, idx) => (
+						    <div className={`carousel-item ${idx===0 && "active"}`} key={idx}>
+							  	<p className="white-space-preline">{story.text}</p>
+					  			{ story.fileUrl &&
+						    		<audio src={story.fileUrl} controls controlsList="nodownload"></audio>
+									}
+				  		  	{
+						    		(displayPost.userId === currentUser.id) &&
+				    				<div className="d-inline">
+				    					<br/>
+							        <button className="btn btn-link" onClick={e => editPost(story, idx)}>
+							        	<i className="fa fa-pencil text-secondary"></i>
+							        </button>
+							        <button className="btn btn-link" onClick={e => deletePost(story, idx)}>
+							        	<i className="fa fa-trash text-secondary"></i>
+							        </button>
+				    				</div>
+						    	}
+								</div>
+				  		))
+				  	}
+				  </div>
+				  {displayPost.stories.length > 1 && 
+					  <a className="carousel-control-prev" href={`#${displayPost.id}`} role="button" data-slide="prev">
+					    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+					    <span className="sr-only">Previous</span>
+					  </a>
+					}
+				  {displayPost.stories.length > 1 && 
+					  <a className="carousel-control-next" href={`#${displayPost.id}`} role="button" data-slide="next">
+					    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+					    <span className="sr-only">Next</span>
+					  </a>
+					}
 				</div>
 			</div>
 			<div className="post-card-footer">
-			  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={listenPost}>
-			  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
-			  </button>
-			  {followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
-				  <button className="btn btn-link btn-sm ml-2 fs-15" onClick={e => followPost(e)}>
-			  		<i className={`fa fa-heart ${follower ? "text-danger" : "text-secondary"}`}></i> &nbsp;
-			  		<span className={`${follower ? "text-danger" : "text-secondary"}`}>{followersCount}</span>
+				<div className="pull-left">
+				  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary d-none" onClick={listenPost}>
+				  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
 				  </button>
-				}
-			  {
-			  	!hideShareBtn && 
-				  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={sharePost}>
-				  	<i className="fa fa-share-alt"></i>
-				  </button>
-				}
+				  {followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
+					  <button className="btn btn-link btn-sm ml-2 fs-15" onClick={e => followPost(e)}>
+				  		<i className={`fa fa-heart ${follower ? "text-danger" : "text-secondary"}`}></i> &nbsp;
+				  		<span className={`${follower ? "text-danger" : "text-secondary"}`}>{followersCount}</span>
+					  </button>
+					}
+				  {
+				  	!hideShareBtn && 
+					  <button className="btn btn-link btn-sm ml-2 fs-15 text-secondary" onClick={sharePost}>
+					  	<i className="fa fa-share-alt"></i>
+					  </button>
+					}
+				</div>
+				<div className="pull-right">
+			  	{
+			  		(displayPost.userId === currentUser.id) &&
+				  	<button className="btn btn-link text-secondary btn-sm font-xs-small ml-2" onClick={e => addPost(displayPost.stories.length)}>
+				  		<i className="fa fa-plus"></i>
+				  	</button>
+				  }
+				</div>
 	  		<div className="mt-2 d-none">
-			  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={listenPost}>
-			  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
-			  </button>
-		  	{
-		  		currentUser.id !== displayPost.userId &&
-			  	<button className="btn btn-outline-secondary btn-sm font-xs-small ml-2" title="Number of similar people" onClick={e => followPost(e)}>
-			  		{followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
-			  			<div>
-					  		<i className={`fa fa-heart ${follower && "text-danger"}`}></i> &nbsp;
-					  		{follower ? "Remove Pinch" : "Same Pinch"}
-			  			</div>
-			  		}
-			  	</button>
-			  }
-		  	{
-		  		currentUser.id !== displayPost.userId && !hideSimilarityBtn &&
-			    <Link to={"/app/profile/"+displayPost.userId} className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" title={"Show similarities with "+postedUser.displayName && postedUser.displayName.split(" ")[0]}>
-			    	<i className="fa fa-bar-chart"></i> &nbsp;
-				    Similarities
-			    </Link>
-			  }
-			  {/*
-			  	!hideShareBtn && 
-				  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={e => sharePost()}>
-				  	<i className="fa fa-share-alt"></i>
-				  </button>*/
-			  }
+				  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={listenPost}>
+				  	<i className={`fa fa-${isTalking ? "pause" : "play"}`}></i>
+				  </button>
+			  	{
+			  		currentUser.id !== displayPost.userId &&
+				  	<button className="btn btn-outline-secondary btn-sm font-xs-small ml-2" title="Number of similar people" onClick={e => followPost(e)}>
+				  		{followerLoading ? <i className="fa fa-spinner fa-spin"></i> :
+				  			<div>
+						  		<i className={`fa fa-heart ${follower && "text-danger"}`}></i> &nbsp;
+						  		{follower ? "Remove Pinch" : "Same Pinch"}
+				  			</div>
+				  		}
+				  	</button>
+				  }
+			  	{
+			  		currentUser.id !== displayPost.userId && !hideSimilarityBtn &&
+				    <Link to={"/app/profile/"+displayPost.userId} className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" title={"Show similarities with "+postedUser.displayName && postedUser.displayName.split(" ")[0]}>
+				    	<i className="fa fa-bar-chart"></i> &nbsp;
+					    Similarities
+				    </Link>
+				  }
+				  {/*
+				  	!hideShareBtn && 
+					  <button className="btn btn-outline-secondary btn-sm ml-2 font-xs-small" onClick={e => sharePost()}>
+					  	<i className="fa fa-share-alt"></i>
+					  </button>*/
+				  }
 			  </div>
 		  </div>
     </div>
