@@ -175,9 +175,10 @@ export const uploadFile = ({
 	file, setResult, setBtnUpload, setFileUrl, type
 }) => {
 	let storageRef = storage.ref();
-	let imageRef = storageRef.child("avatars/" + file.name);
+	let fileName = file.name + "_" + Date.now();
+	let imageRef = storageRef.child("avatars/" + fileName);
 	if (type === "audio") {
-		imageRef = storageRef.child("audios/" + file.name);
+		imageRef = storageRef.child("audios/" + fileName);
 	}
 	let metadata = {
 		contentType: file.type,
