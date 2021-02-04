@@ -1,5 +1,5 @@
 Step 1 : Clone this repo <br/>
-Step 2 : cd two_hour_challenge <br/>
+Step 2 : cd gtok_ui <br/>
 Step 3 : npm install <br/>
 Step 4 : npm start <br/>
 
